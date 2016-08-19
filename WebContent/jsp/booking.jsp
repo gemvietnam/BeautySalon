@@ -94,55 +94,7 @@
 						<label>Choose an hour</label><br/>
 						
 						<div id="bookingHour">
-						<%	
-							Calendar availableTime = new GregorianCalendar(2016,8,20,9,00,00);
-						
-							for (int i = 0; i < 17; i++) { 
-							
-								String buttonClass = "btn-success";
-								
-								for (Time[] time : bookedTimes) { 
-									Time startTime = time[0];
-									
-									int startTimeHours = startTime.getHours();
-									int startTimeMinutes = startTime.getMinutes();
-									Calendar bookedTime = new GregorianCalendar(2016,8,20,startTimeHours,startTimeMinutes,00);
-									
-									Time duration = time[1];
-									int durationHours = duration.getHours();
-									int durationMinutes = duration.getMinutes();
-									
-									Calendar bookedTimeEnd = new GregorianCalendar(2016,8,20,startTimeHours,startTimeMinutes,00);
-									bookedTimeEnd.add(Calendar.HOUR_OF_DAY, durationHours);
-									bookedTimeEnd.add(Calendar.MINUTE, durationMinutes);
 
-									if (availableTime.after(bookedTime) && availableTime.before(bookedTimeEnd)) {
-										buttonClass = "btn-danger disabled";
-									}
-									else if (availableTime.equals(bookedTime) || availableTime.equals(bookedTimeEnd)) {
-										buttonClass = "btn-danger disabled";
-									}
-								}
-								
-								int myHour = availableTime.get(Calendar.HOUR_OF_DAY);
-								
-								String myMinute;
-								if (availableTime.get(Calendar.MINUTE) == 0) { 
-									myMinute = "00";
-								} 
-								else { 
-									myMinute = String.valueOf(availableTime.get(Calendar.MINUTE));
-								}
-								
-								%>
-								
-								<a class="btn <%= buttonClass %>" role="button" data-hour="<%= myHour %>:<%= myMinute %>:00"><%= myHour %>:<%= myMinute %></a>
-
-								<% 
-								
-								availableTime.add(Calendar.MINUTE, 30);	
-							}
-						%>
 						</div>
 	
 						<input id="hour" type="hidden" name="time" value="09:00" />
@@ -167,6 +119,15 @@
 	
 	$(document).ready(function() {
 		
+		var tomorrow = new Date();
+		tomorrow.setDate(tomorrow.getDate() + 1);
+		tomorrow = tomorrow.toJSON().slice(0,10);
+		console.log("Tomorrow is: " + tomorrow);
+		
+		$('#datepicker').val(tomorrow);
+		
+		getData();
+		
 		$('#datepicker').datepicker('setDate', new Date());
 		$('#datepicker').on("change", function() {
 			getData();
@@ -176,6 +137,8 @@
 		}); 
 		
 		$(document).on('click', '.btn-success', function() {
+			$('#bookingHour .btn-success').removeClass('btn-selected');
+			$(this).addClass('btn-selected');
 			console.log('CLIKED TO BOOK');
 			var hour = $(this).attr('data-hour');
 			console.log('the hour is: ' + hour);

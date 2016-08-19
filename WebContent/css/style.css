@@ -319,3 +319,8 @@ section.half-picture .btn {
 	vertical-align: middle;
 	color: #e2cd8f;
 }
+
+.btn-selected {
+	background-color: blue !important;
+	background-image: none;
+}
