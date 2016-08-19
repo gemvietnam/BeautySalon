@@ -32,8 +32,8 @@
 <section id="treatments">
 	<div class="wrapper">
 		<div class="row">
-			<div class="col-md-12">
-				<h1>Gallery</h1>
+			<div class="col-md-12 text-center">
+				<h1 class="text-center">Gallery</h1>
 				
 				<div class="grid">
 				<% for (Image image : images) { %>

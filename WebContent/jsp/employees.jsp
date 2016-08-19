@@ -19,11 +19,13 @@
 <section id="treatments">
 	<div class="wrapper">
 		<div class="row">
-			<div class="col-md-12">
-				<h1>Meet our stuff</h1>
+			<div class="col-md-12 text-center">
+				<h1 class="text-center">Meet our stuff</h1>
 				<h4>We are always trying to provide the best quality services.</h4>
 			</div>
 		</div>
+		
+		<br/><br/><br/>
 		
 		<div class="row">
 			<c:forEach items="${employees}" var="employee">

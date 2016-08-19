@@ -29,89 +29,88 @@
 
 <section id="treatments">
 	<div class="wrapper">
-		
-		<h2>Book a visit </h2>
-		
-		<h3>Selected treatment:</h3>
-		<c:out value="${service.name}"/>
-		<p><c:out value="${service.description}"/></p>
-		<p>Price: <c:out value="${service.price}"/> DKK</p>
-		<p>Duration: <c:out value="${service.time}"/> hours</p>
-	
-	
-		<h3>Booking data:</h3>
-		
-		<form method="post" action="booking?page=success">
-			<div class="row">
-				<div class="col-md-6">
-					<div class="form-group">
-						<label>First name</label>
-						<input type="text" name="firstName" class="form-control" placeholder="Your first name" />
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label>Last name</label>
-						<input type="text" name="lastName" class="form-control" placeholder="Your last name" />
-					</div>
-				</div>
+		<div class="row">
+			<div class="col-md-5">
+				<h1>Book a visit </h1>
+			
+				<h3><c:out value="${service.name}"/></h3>
+				<p><c:out value="${service.description}"/></p>
+				<p><strong>Price:</strong> <c:out value="${service.price}"/> DKK<br/>
+				   <strong>Duration:</strong> <c:out value="${service.time}"/> hours</p>
 			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<div class="form-group">
-						<label>Email address</label>
-					    <input type="email" name="email" class="form-control" placeholder="Your email">
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label>Phone number</label>
-						<input type="phone" name="phone" class="form-control" placeholder="Your phone number" />
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<div class="form-group">
-						<label>Choose an employee</label>
-						<select class="form-control" id="employeeId" name="employeeId">
-							<c:forEach items="${employees}" var="employee">
-								<option value="<c:out value="${employee.id}"/>"><c:out value="${employee.firstName}"/> <c:out value="${employee.lastName}"/></option>
-							</c:forEach>
-						</select>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label>Choose a date</label>
-						<input type="text" name="date" id="datepicker" class="form-control">
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<div class="form-group">
-						<label>Choose an hour</label><br/>
-						
-						<div id="bookingHour">
-
+		
+			<div class="col-md-6 col-md-offset-1">
+			
+				<h3>Booking data:</h3><br/><br/>
+			
+				<form method="post" action="booking?page=success">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>First name</label>
+								<input type="text" name="firstName" class="form-control" placeholder="Your first name" />
+							</div>
 						</div>
-	
-						<input id="hour" type="hidden" name="time" value="09:00" />
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Last name</label>
+								<input type="text" name="lastName" class="form-control" placeholder="Your last name" />
+							</div>
+						</div>
 					</div>
-				</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Email address</label>
+							    <input type="email" name="email" class="form-control" placeholder="Your email">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Phone number</label>
+								<input type="phone" name="phone" class="form-control" placeholder="Your phone number" />
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Choose an employee</label>
+								<select class="form-control" id="employeeId" name="employeeId">
+									<c:forEach items="${employees}" var="employee">
+										<option value="<c:out value="${employee.id}"/>"><c:out value="${employee.firstName}"/> <c:out value="${employee.lastName}"/></option>
+									</c:forEach>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Choose a date</label>
+								<input type="text" name="date" id="datepicker" class="form-control">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label>Choose an hour</label><br/>
+								<div id="bookingHour"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<% Service service = (Service) request.getAttribute("service"); %>
+							<input id="hour" type="hidden" name="time" value="09:00" />
+							<input type="hidden" name="serviceId" value="<c:out value="${service.id}"/>">
+							<input id="duration" type="hidden" name="duration" value="<%= service.getTime() %>">
+							<input type="submit" value="Book the visit" class="btn btn-primary btn-lg" />
+						</div>
+					</div>
+				</form>
+				
 			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<% Service service = (Service) request.getAttribute("service"); %>
-					<input type="hidden" name="serviceId" value="<c:out value="${service.id}"/>">
-					<input id="duration" type="hidden" name="duration" value="<%= service.getTime() %>">
-					<input type="submit" value="Book the visit" class="btn btn-primary btn-lg" />
-				</div>
-			</div>
-		</form>
-		
-		
+		</div>
 	</div>
 </section>
 
