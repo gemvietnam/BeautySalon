@@ -443,6 +443,8 @@ public class BeautyDAOImpl implements BeautyDAO {
 				booking.setHour(resultSet.getTime("hour"));
 				booking.setFirstName(resultSet.getString("firstName"));
 				booking.setLastName(resultSet.getString("lastName"));
+				booking.setEmail(resultSet.getString("email"));
+				booking.setPhone(resultSet.getString("phone"));
 				booking.setServiceName(resultSet.getString("Services.name"));
 				booking.setServiceDuration(resultSet.getTime("Services.time"));
 				booking.setServicePrice(resultSet.getInt("Services.price"));
