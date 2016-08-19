@@ -33,6 +33,7 @@ public interface BeautyDAO {
 	public void addCategory(Category category);
 	public void addService(Service service);
 	public void addEmployee(Employee employee);
+	public void deleteEmployee(int id);
 	public void addEmployeeService(int employeeId, int serviceId);
 	public void deleteEmployeeServiceByEmployeeId(int employeeId);
 	public void updateEmployee(Employee employee);

@@ -401,7 +401,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 	public List<Employee> getEmployees() {
 		
 		List<Employee> result = new ArrayList<Employee>();
-		String sql = "select * from Employees";
+		String sql = "select * from Employees where isActive=1";
 		Connection connection = null;
 		try {
 			connection = getConnection();
@@ -467,7 +467,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 			connection = getConnection();
 			
 			PreparedStatement statement = connection.prepareStatement(
-					"select * from Employees where id=?",
+					"select * from Employees where id=? and isActive=1",
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setInt(1, id);
 			ResultSet resultSet = statement.executeQuery();
@@ -522,7 +522,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 		try {
 			connection = getConnection();
 			PreparedStatement statement = connection.prepareStatement(
-					"select * from Employees where firstName like ? or lastName like ? or title like ? or description like ?",
+					"select * from Employees where firstName like ? or lastName like ? or title like ? or description like ? and isActive=1",
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, betterKeyword);
 			statement.setString(2, betterKeyword);
@@ -556,7 +556,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 		try {
 			connection = getConnection();
 			PreparedStatement statement = connection.prepareStatement(
-					"select * from EmployeeServices inner join Employees on Employees.id = employeeId where serviceId=?",
+					"select * from EmployeeServices inner join Employees on Employees.id = employeeId where serviceId=? and Employees.isActive=1",
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setInt(1, id);
 			ResultSet resultSet = statement.executeQuery();
@@ -626,6 +626,27 @@ public class BeautyDAOImpl implements BeautyDAO {
 			closeConnection(connection);
 		}
 	}
+	
+	
+	public void deleteEmployee(int id) {		
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			PreparedStatement statement = connection.prepareStatement(
+					"update Employees set isActive=0 where id=?",
+					Statement.RETURN_GENERATED_KEYS);
+			statement.setInt(1, id);
+			statement.execute();
+			ResultSet generatedKeys = statement.getGeneratedKeys();
+			if (generatedKeys.next()) {
+//				employee.setId(generatedKeys.getInt(1));
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			closeConnection(connection);
+		}
+	}	
 
 		
 	

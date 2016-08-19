@@ -84,7 +84,7 @@
 						<td><c:out value="${employee.title}"/></td>
 						<td><c:out value="${employee.description}"/></td>
 						<td><a class="btn btn-primary" href="?page=editEmployee&id=<c:out value="${employee.id}"/>" role="button">Edit</a></td>
-						<td><a class="btn btn-danger" href="?page=delete&table=Employees&id=<c:out value="${employee.id}"/>" role="button">Delete</a></td>
+						<td><a class="btn btn-danger" href="?page=deleteEmployee&id=<c:out value="${employee.id}"/>" role="button">Delete</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>

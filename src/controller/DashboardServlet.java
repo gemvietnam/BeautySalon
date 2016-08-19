@@ -65,6 +65,7 @@ public class DashboardServlet extends HttpServlet {
 		else {
 			System.out.println("The user is logged in");
 			if (action != null) {
+				BeautyDAO beautyDAO = new BeautyDAOImpl();
 				switch (action) {
 				case "categories":
 					String type = (String) request.getParameter("type");
@@ -112,6 +113,12 @@ public class DashboardServlet extends HttpServlet {
 						break;
 					}
 					break;	
+				case "deleteEmployee":
+					url = "/jsp/admin/employees.jsp";
+					int employeeId = Integer.parseInt(request.getParameter("id"));
+					beautyDAO.deleteEmployee(employeeId);
+					getEmployees(request, response);
+					break;
 				case "treatments":
 					String typeAction = (String) request.getParameter("type");
 					System.out.println("The type of service action is: " + typeAction);
@@ -192,7 +199,6 @@ public class DashboardServlet extends HttpServlet {
 					break;
 				case "images":
 					url = "/jsp/admin/fileupload.jsp";
-					BeautyDAO beautyDAO = new BeautyDAOImpl();
 					List<Image> images = beautyDAO.getImages();
 					request.setAttribute("images", images);
 					String akcja = (String) request.getParameter("action");
