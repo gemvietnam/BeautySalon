@@ -6,7 +6,7 @@
 
 <!-- Optional theme -->
 <link rel="stylesheet" href="/BeautySalon/assets/bootstrap/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-<link rel="stylesheet" href="/BeautySalon/assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/BeautySalon/assets/fontawesome/css/font-awesome.min.css">
 
 <link rel="stylesheet" href="/BeautySalon/css/dashboard.css" />
 

@@ -53,6 +53,7 @@ i.fa {
 	background-color: #3a4054;
 }
 
+
 #navigation .title {
 	padding: 20px;
 }
@@ -157,4 +158,16 @@ img {
 	display: table-cell;
 }
 
+#navigation ul li.user a {
+	background-color: #53586b;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	font-weight: 700;
+	cursor: pointer;
+}
 
+.caret {
+	padding-top: 0px;
+	margin-top: 7px;
+	margin-right: 10px;
+}

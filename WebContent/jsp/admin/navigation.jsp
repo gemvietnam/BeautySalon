@@ -9,30 +9,20 @@
 	<h6>Content Management System</h6>
 </div>
 
-<div class="user">
-	<div class="row">
-		<div class="col-md-3">
-			<img src="img/user.jpg" class="user-img"/>
-		</div>
-		<div class="col-md-9">
-			<div class="dropdown">
+    
+<ul>
+	<li class="user"><div class="dropdown">
 			  <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+			  	<i class="fa fa-user"></i> Hello, Jagoda Przybyla
 			    <%-- <%= user.getFirstName() %> <%= user.getLastName() %> --%>
-			    <span class="caret"></span>
+			    <span class="caret pull-right"></span>
 			  </a>
 			  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-			    <li><a href="#">My profile</a></li>
 			    <li><a href="#">Edit profile</a></li>
 			    <li role="separator" class="divider"></li>
 			    <li><form method="post" action="login"><input type="submit" value="Logout"/></form></li>
 			  </ul>
-			</div>
-			
-		</div>
-	</div>
-</div>
-    
-<ul>
+			</div></li>
 	<li><a href="admin?"><i class="fa fa-dashboard"></i> Dashboard</a></li>
 	<li><a href="admin?page=categories"><i class="fa fa-folder-open"></i> Categories</a></li>
 	<li><a href="admin?page=treatments"><i class="fa fa-dashboard"></i> Treatments</a></li>

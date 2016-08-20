@@ -73,16 +73,12 @@
 						<td><%= strDate %></td>
 						
 						<%
-						
 						Calendar today = Calendar.getInstance();
 						
 						for (int j=0; j<7; j++) { 
 
 								SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd");
 						        String currentDate = simpleFormat.format(today.getTime());
-						        
-						        System.out.println("currentdate: " + currentDate);
-								
 						        String fieldClass = "";
 						        String name = "";
 						        int rowspan = 1;
@@ -91,34 +87,28 @@
 									
 									DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 									String bookingDate = dateFormat.format(booking.getDate());
-									System.out.println("bookingdate: " + bookingDate);
-									
-							
-										if (bookingDate.equals(currentDate)) {
-											
-											System.out.println("DATES ARE FUCKING THE SAME");
-											
-											Time startTime = booking.getHour();
-											int startTimeHours = startTime.getHours();
-											int startTimeMinutes = startTime.getMinutes();
-											Calendar startTimeCal = new GregorianCalendar(2016,8,20,startTimeHours,startTimeMinutes,00);
-											
-											Time durationTime = booking.getServiceDuration();
-											int durationHours = durationTime.getHours();
-											int durationMinutes = durationTime.getMinutes();
-											
-											Calendar endTimeCal = (Calendar) startTimeCal.clone();
-											endTimeCal.add(Calendar.HOUR_OF_DAY, durationHours);
-											endTimeCal.add(Calendar.MINUTE, durationMinutes);
-											
-											
-											if (startTimeCal.equals(timeSlot) || (startTimeCal.before(timeSlot) && endTimeCal.after(timeSlot))) {
-												System.out.println("ZIELONY");
-												fieldClass = "booked";
-												name = booking.getServiceName();
-											}
 
+									if (bookingDate.equals(currentDate)) {
+				
+										Time startTime = booking.getHour();
+										int startTimeHours = startTime.getHours();
+										int startTimeMinutes = startTime.getMinutes();
+										Calendar startTimeCal = new GregorianCalendar(2016,8,20,startTimeHours,startTimeMinutes,00);
+										
+										Time durationTime = booking.getServiceDuration();
+										int durationHours = durationTime.getHours();
+										int durationMinutes = durationTime.getMinutes();
+										
+										Calendar endTimeCal = (Calendar) startTimeCal.clone();
+										endTimeCal.add(Calendar.HOUR_OF_DAY, durationHours);
+										endTimeCal.add(Calendar.MINUTE, durationMinutes);
+										
+										
+										if (startTimeCal.equals(timeSlot) || (startTimeCal.before(timeSlot) && endTimeCal.after(timeSlot))) {
+											fieldClass = "booked";
+											name = booking.getServiceName();
 										}
+									}
 								}
 								
 								%>
