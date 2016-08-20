@@ -112,48 +112,57 @@
 							
 							DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 							String bookingDate = dateFormat.format(booking.getDate());
+							System.out.println("bookingdate: " + bookingDate);
+							Calendar today = Calendar.getInstance();
 							
-							/* for (int j=0; j<7; j++) { 
-								int dayInt = day.get(Calendar.DAY_OF_WEEK);
-								String dayName = "";
-								
+							for (int j=0; j<7; j++) { 
+
 								SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd");
-						        String currentDate = simpleFormat.format(day.getTime());
+						        String currentDate = simpleFormat.format(today.getTime());
 						        
-							} */
-							
-							if (bookingDate.equals("2016-08-22")) {
-								
-								Time startTime = booking.getHour();
-								int startTimeHours = startTime.getHours();
-								int startTimeMinutes = startTime.getMinutes();
-								Calendar startTimeCal = new GregorianCalendar(2016,8,20,startTimeHours,startTimeMinutes,00);
-								
-								if (startTimeCal.equals(timeSlot)) {
-									fieldClass = "booked";
-									name = booking.getServiceName();
-									Time durationTime = booking.getServiceDuration();
-									int durationHours = durationTime.getHours();
-									int durationMinutes = durationTime.getMinutes();
-									int durationTotalMinutes = 60 * durationHours + durationMinutes;
-									rowspan = durationTotalMinutes/30;
+						        System.out.println("currentdate: " + currentDate);
+					
+								if (bookingDate.equals(currentDate)) {
+									
+									System.out.println("DATES ARE FUCKING THE SAME");
+									
+									Time startTime = booking.getHour();
+									int startTimeHours = startTime.getHours();
+									int startTimeMinutes = startTime.getMinutes();
+									Calendar startTimeCal = new GregorianCalendar(2016,8,20,startTimeHours,startTimeMinutes,00);
+									
+									if (startTimeCal.equals(timeSlot)) {
+										fieldClass = "booked";
+										name = booking.getServiceName();
+										Time durationTime = booking.getServiceDuration();
+										int durationHours = durationTime.getHours();
+										int durationMinutes = durationTime.getMinutes();
+										int durationTotalMinutes = 60 * durationHours + durationMinutes;
+										rowspan = durationTotalMinutes/30;
+										%>
+										<td class="<%= fieldClass %>" rowspan="<%= rowspan %>"><%= name %> <%= bookingDate %></td>
+										<%
+									}
+									else { %>
+										<td rowspan="1"> </td>
+									<% 
+									}
 								}
+
+								
+								today.add(Calendar.HOUR, 24);
 							}
 							
 						
 						} %>	
 						
-						<%
-						for (int j=0; j<7; j++) { 
-								int dayInt = day.get(Calendar.DAY_OF_WEEK);
-								String dayName = "";
-								
-								SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd");
-						        String currentDate = simpleFormat.format(day.getTime()); %>
+<%-- 						<%
+						for (int k=0; k<7; k++) { 
+								 %>
 						        
 						        <td class="<%= fieldClass %>" rowspan="<%= rowspan %>"><%= name %></td>
 						        
-						<% } %>
+						<% } %> --%>
 						
 						
 					</tr>
