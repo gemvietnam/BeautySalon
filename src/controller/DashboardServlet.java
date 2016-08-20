@@ -64,8 +64,8 @@ public class DashboardServlet extends HttpServlet {
 		}
 		else {
 			System.out.println("The user is logged in");
+			BeautyDAO beautyDAO = new BeautyDAOImpl();
 			if (action != null) {
-				BeautyDAO beautyDAO = new BeautyDAOImpl();
 				switch (action) {
 				case "categories":
 					String type = (String) request.getParameter("type");
@@ -197,6 +197,10 @@ public class DashboardServlet extends HttpServlet {
 					System.out.println("Getting the settings back");
 					getSettings(request, response);
 					break;
+				case "schedule":
+					url = "/jsp/admin/schedule.jsp";
+					getSchedule(request, response);
+					break;
 				case "images":
 					url = "/jsp/admin/fileupload.jsp";
 					List<Image> images = beautyDAO.getImages();
@@ -222,6 +226,7 @@ public class DashboardServlet extends HttpServlet {
 				}
 			}
 			else {
+				getDashboardStats(request, response);
 				getCategories(request, response);
 			}			
 		}
@@ -241,6 +246,42 @@ public class DashboardServlet extends HttpServlet {
 			System.out.println(e);
 		}
 	}
+	
+	private void getSchedule(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		try {
+			System.out.println("Trying to get the schedule");
+			BeautyDAO beautyDAO = new BeautyDAOImpl();
+			int employeeId = 16;
+			List<Booking> bookings = beautyDAO.getBookings(employeeId);
+			request.setAttribute("bookings", bookings);
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	private void getDashboardStats(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		try {
+			BeautyDAO beautyDAO = new BeautyDAOImpl();
+			int totalProfit = beautyDAO.getTotalProfit();
+			request.setAttribute("totalProfit", totalProfit);
+			int totalCategories = beautyDAO.getTotal("Categories");
+			request.setAttribute("totalCategories", totalCategories);
+			int totalEmployees = beautyDAO.getTotal("Employees");
+			request.setAttribute("totalEmployees", totalEmployees);
+			int totalServices = beautyDAO.getTotal("Services");
+			request.setAttribute("totalServices", totalServices);
+			int totalBookings = beautyDAO.getTotal("Bookings");
+			request.setAttribute("totalBookings", totalBookings);
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	
 	
 	private void addImageToDb(HttpServletRequest request,
 			HttpServletResponse response) {

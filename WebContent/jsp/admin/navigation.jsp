@@ -38,6 +38,7 @@
 	<li><a href="admin?page=treatments"><i class="fa fa-dashboard"></i> Treatments</a></li>
 	<li><a href="admin?page=employees"><i class="fa fa-users"></i> Employees</a></li>
 	<li><a href="admin?page=bookings"><i class="fa fa-calendar"></i> Bookings</a></li>
+	<li><a href="admin?page=schedule"><i class="fa fa-calendar"></i> Schedule</a></li>
 	<li><a href="admin?page=images"><i class="fa fa-image"></i> Images</a></li>
 	<li><a href="admin?page=settings"><i class="fa fa-cogs"></i> Settings</a></li>
 	<li><a href="website"><i class="fa fa-search"></i> Preview website</a></li>

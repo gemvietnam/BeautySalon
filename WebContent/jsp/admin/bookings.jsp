@@ -51,6 +51,7 @@
 		<table class="table table-bordered table-hover">
 			<thead>
 				<tr>
+					<td>Status</td>
 					<td>Date</td>
 					<td>Time</td>
 					<td>Employee</td>
@@ -58,13 +59,13 @@
 					<td>Customer Name</td>
 					<td>Email</td>
 					<td>Phone</td>
-					<td>Edit</td>
-					<td>Delete</td>
+					<td>Cancel</td>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach items="${bookings}" var="booking">
 					<tr>
+						<td>active</td>
 						<td><c:out value="${booking.date}"/></td>
 						<td><c:out value="${booking.hour}"/></td>
 						<td><c:out value="${booking.employeeName}"/></td>
@@ -72,8 +73,7 @@
 						<td><c:out value="${booking.firstName}"/> <c:out value="${booking.lastName}"/></td>
 						<td><c:out value="${booking.email}"/></td>
 						<td><c:out value="${booking.phone}"/></td>
-						<td><a class="btn btn-primary" href="?page=editEmployee&id=<c:out value="${booking.id}"/>" role="button">Edit</a></td>
-						<td><a class="btn btn-danger" href="?page=delete&table=Employees&id=<c:out value="${booking.id}"/>" role="button">Delete</a></td>
+						<td><a class="btn btn-danger" href="?page=delete&table=Employees&id=<c:out value="${booking.id}"/>" role="button">Cancel</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>

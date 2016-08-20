@@ -123,3 +123,35 @@ img {
 .grid-item:hover .delete-image {
 	opacity: 1;
 }
+
+.booking-spot {
+	background-color: #f4f4f4;
+	border: 1px solid grey;
+	padding: 10px;
+}
+
+.size-1 {
+	height: 50px;
+}
+
+.size-2 {
+	height: 100px;
+}
+
+.size-3 {
+	height: 150px;
+}
+
+.size-4 {
+	height: 200px;
+}
+
+
+#test-table {
+	margin-bottom: 500px;
+}
+
+.booked {
+	background-color: green;
+}
+}

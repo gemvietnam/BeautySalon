@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -426,6 +428,83 @@ public class BeautyDAOImpl implements BeautyDAO {
 		return result;
 	}
 	
+	
+	public int getTotalProfit() {
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar cal = Calendar.getInstance();
+		String date = dateFormat.format(cal.getTime());
+
+		int totalProfit = 0;
+//		String sql = "select Services.price from Bookings inner join Services on Bookings.serviceId=Services.id where isActive=1 and date<?";
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			PreparedStatement statement = connection.prepareStatement("select Services.price from Bookings inner join Services on Bookings.serviceId=Services.id where isActive=1 and date<?", Statement.RETURN_GENERATED_KEYS);
+			statement.setString(1, date);
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				int price = resultSet.getInt("price");
+				totalProfit = totalProfit + price;
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			closeConnection(connection);
+		}
+		return totalProfit;
+	}
+	
+	
+	public int getTotal(String table) {
+		int result = 0;
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			PreparedStatement statement = connection.prepareStatement("SELECT COUNT(*) FROM " + table);
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				result = resultSet.getInt(1);
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			closeConnection(connection);
+		}
+		return result;
+	}
+	
+	public List<Booking> getBookings(int employeeId) {
+		
+		List<Booking> result = new ArrayList<Booking>();
+		String sql = "select * from Bookings inner join Services on Bookings.serviceId=Services.id where employeeId=" + employeeId;
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			PreparedStatement statement = connection.prepareStatement(sql);
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				Booking booking = new Booking();
+				booking.setId(resultSet.getInt("Bookings.id"));
+				booking.setDate(resultSet.getDate("date"));
+				booking.setHour(resultSet.getTime("hour"));
+//				booking.setFirstName(resultSet.getString("firstName"));
+//				booking.setLastName(resultSet.getString("lastName"));
+//				booking.setEmail(resultSet.getString("email"));
+//				booking.setPhone(resultSet.getString("phone"));
+				booking.setServiceName(resultSet.getString("Services.name"));
+				booking.setServiceDuration(resultSet.getTime("Services.time"));
+				booking.setServicePrice(resultSet.getInt("Services.price"));
+
+				result.add(booking);
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			closeConnection(connection);
+		}
+		return result;
+	}	
 	
 	public List<Booking> getBookings() {
 		

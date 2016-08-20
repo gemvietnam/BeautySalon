@@ -13,6 +13,11 @@
 	<%@include file="navigation.jsp" %>
 </div>
 
+<% int totalProfit = (int) request.getAttribute("totalProfit"); %>
+<% int totalCategories = (int) request.getAttribute("totalCategories"); %>
+<% int totalEmployees = (int) request.getAttribute("totalEmployees"); %>
+<% int totalServices = (int) request.getAttribute("totalServices"); %>
+<% int totalBookings = (int) request.getAttribute("totalBookings"); %>
 
 <div id="content">
 
@@ -22,6 +27,11 @@
 	
 	<div class="app-data">
 	
+		<h1>Total profit: <%= totalProfit %> DKK</h1>
+		<h1>Total categories: <%= totalCategories %> </h1>
+		<h1>Total employees: <%= totalEmployees %> </h1>
+		<h1>Total services: <%= totalServices %> </h1>
+		<h1>Total bookings: <%= totalBookings %> </h1>
 
 	</div>
 	
