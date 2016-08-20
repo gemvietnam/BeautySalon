@@ -62,21 +62,26 @@
 					<td>Cancel</td>
 				</tr>
 			</thead>
+			
 			<tbody>
-				<c:forEach items="${bookings}" var="booking">
+				<% for (Booking booking : bookings) { %>
+					<% String bookingStatus = (booking.getIsActive() == 1) ? "active" : "cancelled"; %>
+					<% String bookingLabel = (booking.getIsActive() == 1) ? "success" : "danger"; %>
+					<% String disableButton = (booking.getIsActive() == 1) ? "" : "disabled"; %>
 					<tr>
-						<td>active</td>
-						<td><c:out value="${booking.date}"/></td>
-						<td><c:out value="${booking.hour}"/></td>
-						<td><c:out value="${booking.employeeName}"/></td>
-						<td><c:out value="${booking.serviceName}"/></td>
-						<td><c:out value="${booking.firstName}"/> <c:out value="${booking.lastName}"/></td>
-						<td><c:out value="${booking.email}"/></td>
-						<td><c:out value="${booking.phone}"/></td>
-						<td><a class="btn btn-danger" href="?page=delete&table=Employees&id=<c:out value="${booking.id}"/>" role="button">Cancel</a></td>
+						<td><span class="label label-<%= bookingLabel %>"><%= bookingStatus %></span></td>
+						<td><%= booking.getDate() %></td>
+						<td><%= booking.getHour() %></td>
+						<td><%= booking.getEmployeeName() %></td>
+						<td><%= booking.getServiceName() %></td>
+						<td><%= booking.getFirstName() %> <%= booking.getLastName() %></td>
+						<td><%= booking.getEmail() %></td>
+						<td><%= booking.getPhone() %></td>
+						<td><a class="btn btn-danger btn-sm <%= disableButton %>" href="?page=cancelBooking&id=<%= booking.getId() %>" role="button">Cancel</a></td>
 					</tr>
-				</c:forEach>
+				<% } %>
 			</tbody>
+			
 		</table>
 	
 	</div>

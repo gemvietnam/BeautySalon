@@ -154,6 +154,12 @@ public class DashboardServlet extends HttpServlet {
 					url = "/jsp/admin/bookings.jsp";
 					getBookings(request, response);
 					break;
+				case "cancelBooking":
+					int bookingId = Integer.parseInt(request.getParameter("id"));
+					beautyDAO.cancelBooking(bookingId);
+					url = "/jsp/admin/bookings.jsp";
+					getBookings(request, response);
+					break;
 				case "employees":
 					String typeEmployee = (String) request.getParameter("type");
 					System.out.println("The type of service action is: " + typeEmployee);

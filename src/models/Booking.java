@@ -18,8 +18,16 @@ public class Booking {
 	private String employeeName;
 	private Time serviceDuration;
 	private int servicePrice;
-		
+	private int isActive;
 	
+	
+	
+	public int getIsActive() {
+		return isActive;
+	}
+	public void setIsActive(int isActive) {
+		this.isActive = isActive;
+	}
 	public String getServiceName() {
 		return serviceName;
 	}

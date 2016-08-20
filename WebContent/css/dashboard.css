@@ -152,6 +152,16 @@ img {
 }
 
 .booked {
-	background-color: green;
+	background-color: #c5d6d8;
+	text-align: center;
 }
+
+.label {
+	padding: 10px;
+	display: table-cell;
 }
+
+
+
+
+

@@ -528,6 +528,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 				booking.setServiceDuration(resultSet.getTime("Services.time"));
 				booking.setServicePrice(resultSet.getInt("Services.price"));
 				booking.setEmployeeName(resultSet.getString("Employees.firstName") + " " + resultSet.getString("Employees.lastName"));
+				booking.setIsActive(resultSet.getInt("Bookings.isActive"));
 				
 				result.add(booking);
 			}
@@ -539,6 +540,26 @@ public class BeautyDAOImpl implements BeautyDAO {
 		return result;
 	}
 
+	public void cancelBooking(int bookingId) {		
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			PreparedStatement statement = connection.prepareStatement(
+					"update Bookings set isActive=0 where id=?",
+					Statement.RETURN_GENERATED_KEYS);
+			statement.setInt(1, bookingId);
+			statement.execute();
+//			ResultSet generatedKeys = statement.getGeneratedKeys();
+//			if (generatedKeys.next()) {
+//				employee.setId(generatedKeys.getInt(1));
+//			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			closeConnection(connection);
+		}
+	}	
+	
 	
 	public Employee getEmployeeById(int id) {
 		

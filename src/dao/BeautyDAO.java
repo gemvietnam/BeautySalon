@@ -42,8 +42,6 @@ public interface BeautyDAO {
 	
 	public void deleteRecord(int id, String tableName);
 	
-	public void addBooking(Booking booking);
-	
 	public User getUserById(int id);
 	public User login(String email, String password);
 	
@@ -57,6 +55,8 @@ public interface BeautyDAO {
 	public int getLastImageId();
 	public List<Image> getImages();
 	
+	public void addBooking(Booking booking);
+	public void cancelBooking(int bookingId);
 	public List<Booking> getBookings();
 	public List<Booking> getBookings(int employeeId);
 	

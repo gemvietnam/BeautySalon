@@ -100,61 +100,70 @@
 				for (int i = 0; i < 17; i++) { 
 					SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 			        String strDate = sdf.format(timeSlot.getTime());
-			        String fieldClass = "";
+			        /* String fieldClass = "";
 			        String name = "";
-			        int rowspan = 1;
+			        int rowspan = 1; */
 				%>
 					
 					<tr>
 						<td><%= strDate %></td>
 						
-						<% for (Booking booking : bookings) {
-							
-							DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-							String bookingDate = dateFormat.format(booking.getDate());
-							System.out.println("bookingdate: " + bookingDate);
-							Calendar today = Calendar.getInstance();
-							
-							for (int j=0; j<7; j++) { 
+						<%
+						
+						Calendar today = Calendar.getInstance();
+						
+						for (int j=0; j<7; j++) { 
 
 								SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd");
 						        String currentDate = simpleFormat.format(today.getTime());
 						        
 						        System.out.println("currentdate: " + currentDate);
-					
-								if (bookingDate.equals(currentDate)) {
+								
+						        String fieldClass = "";
+						        String name = "";
+						        int rowspan = 1;
+						        
+								for (Booking booking : bookings) {
 									
-									System.out.println("DATES ARE FUCKING THE SAME");
+									DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+									String bookingDate = dateFormat.format(booking.getDate());
+									System.out.println("bookingdate: " + bookingDate);
 									
-									Time startTime = booking.getHour();
-									int startTimeHours = startTime.getHours();
-									int startTimeMinutes = startTime.getMinutes();
-									Calendar startTimeCal = new GregorianCalendar(2016,8,20,startTimeHours,startTimeMinutes,00);
-									
-									if (startTimeCal.equals(timeSlot)) {
-										fieldClass = "booked";
-										name = booking.getServiceName();
-										Time durationTime = booking.getServiceDuration();
-										int durationHours = durationTime.getHours();
-										int durationMinutes = durationTime.getMinutes();
-										int durationTotalMinutes = 60 * durationHours + durationMinutes;
-										rowspan = durationTotalMinutes/30;
-										%>
-										<td class="<%= fieldClass %>" rowspan="<%= rowspan %>"><%= name %> <%= bookingDate %></td>
-										<%
-									}
-									else { %>
-										<td rowspan="1"> </td>
-									<% 
-									}
-								}
+							
+										if (bookingDate.equals(currentDate)) {
+											
+											System.out.println("DATES ARE FUCKING THE SAME");
+											
+											Time startTime = booking.getHour();
+											int startTimeHours = startTime.getHours();
+											int startTimeMinutes = startTime.getMinutes();
+											Calendar startTimeCal = new GregorianCalendar(2016,8,20,startTimeHours,startTimeMinutes,00);
+											
+											Time durationTime = booking.getServiceDuration();
+											int durationHours = durationTime.getHours();
+											int durationMinutes = durationTime.getMinutes();
+											
+											Calendar endTimeCal = (Calendar) startTimeCal.clone();
+											endTimeCal.add(Calendar.HOUR_OF_DAY, durationHours);
+											endTimeCal.add(Calendar.MINUTE, durationMinutes);
+											
+											
+											if (startTimeCal.equals(timeSlot) || (startTimeCal.before(timeSlot) && endTimeCal.after(timeSlot))) {
+												System.out.println("ZIELONY");
+												fieldClass = "booked";
+												name = booking.getServiceName();
+											}
 
+										}
+								}
+								
+								%>
+								<td class="<%= fieldClass %>" ><%= name %> </td>
+								<%
 								
 								today.add(Calendar.HOUR, 24);
 							}
-							
-						
-						} %>	
+							%>	
 						
 <%-- 						<%
 						for (int k=0; k<7; k++) { 
@@ -174,104 +183,16 @@
 				
 			</tbody>
 		</table>
-		
-		
-		
-		
-		
-		<div class="row">
-			<div class="col-md-2">
-				<h5>09:00</h5>
-				<h5>09:30</h5>
-				<h5>10:00</h5>
-				<h5>10:30</h5>
-				<h5>11:00</h5>
-				<h5>11:30</h5>
-				<h5>12:00</h5>
-				<h5>12:30</h5>
-				<h5>13:00</h5>
-				<h5>13:30</h5>
-				<h5>14:00</h5>
-				<h5>14:30</h5>
-				<h5>15:00</h5>
-				<h5>15:30</h5>
-				<h5>16:00</h5>
-				<h5>16:30</h5>
-				<h5>17:00</h5>
-			</div>
-			<div class="col-md-2">
-				<h4>Monday</h4>
-			</div>
-			<div class="col-md-2">
-				<h4>Tuesday</h4>
-			</div>
-			<div class="col-md-2">
-				<h4>Wednesday</h4>
-			</div>
-			<div class="col-md-2">
-				<h4>Thursday</h4>
-			</div>
-			<div class="col-md-2">
-				<h4>Friday</h4>
-			</div>
-			<div class="col-md-2">
-				<h4>Saturday</h4>
-			</div>
-			<div class="col-md-2">
-				<h4>Sunday</h4>
-			</div>
-		</div>
-	
-		<% for (Booking booking : bookings) { %>
-		
-			<% 
-			
-			Time durationTime = booking.getServiceDuration(); 
-			String duration = durationTime.toString();
-			int size = 1;
-			
-			switch (duration) {
-				case "00:30:00":
-					size = 1;
-					break;
-				case "01:00:00":
-					size = 2;
-					break;
-				case "01:30:00":
-					size = 3;
-					break;
-				case "02:00:00":
-					size = 4;
-					break;
-				case "02:30:00":
-					size = 5;
-					break;
-				case "03:00:00":
-					size = 6;
-					break;
-				case "03:30:00":
-					size = 7;
-					break;
-				case "04:00:00":
-					size = 8;
-					break;
-			}
-			
-			%>
-			
-			<div class="booking-spot size-<%= size %>">
-			
-				<h5><%= booking.getServiceName() %></h5>
-				<p><%= booking.getHour() %></p>
-			
-			</div>
-		<% } %>	
 	
 	</div>
 	
-	
 </div>
 
+<script src="/BeautySalon/assets/rowspanizer/jquery.rowspanizer.min.js"></script>
+
+<script>
+	$('.scheduleTable').rowspanizer({vertical_align: 'middle'});
+</script>
 
 </body>
 </html>
