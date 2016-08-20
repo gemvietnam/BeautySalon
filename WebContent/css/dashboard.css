@@ -4,9 +4,10 @@ body {
 }
 
 #login {
-	background-image: url("../img/bg.jpg");
+	background-image: url("../img/massage2.jpg");
 	background-size: cover;
 	background-position: center center;
+	height: 100vh;
 }
 
 #navigation {
@@ -146,11 +147,6 @@ img {
 	height: 200px;
 }
 
-
-#test-table {
-	margin-bottom: 500px;
-}
-
 .booked {
 	background-color: #c5d6d8;
 	text-align: center;
@@ -160,8 +156,5 @@ img {
 	padding: 10px;
 	display: table-cell;
 }
-
-
-
 
 

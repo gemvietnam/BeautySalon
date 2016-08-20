@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Settings - Prettier CMS</title>
 <%@include file="../styles-dashboard.jsp" %>
 </head>
 <body>
@@ -73,6 +73,40 @@
 					<input type="text" name="email" class="form-control" placeholder="Email address" value="<%= settings.getEmail() %>" />
 				</div>
 			</div>
+			
+			
+			<h3>Social media</h3>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Facebook</label>
+				<div class="col-sm-10">
+					<input type="url" name="facebook" class="form-control" placeholder="Facebook profile link" value="<%= settings.getFacebook() %>" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Twitter</label>
+				<div class="col-sm-10">
+					<input type="url" name="twitter" class="form-control" placeholder="Twitter profile link" value="<%= settings.getTwitter() %>" />
+				</div>
+			</div>						
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Google+</label>
+				<div class="col-sm-10">
+					<input type="url" name="googlePlus" class="form-control" placeholder="Google+ profile link" value="<%= settings.getGooglePlus() %>" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Instagram</label>
+				<div class="col-sm-10">
+					<input type="url" name="instagram" class="form-control" placeholder="Instagram profile link" value="<%= settings.getInstagram() %>" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Pinterest</label>
+				<div class="col-sm-10">
+					<input type="url" name="pinterest" class="form-control" placeholder="Pinterest profile link" value="<%= settings.getPinterest() %>" />
+				</div>
+			</div>
+
 			
 			
 			<h3>Opening hours</h3>

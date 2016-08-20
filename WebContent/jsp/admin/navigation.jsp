@@ -41,5 +41,5 @@
 	<li><a href="admin?page=schedule"><i class="fa fa-calendar"></i> Schedule</a></li>
 	<li><a href="admin?page=images"><i class="fa fa-image"></i> Images</a></li>
 	<li><a href="admin?page=settings"><i class="fa fa-cogs"></i> Settings</a></li>
-	<li><a href="website"><i class="fa fa-search"></i> Preview website</a></li>
+	<li><a href="website" target="_BLANK"><i class="fa fa-search"></i> Preview website</a></li>
 </ul>

@@ -8,17 +8,19 @@
 <%@page import="java.sql.Date"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="models.Booking"%> 
+<%@page import="models.Booking"%>
+<%@page import="models.Employee"%> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Schedule - Prettier CMS</title>
 <%@include file="../styles-dashboard.jsp" %>
 </head>
 <body>
 
 <% List<Booking> bookings = (List<Booking>) request.getAttribute("bookings"); %>
+<% List<Employee> employees = (List<Employee>) request.getAttribute("employees"); %>
 <% String keyword = (String) request.getParameter("keyword"); %>
 
 <div id="navigation">
@@ -27,166 +29,73 @@
 <div id="content">
 
 	<div id="content-bar">
-		<div class="pull-right" style="margin-right: 50px;">
+		<div class="pull-right" style="min-width: 400px;">
 			<div class="row">
-				<form method="post" action="admin?page=searchEmployees">
-					<div class="col-md-8" style="padding: 0px;">
-						<input type="text" class="form-control" name="keyword" placeholder="Search bookings" />
-					</div>
-					<div class="col-md-4" style="padding: 0px;">
-						<input type="submit" class="form-control btn btn-primary" value="Search" />
-					</div>
-				</form>
+				<div class="col-md-4">
+					<label>Employee:</label>
+				</div>
+				<div class="col-md-8">
+					<select id="employeeId" name="employeeId" class="form-control">
+						<% for (Employee employee : employees) { %>
+							<option value="<%= employee.getId() %>"><%= employee.getFirstName() %> <%= employee.getLastName() %></option> 
+						<% } %>
+					</select>
+				</div>
 			</div>
 		</div>
 		<h1>Schedule</h1>
 	</div>
-	
-	
-	
+
 	<div class="app-data">
-		
-		
-		
-		<table id="test-table" class="scheduleTable table table-bordered">
-			<thead>
-				<tr>
-					<td></td>
-					<% 
-						Calendar day = Calendar.getInstance();
-						for (int i=0; i<7; i++) { 
-							int dayInt = day.get(Calendar.DAY_OF_WEEK);
-							String dayName = "";
-							
-							SimpleDateFormat sdf = new SimpleDateFormat("dd.MM");
-					        String strDate = sdf.format(day.getTime());
-							
-							switch(dayInt){
-							    case 2:
-							    	dayName="Monday";
-							        break;
-							    case 3:
-							    	dayName="Tuesday";
-							        break;
-							    case 4:
-							    	dayName="Wednesday";
-							        break;
-							    case 5:
-							    	dayName="Thursday";
-							        break;
-							    case 6:
-							    	dayName="Friday";
-							        break;
-							    case 7:
-							    	dayName="Saturday";
-							        break;
-							    case 1:
-							    	dayName="Sunday";
-							        break;
-						    } %>
-						    
-							<td><%= dayName %> (<%= strDate %>)</td>
-							
-							<% day.add(Calendar.HOUR, 24); %>
+	
+		<%-- <label>Select employee:</label>
+		<div class="row">
+			<div class="col-md-4">
+				<select id="employeeId" name="employeeId" class="form-control">
+					<% for (Employee employee : employees) { %>
+						<option value="<%= employee.getId() %>"><%= employee.getFirstName() %> <%= employee.getLastName() %></option> 
 					<% } %>
-					
-				</tr>
-			</thead>
-			<tbody>
-				
-				<% 
-				Calendar timeSlot = new GregorianCalendar(2016,8,20,9,00,00);
-				
-				for (int i = 0; i < 17; i++) { 
-					SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-			        String strDate = sdf.format(timeSlot.getTime());
-			        /* String fieldClass = "";
-			        String name = "";
-			        int rowspan = 1; */
-				%>
-					
-					<tr>
-						<td><%= strDate %></td>
-						
-						<%
-						
-						Calendar today = Calendar.getInstance();
-						
-						for (int j=0; j<7; j++) { 
-
-								SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd");
-						        String currentDate = simpleFormat.format(today.getTime());
-						        
-						        System.out.println("currentdate: " + currentDate);
-								
-						        String fieldClass = "";
-						        String name = "";
-						        int rowspan = 1;
-						        
-								for (Booking booking : bookings) {
-									
-									DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-									String bookingDate = dateFormat.format(booking.getDate());
-									System.out.println("bookingdate: " + bookingDate);
-									
-							
-										if (bookingDate.equals(currentDate)) {
-											
-											System.out.println("DATES ARE FUCKING THE SAME");
-											
-											Time startTime = booking.getHour();
-											int startTimeHours = startTime.getHours();
-											int startTimeMinutes = startTime.getMinutes();
-											Calendar startTimeCal = new GregorianCalendar(2016,8,20,startTimeHours,startTimeMinutes,00);
-											
-											Time durationTime = booking.getServiceDuration();
-											int durationHours = durationTime.getHours();
-											int durationMinutes = durationTime.getMinutes();
-											
-											Calendar endTimeCal = (Calendar) startTimeCal.clone();
-											endTimeCal.add(Calendar.HOUR_OF_DAY, durationHours);
-											endTimeCal.add(Calendar.MINUTE, durationMinutes);
-											
-											
-											if (startTimeCal.equals(timeSlot) || (startTimeCal.before(timeSlot) && endTimeCal.after(timeSlot))) {
-												System.out.println("ZIELONY");
-												fieldClass = "booked";
-												name = booking.getServiceName();
-											}
-
-										}
-								}
-								
-								%>
-								<td class="<%= fieldClass %>" ><%= name %> </td>
-								<%
-								
-								today.add(Calendar.HOUR, 24);
-							}
-							%>	
-						
-<%-- 						<%
-						for (int k=0; k<7; k++) { 
-								 %>
-						        
-						        <td class="<%= fieldClass %>" rowspan="<%= rowspan %>"><%= name %></td>
-						        
-						<% } %> --%>
-						
-						
-					</tr>
-					
-				<% 
-					timeSlot.add(Calendar.MINUTE, 30);
-				} %>
-				
-				
-			</tbody>
-		</table>
+				</select>
+			</div>
+		</div> --%>
+		
+		
+		<div id="responseText">
+		
+		</div>
 	
 	</div>
 	
 </div>
+
+<script>
+	
+	$(document).ready(function() {
+	
+		getData();
+
+		$('#employeeId').on("change", function() {
+			getData();
+		}); 
+		
+		function getData() {
+			var employeeId = $('#employeeId').val();
+
+			console.log("Get data for employee: #" + employeeId);
+			
+			$.ajax({
+				url: 'admin',
+				method: 'post', 
+				data: {'page':'schedule', 'employeeId': employeeId},
+				success: function(responseText) {
+					console.log("hejka");
+					$('#responseText').html(responseText);
+				}
+			});
+		}
+	});	
+
+</script>
 
 <script src="/BeautySalon/assets/rowspanizer/jquery.rowspanizer.min.js"></script>
 

@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Treatments - Prettier CMS</title>
 <%@include file="../styles-dashboard.jsp" %>
 </head>
 <body>
@@ -83,7 +83,7 @@
 						<td><c:out value="${service.price}"/> DKK</td>
 						<td><c:out value="${service.time}"/> hours</td>
 						<td><a class="btn btn-primary" href="?page=editTreatment&id=<c:out value="${service.id}"/>" role="button">Edit</a></td>
-						<td><a class="btn btn-danger" href="?page=delete&table=Services&id=<c:out value="${service.id}"/>" role="button">Delete</a></td>
+						<td><a class="btn btn-danger" href="?page=deleteService&id=<c:out value="${service.id}"/>" role="button">Delete</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>

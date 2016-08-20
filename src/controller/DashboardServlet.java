@@ -150,6 +150,12 @@ public class DashboardServlet extends HttpServlet {
 					getServiceById(request, response);
 					getCategories(request, response);
 					break;
+				case "deleteService":
+					int serviceId = Integer.parseInt(request.getParameter("id"));
+					beautyDAO.deleteService(serviceId);
+					url = "/jsp/admin/services.jsp";
+					getServices(request, response);
+					break;
 				case "bookings":
 					url = "/jsp/admin/bookings.jsp";
 					getBookings(request, response);
@@ -205,7 +211,11 @@ public class DashboardServlet extends HttpServlet {
 					break;
 				case "schedule":
 					url = "/jsp/admin/schedule.jsp";
-					getSchedule(request, response);
+					getEmployees(request, response);
+					if (request.getParameter("employeeId") != null) {
+						getSchedule(request, response);
+						url = "/jsp/admin/render-schedule.jsp";
+					}
 					break;
 				case "images":
 					url = "/jsp/admin/fileupload.jsp";
@@ -258,7 +268,7 @@ public class DashboardServlet extends HttpServlet {
 		try {
 			System.out.println("Trying to get the schedule");
 			BeautyDAO beautyDAO = new BeautyDAOImpl();
-			int employeeId = 16;
+			int employeeId = Integer.parseInt(request.getParameter("employeeId"));
 			List<Booking> bookings = beautyDAO.getBookings(employeeId);
 			request.setAttribute("bookings", bookings);
 
@@ -484,6 +494,12 @@ public class DashboardServlet extends HttpServlet {
 			s.setVatNumber(request.getParameter("vatNumber"));
 			s.setPhone(request.getParameter("phone"));
 			s.setEmail(request.getParameter("email"));
+			s.setFacebook(request.getParameter("facebook"));
+			s.setTwitter(request.getParameter("twitter"));
+			s.setGooglePlus(request.getParameter("googlePlus"));
+			s.setInstagram(request.getParameter("instagram"));
+			s.setPinterest(request.getParameter("pinterest"));
+			
 			
 			BeautyDAO beautyDAO = new BeautyDAOImpl();
 			beautyDAO.saveSettings(s);

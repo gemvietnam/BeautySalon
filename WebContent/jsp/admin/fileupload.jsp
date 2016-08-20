@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Images - Prettier CMS</title>
 <%@include file="../styles-dashboard.jsp" %>
 <script src="/BeautySalon/assets/masonry/masonry.pkgd.min.js"></script>
 </head>

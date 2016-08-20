@@ -86,6 +86,12 @@ public class WebsiteController extends HttpServlet {
 		getServletContext().setAttribute("email", settings.getEmail());
 		getServletContext().setAttribute("vatNumber", settings.getVatNumber());
 		getServletContext().setAttribute("address", settings.getAddress());	
+		getServletContext().setAttribute("facebook", settings.getFacebook());	
+		getServletContext().setAttribute("twitter", settings.getTwitter());	
+		getServletContext().setAttribute("instagram", settings.getInstagram());	
+		getServletContext().setAttribute("pinterest", settings.getPinterest());	
+		getServletContext().setAttribute("googlePlus", settings.getGooglePlus());	
+		
 		
 	}
 	

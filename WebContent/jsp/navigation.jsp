@@ -18,10 +18,10 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     
       <ul class="social-media navbar-right">
-      	<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-      	<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-      	<li><a href="#"><i class="fa fa-instagram"></i></a></li>
-      	<li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+      	<li><a href="<%= getServletContext().getAttribute("facebook") %>"><i class="fa fa-facebook"></i></a></li>
+      	<li><a href="<%= getServletContext().getAttribute("twitter") %>"><i class="fa fa-twitter"></i></a></li>
+      	<li><a href="<%= getServletContext().getAttribute("instagram") %>"><i class="fa fa-instagram"></i></a></li>
+      	<li><a href="<%= getServletContext().getAttribute("pinterest") %>"><i class="fa fa-pinterest"></i></a></li>
       </ul>
     
       <ul class="nav navbar-nav navbar-right">

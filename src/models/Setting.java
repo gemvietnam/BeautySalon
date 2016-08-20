@@ -24,8 +24,45 @@ public class Setting {
 	private Time closeFriday;
 	private Time openSaturday;
 	private Time closeSaturday;
+	private String facebook;
+	private String twitter;
+	private String googlePlus;
+	private String instagram;
+	private String pinterest;
 	
 	
+	
+	
+	public String getFacebook() {
+		return facebook;
+	}
+	public void setFacebook(String facebook) {
+		this.facebook = facebook;
+	}
+	public String getTwitter() {
+		return twitter;
+	}
+	public void setTwitter(String twitter) {
+		this.twitter = twitter;
+	}
+	public String getGooglePlus() {
+		return googlePlus;
+	}
+	public void setGooglePlus(String googlePlus) {
+		this.googlePlus = googlePlus;
+	}
+	public String getInstagram() {
+		return instagram;
+	}
+	public void setInstagram(String instagram) {
+		this.instagram = instagram;
+	}
+	public String getPinterest() {
+		return pinterest;
+	}
+	public void setPinterest(String pinterest) {
+		this.pinterest = pinterest;
+	}
 	public int getId() {
 		return id;
 	}

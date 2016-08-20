@@ -177,7 +177,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 	public List<Service> getServices() {
 		
 		List<Service> result = new ArrayList<Service>();
-		String sql = "select * from Services inner join Categories on Services.categoryId=Categories.id";
+		String sql = "select * from Services inner join Categories on Services.categoryId=Categories.id where Services.isActive=1";
 		Connection connection = null;
 		try {
 			connection = getConnection();
@@ -238,7 +238,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 		try {
 			connection = getConnection();
 			PreparedStatement statement = connection.prepareStatement(
-					"select * from Services inner join Categories on Services.categoryId=Categories.id where Services.name like ? or Categories.name like ? or Services.description like ?",
+					"select * from Services inner join Categories on Services.categoryId=Categories.id where Services.isActive=1 and Services.name like ? or Categories.name like ? or Services.description like ?",
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, betterKeyword);
 			statement.setString(2, betterKeyword);
@@ -361,6 +361,11 @@ public class BeautyDAOImpl implements BeautyDAO {
 				setting.setAddress(resultSet.getString("address"));
 				setting.setPhone(resultSet.getString("phone"));
 				setting.setEmail(resultSet.getString("email"));
+				setting.setFacebook(resultSet.getString("facebook"));
+				setting.setTwitter(resultSet.getString("twitter"));
+				setting.setGooglePlus(resultSet.getString("googlePlus"));
+				setting.setInstagram(resultSet.getString("instagram"));
+				setting.setPinterest(resultSet.getString("pinterest"));				
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -378,7 +383,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 		try {
 			connection = getConnection();
 			PreparedStatement statement = connection.prepareStatement(
-					"update Settings set siteTitle=?, siteDescription=?, companyName=?, vatNumber=?, address=?, phone=?, email=? where id=1",
+					"update Settings set siteTitle=?, siteDescription=?, companyName=?, vatNumber=?, address=?, phone=?, email=?, facebook=?, twitter=?, googlePlus=?, instagram=?, pinterest=? where id=1",
 					Statement.RETURN_GENERATED_KEYS);
 			System.out.println("Update sitetitle with: " + settings.getSiteTitle());
 			statement.setString(1, settings.getSiteTitle());
@@ -388,6 +393,12 @@ public class BeautyDAOImpl implements BeautyDAO {
 			statement.setString(5, settings.getAddress());
 			statement.setString(6, settings.getPhone());
 			statement.setString(7, settings.getEmail());
+			statement.setString(8, settings.getFacebook());
+			statement.setString(9, settings.getTwitter());
+			statement.setString(10, settings.getGooglePlus());
+			statement.setString(11, settings.getInstagram());
+			statement.setString(12, settings.getPinterest());
+			
 			statement.execute();
 			ResultSet generatedKeys = statement.getGeneratedKeys();
 			if (generatedKeys.next()) {
@@ -434,13 +445,12 @@ public class BeautyDAOImpl implements BeautyDAO {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar cal = Calendar.getInstance();
 		String date = dateFormat.format(cal.getTime());
-
 		int totalProfit = 0;
-//		String sql = "select Services.price from Bookings inner join Services on Bookings.serviceId=Services.id where isActive=1 and date<?";
+
 		Connection connection = null;
 		try {
 			connection = getConnection();
-			PreparedStatement statement = connection.prepareStatement("select Services.price from Bookings inner join Services on Bookings.serviceId=Services.id where isActive=1 and date<?", Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement statement = connection.prepareStatement("select Services.price from Bookings inner join Services on Bookings.serviceId=Services.id where Bookings.isActive=1 and Bookings.date<?", Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, date);
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
@@ -476,8 +486,20 @@ public class BeautyDAOImpl implements BeautyDAO {
 	
 	public List<Booking> getBookings(int employeeId) {
 		
+		Calendar today = Calendar.getInstance();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String todaysDate = dateFormat.format(today.getTime());
+		System.out.println("Today is: " + todaysDate);
+		
+		Calendar weekFromNow = Calendar.getInstance();
+		weekFromNow.add(Calendar.HOUR, 168);
+		String weekFromNowDate = dateFormat.format(weekFromNow.getTime());
+		System.out.println("Week from now is: " + weekFromNowDate);
+		
 		List<Booking> result = new ArrayList<Booking>();
-		String sql = "select * from Bookings inner join Services on Bookings.serviceId=Services.id where employeeId=" + employeeId;
+		String sql = "select * from Bookings inner join Services on Bookings.serviceId=Services.id where employeeId=" + employeeId + " and date>='" + todaysDate + "' and date<='" + weekFromNowDate + "'";
+		System.out.println("SQL: " + sql);
+		
 		Connection connection = null;
 		try {
 			connection = getConnection();
@@ -488,10 +510,6 @@ public class BeautyDAOImpl implements BeautyDAO {
 				booking.setId(resultSet.getInt("Bookings.id"));
 				booking.setDate(resultSet.getDate("date"));
 				booking.setHour(resultSet.getTime("hour"));
-//				booking.setFirstName(resultSet.getString("firstName"));
-//				booking.setLastName(resultSet.getString("lastName"));
-//				booking.setEmail(resultSet.getString("email"));
-//				booking.setPhone(resultSet.getString("phone"));
 				booking.setServiceName(resultSet.getString("Services.name"));
 				booking.setServiceDuration(resultSet.getTime("Services.time"));
 				booking.setServicePrice(resultSet.getInt("Services.price"));
@@ -624,7 +642,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 		try {
 			connection = getConnection();
 			PreparedStatement statement = connection.prepareStatement(
-					"select * from Employees where firstName like ? or lastName like ? or title like ? or description like ? and isActive=1",
+					"select * from Employees where isActive=1 and firstName like ? or lastName like ? or title like ? or description like ? and isActive=1",
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, betterKeyword);
 			statement.setString(2, betterKeyword);
@@ -748,7 +766,24 @@ public class BeautyDAOImpl implements BeautyDAO {
 		} finally {
 			closeConnection(connection);
 		}
-	}	
+	}
+	
+	
+	public void deleteService(int id) {		
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			PreparedStatement statement = connection.prepareStatement(
+					"update Services set isActive=0 where id=?",
+					Statement.RETURN_GENERATED_KEYS);
+			statement.setInt(1, id);
+			statement.execute();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			closeConnection(connection);
+		}
+	}
 
 		
 	
