@@ -70,4 +70,6 @@ public interface BeautyDAO {
 	public void updatePage(Page page);
 	public Page getPageById(int id);
 	
+	public boolean serviceHasEmployees(int id);
+	
 }

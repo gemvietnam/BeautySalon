@@ -1,3 +1,4 @@
+<%@page import="assets.Helpers"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@	taglib	prefix="c"	uri="http://java.sun.com/jsp/jstl/core"	%> 
@@ -27,19 +28,13 @@
 				<p><%= category.getDescription() %></p>
 				
 				<table class="service-table">
-					<%-- <c:forEach items="${services}" var="service">
-						<tr data-serviceId="<c:out value="${service.id}"/>">
-							<td class="service-name"><h3><a href="booking?id=<c:out value="${service.id}"/>"><c:out value="${service.name}"/></a></h3><p><c:out value="${service.description}"/></p></td>
-							<td class="service-price"><c:out value="${service.price}"/> DKK</td>
-						</tr>
-					</c:forEach> --%>
-
 					<% for (Service service : services) { %>
-						
-						<tr data-serviceId="<%= service.getId() %>">
-							<td class="service-name"><h3><a href="booking?id=<%= service.getId() %>"><%= service.getName() %></a></h3><p><%= service.getDescription() %></p></td>
-							<td class="service-price"><%= service.getPrice() %> DKK</td>
-						</tr>
+						<% if (Helpers.ServiceHasEmployees(service.getId())) { %>
+							<tr data-serviceId="<%= service.getId() %>">
+								<td class="service-name"><h3><a href="booking?id=<%= service.getId() %>"><%= service.getName() %></a></h3><p><%= service.getDescription() %></p></td>
+								<td class="service-price"><%= service.getPrice() %> DKK</td>
+							</tr>
+						<% } %>
 					<% } %>
 				</table>
 				<a href="#" id="book-visit-link" class="book-visit">BOOK THE VISIT</a>

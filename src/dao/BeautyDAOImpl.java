@@ -323,6 +323,34 @@ public class BeautyDAOImpl implements BeautyDAO {
 			}
 			return service;		
 	}
+	
+	
+	public boolean serviceHasEmployees(int id) {
+		
+		System.out.println("Checking is service has empkoyees");
+		boolean result = false;
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			
+			PreparedStatement statement = connection.prepareStatement(
+					"select count(*) from EmployeeServices where serviceId=?",
+					Statement.RETURN_GENERATED_KEYS);
+			statement.setInt(1, id);
+			ResultSet resultSet = statement.executeQuery();
+			
+			while (resultSet.next()) {
+				if (resultSet.getInt(1) >= 1) {
+					result = true;
+				}
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			closeConnection(connection);
+		}
+		return result;		
+	}	
 
 	public List<Service> searchServices(String keyword) {		
 		String betterKeyword = "%" + keyword + "%";
