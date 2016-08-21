@@ -21,6 +21,7 @@ import models.Booking;
 import models.Category;
 import models.Employee;
 import models.Image;
+import models.Page;
 import models.Service;
 import models.Setting;
 import models.User;
@@ -340,6 +341,35 @@ public class BeautyDAOImpl implements BeautyDAO {
 		}
 		return result;
 	}
+	
+	
+	public boolean hasEmployees(int serviceId) {
+		int result = 0;
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			PreparedStatement statement = connection.prepareStatement(
+					"select count(*) from EmployeeServices inner join Employees on Employees.id = employeeId where serviceId=? and Employees.isActive=1",
+					Statement.RETURN_GENERATED_KEYS);
+			statement.setInt(1, serviceId);
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				result = resultSet.getInt(1);
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			closeConnection(connection);
+		}
+		
+		if (result >= 1) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 
 	public Setting getSettings() {
 		
@@ -557,6 +587,34 @@ public class BeautyDAOImpl implements BeautyDAO {
 		}
 		return result;
 	}
+	
+
+	public List<Page> getPages() {
+		
+		List<Page> result = new ArrayList<Page>();
+		String sql = "select * from Pages";
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			PreparedStatement statement = connection.prepareStatement(sql);
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				Page page = new Page();
+				page.setId(resultSet.getInt("id"));
+				page.setSlug(resultSet.getString("slug"));
+				page.setTitle(resultSet.getString("title"));
+				page.setContent(resultSet.getString("content"));
+				page.setIsPublished(resultSet.getInt("isPublished"));
+				result.add(page);
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			closeConnection(connection);
+		}
+		return result;
+	}
+	
 
 	public void cancelBooking(int bookingId) {		
 		Connection connection = null;

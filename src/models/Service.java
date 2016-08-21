@@ -11,6 +11,7 @@ public class Service {
 	private Time time;
 	private int categoryId;
 	private String categoryName;
+
 	
 	public int getId() {
 		return id;

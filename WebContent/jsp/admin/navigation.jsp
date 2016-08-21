@@ -24,6 +24,7 @@
 			  </ul>
 			</div></li>
 	<li><a href="admin?"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+	<li><a href="admin?page=pages"><i class="fa fa-file"></i> Pages</a></li>
 	<li><a href="admin?page=categories"><i class="fa fa-folder-open"></i> Categories</a></li>
 	<li><a href="admin?page=treatments"><i class="fa fa-dashboard"></i> Treatments</a></li>
 	<li><a href="admin?page=employees"><i class="fa fa-users"></i> Employees</a></li>

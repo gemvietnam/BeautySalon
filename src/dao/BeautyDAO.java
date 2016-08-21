@@ -9,6 +9,7 @@ import models.Category;
 import models.Employee;
 import models.EmployeeServices;
 import models.Image;
+import models.Page;
 import models.Service;
 import models.Setting;
 import models.User;
@@ -61,11 +62,9 @@ public interface BeautyDAO {
 	public List<Booking> getBookings();
 	public List<Booking> getBookings(int employeeId);
 	
-	
-//	public int getBookingsNumber();
-//	public int getServicesNumber();
 	public int getTotalProfit();
 	public int getTotal(String table);
-//	public int getLastMonthProfit();
+
+	public List<Page> getPages();
 	
 }

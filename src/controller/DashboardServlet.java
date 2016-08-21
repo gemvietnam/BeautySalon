@@ -26,6 +26,7 @@ import models.Booking;
 import models.Category;
 import models.Employee;
 import models.Image;
+import models.Page;
 import models.Service;
 import models.Setting;
 
@@ -165,6 +166,10 @@ public class DashboardServlet extends HttpServlet {
 					beautyDAO.cancelBooking(bookingId);
 					url = "/jsp/admin/bookings.jsp";
 					getBookings(request, response);
+					break;
+				case "pages":
+					url = "/jsp/admin/pages.jsp";
+					getPages(request, response);
 					break;
 				case "employees":
 					String typeEmployee = (String) request.getParameter("type");
@@ -558,6 +563,18 @@ public class DashboardServlet extends HttpServlet {
 			BeautyDAO beautyDAO = new BeautyDAOImpl();
 			List<Booking> bookings = beautyDAO.getBookings();
 			request.setAttribute("bookings", bookings);
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}	
+	
+	private void getPages(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		try {
+			BeautyDAO beautyDAO = new BeautyDAOImpl();
+			List<Page> pages = beautyDAO.getPages();
+			request.setAttribute("pages", pages);
 
 		} catch (Exception e) {
 			System.out.println(e);
