@@ -48,7 +48,7 @@
 		<% } %>	
 	
 	
-		<table class="table table-bordered table-hover">
+		<table class="table table-bordered table-hover" data-order='[[ 1, "desc" ]]' data-page-length='25'>
 			<thead>
 				<tr>
 					<td>Status</td>
@@ -89,6 +89,23 @@
 	
 </div>
 
+<script>
+$(document).ready( function () {
+	$('table').dataTable({
+		  "columnDefs": [{
+		      "targets": 8,
+		      "orderable": false
+		    }],
+/* 	       dom: 'Bfrtip',
+	       buttons: [
+	          'pdf',
+	          'print'
+		    ] */
+		} );
+});
+
+
+</script>
 
 </body>
 </html>
