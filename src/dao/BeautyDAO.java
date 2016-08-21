@@ -66,5 +66,8 @@ public interface BeautyDAO {
 	public int getTotal(String table);
 
 	public List<Page> getPages();
+	public void addPage(Page page);
+	public void updatePage(Page page);
+	public Page getPageById(int id);
 	
 }

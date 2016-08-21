@@ -168,8 +168,29 @@ public class DashboardServlet extends HttpServlet {
 					getBookings(request, response);
 					break;
 				case "pages":
+					String pageType = (String) request.getParameter("type");
+					System.out.println("The type of category action is: " + pageType);
+					if (pageType != null) {
+						switch (pageType) {
+						case "add":
+							System.out.println("Add page");
+							addPage(request, response);
+							break;
+						case "update":
+							System.out.println("Update page");
+							updatePage(request, response);
+							break;
+						}
+					}
 					url = "/jsp/admin/pages.jsp";
 					getPages(request, response);
+					break;
+				case "addPage":
+					url = "/jsp/admin/add-page.jsp";
+					break;
+				case "editPage":
+					url = "/jsp/admin/edit-page.jsp";
+					getPageById(request, response);
 					break;
 				case "employees":
 					String typeEmployee = (String) request.getParameter("type");
@@ -628,6 +649,58 @@ public class DashboardServlet extends HttpServlet {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+	}
+	
+	
+	private void addPage(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		try {
+			Page p = new Page();
+			p.setTitle(request.getParameter("title"));
+			p.setSlug(request.getParameter("slug"));
+			p.setContent(request.getParameter("content"));
+			p.setIsPublished(Integer.parseInt(request.getParameter("isPublished")));
+			
+			BeautyDAO beautyDAO = new BeautyDAOImpl();
+			beautyDAO.addPage(p);
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}	
+	
+	private void updatePage(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		try {
+			Page p = new Page();
+			p.setId(Integer.parseInt(request.getParameter("id")));
+			p.setTitle(request.getParameter("title"));
+			p.setSlug(request.getParameter("slug"));
+			p.setContent(request.getParameter("content"));
+			p.setIsPublished(Integer.parseInt(request.getParameter("isPublished")));
+			
+			System.out.println("Trying to update the page");
+			
+			BeautyDAO beautyDAO = new BeautyDAOImpl();
+			beautyDAO.updatePage(p);
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}	
+	
+	private void getPageById(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		try {
+			String id = request.getParameter("id");
+			int pageId = Integer.parseInt(id);
+			BeautyDAO beautyDAO = new BeautyDAOImpl();
+			Page page = beautyDAO.getPageById(pageId);
+			request.setAttribute("page", page);
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}	
 	
 	
@@ -762,7 +835,7 @@ public class DashboardServlet extends HttpServlet {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-	}		
+	}	
 
 
 }

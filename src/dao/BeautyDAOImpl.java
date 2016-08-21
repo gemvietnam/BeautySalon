@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -175,6 +176,98 @@ public class BeautyDAOImpl implements BeautyDAO {
 		}
 	}
 
+	public List<Page> getPages() {
+		
+		List<Page> result = new ArrayList<Page>();
+		String sql = "select * from Pages";
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			PreparedStatement statement = connection.prepareStatement(sql);
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				Page page = new Page();
+				page.setId(resultSet.getInt("id"));
+				Timestamp dateCreated = new Timestamp(resultSet.getTimestamp("created").getTime());
+				page.setCreated(dateCreated);
+				page.setSlug(resultSet.getString("slug"));
+				page.setTitle(resultSet.getString("title"));
+				page.setContent(resultSet.getString("content"));
+				page.setIsPublished(resultSet.getInt("isPublished"));
+				result.add(page);
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			closeConnection(connection);
+		}
+		return result;
+	}
+
+	public void addPage(Page page) {		
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			PreparedStatement statement = connection.prepareStatement(
+					"insert into Pages (title, slug, content, isPublished) values (?, ?, ?, ?)",
+					Statement.RETURN_GENERATED_KEYS);
+			statement.setString(1, page.getTitle());
+			statement.setString(2, page.getSlug());
+			statement.setString(3, page.getContent());
+			statement.setInt(4, page.getIsPublished());
+			statement.execute();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			closeConnection(connection);
+		}
+	}
+
+	public void updatePage(Page page) {		
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			PreparedStatement statement = connection.prepareStatement(
+					"update Pages set title=?, slug=?, content=?, isPublished=? where id=?",
+					Statement.RETURN_GENERATED_KEYS);
+			statement.setString(1, page.getTitle());
+			statement.setString(2, page.getSlug());
+			statement.setString(3, page.getContent());
+			statement.setInt(4, page.getIsPublished());
+			statement.setInt(5, page.getId());
+			statement.execute();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			closeConnection(connection);
+		}
+	}	
+	
+	public Page getPageById(int id) {
+		Page page = new Page();
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			PreparedStatement statement = connection.prepareStatement(
+					"select * from Pages where id=?",
+					Statement.RETURN_GENERATED_KEYS);
+			statement.setInt(1, id);
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				page.setId(resultSet.getInt("id"));
+				page.setTitle(resultSet.getString("title"));
+				page.setSlug(resultSet.getString("slug"));
+				page.setContent(resultSet.getString("content"));
+				page.setIsPublished(resultSet.getInt("isPublished"));
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			closeConnection(connection);
+		}
+		return page;		
+	}
+	
 	public List<Service> getServices() {
 		
 		List<Service> result = new ArrayList<Service>();
@@ -579,33 +672,6 @@ public class BeautyDAOImpl implements BeautyDAO {
 				booking.setIsActive(resultSet.getInt("Bookings.isActive"));
 				
 				result.add(booking);
-			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} finally {
-			closeConnection(connection);
-		}
-		return result;
-	}
-	
-
-	public List<Page> getPages() {
-		
-		List<Page> result = new ArrayList<Page>();
-		String sql = "select * from Pages";
-		Connection connection = null;
-		try {
-			connection = getConnection();
-			PreparedStatement statement = connection.prepareStatement(sql);
-			ResultSet resultSet = statement.executeQuery();
-			while (resultSet.next()) {
-				Page page = new Page();
-				page.setId(resultSet.getInt("id"));
-				page.setSlug(resultSet.getString("slug"));
-				page.setTitle(resultSet.getString("title"));
-				page.setContent(resultSet.getString("content"));
-				page.setIsPublished(resultSet.getInt("isPublished"));
-				result.add(page);
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();

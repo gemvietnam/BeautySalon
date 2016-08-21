@@ -1,16 +1,22 @@
 package models;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Page {
 	private int id;
-	private Date created;
+	private Timestamp created;
 	private String slug;
 	private String title;
 	private String content;
 	private int isPublished;
 	
 	
+	public Timestamp getCreated() {
+		return created;
+	}
+	public void setCreated(Timestamp created) {
+		this.created = created;
+	}
 	public int getIsPublished() {
 		return isPublished;
 	}
@@ -22,12 +28,6 @@ public class Page {
 	}
 	public void setId(int id) {
 		this.id = id;
-	}
-	public Date getCreated() {
-		return created;
-	}
-	public void setCreated(Date created) {
-		this.created = created;
 	}
 	public String getSlug() {
 		return slug;

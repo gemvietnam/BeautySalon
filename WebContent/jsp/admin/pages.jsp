@@ -1,3 +1,4 @@
+<%@page import="assets.Helpers"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@	taglib	prefix="c"	uri="http://java.sun.com/jsp/jstl/core"	%> 
@@ -21,6 +22,7 @@
 <div id="content">
 
 	<div id="content-bar">
+		<a href="?page=addPage" class="btn btn-primary pull-right">Add new page</a>
 		<div class="pull-right" style="margin-right: 50px;">
 			<div class="row">
 				<form method="post" action="admin?page=searchEmployees">
@@ -62,14 +64,14 @@
 			
 			<tbody>
 				<% for (Page currentPage : pages) { %>
-					<% String pageStatus = (currentPage.isPublished() == true) ? "published" : "draft"; %>
-					<% String pageLabel = (currentPage.isPublished() == true) ? "success" : "danger"; %>
+					<% String pageStatus = (currentPage.isPublished()) ? "published" : "draft"; %>
+					<% String pageLabel = (currentPage.isPublished()) ? "success" : "danger"; %>
 					<tr>
 						<td><span class="label label-<%= pageLabel %>"><%= pageStatus %></span></td>
-						<td>date</td>
+						<td><%= Helpers.TimestampToString(currentPage.getCreated()) %></td>
 						<td><%= currentPage.getTitle() %></td>
 						<td><%= currentPage.getSlug() %></td>
-						<td><a class="btn btn-primary btn-sm" href="?page=cancelBooking&id=<%= currentPage.getId() %>" role="button">Edit</a></td>
+						<td><a class="btn btn-primary btn-sm" href="?page=editPage&id=<%= currentPage.getId() %>" role="button">Edit</a></td>
 						<td><a class="btn btn-default btn-sm">Preview</a>
 					</tr>
 				<% } %>
