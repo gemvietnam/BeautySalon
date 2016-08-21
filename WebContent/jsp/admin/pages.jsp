@@ -14,32 +14,19 @@
 <body>
 
 <% List<Page> pages = (List<Page>) request.getAttribute("pages"); %>
-<% String keyword = (String) request.getParameter("keyword"); %>s
+<% String keyword = (String) request.getParameter("keyword"); %>
 
-<div id="navigation">
-	<%@include file="navigation.jsp" %>
+<div id="navigation">	
+<%@include file="navigation.jsp" %>
 </div>
+
 <div id="content">
 
 	<div id="content-bar">
 		<a href="?page=addPage" class="btn btn-primary pull-right">Add new page</a>
-		<div class="pull-right" style="margin-right: 50px;">
-			<div class="row">
-				<form method="post" action="admin?page=searchEmployees">
-					<div class="col-md-8" style="padding: 0px;">
-						<input type="text" class="form-control" name="keyword" placeholder="Search bookings" />
-					</div>
-					<div class="col-md-4" style="padding: 0px;">
-						<input type="submit" class="form-control btn btn-primary" value="Search" />
-					</div>
-				</form>
-			</div>
-		</div>
 		<h1>Pages</h1>
 	</div>
-	
-	
-	
+
 	<div class="app-data">
 	
 		<% if (keyword != null) { %>
@@ -49,7 +36,6 @@
 			</div>
 		<% } %>	
 	
-	
 		<table class="table table-bordered table-hover">
 			<thead>
 				<tr>
@@ -58,6 +44,7 @@
 					<td>Title</td>
 					<td>Slug</td>
 					<td>Edit</td>
+					<td>Delete</td>
 					<td>Preview</td>
 				</tr>
 			</thead>
@@ -72,18 +59,14 @@
 						<td><%= currentPage.getTitle() %></td>
 						<td><%= currentPage.getSlug() %></td>
 						<td><a class="btn btn-primary btn-sm" href="?page=editPage&id=<%= currentPage.getId() %>" role="button">Edit</a></td>
-						<td><a class="btn btn-default btn-sm">Preview</a>
+						<td><a class="btn btn-danger btn-sm" href="?page=deletePage&id=<%= currentPage.getId() %>" role="button">Delete</a></td>
+						<td><a class="btn btn-default btn-sm" href="website?page=<%= currentPage.getId() %>" target="_BLANK">Preview</a>
 					</tr>
 				<% } %>
 			</tbody>
-			
 		</table>
-	
 	</div>
-	
-	
 </div>
-
 
 </body>
 </html>

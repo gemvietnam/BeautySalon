@@ -192,6 +192,11 @@ public class DashboardServlet extends HttpServlet {
 					url = "/jsp/admin/edit-page.jsp";
 					getPageById(request, response);
 					break;
+				case "deletePage":
+					url = "/jsp/admin/pages.jsp";
+					deletePage(request, response);
+					getPages(request, response);
+					break;
 				case "employees":
 					String typeEmployee = (String) request.getParameter("type");
 					System.out.println("The type of service action is: " + typeEmployee);
@@ -683,6 +688,18 @@ public class DashboardServlet extends HttpServlet {
 			
 			BeautyDAO beautyDAO = new BeautyDAOImpl();
 			beautyDAO.updatePage(p);
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}	
+	
+	private void deletePage(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		try {
+			int pageId = Integer.parseInt(request.getParameter("id"));
+			BeautyDAO beautyDAO = new BeautyDAOImpl();
+			beautyDAO.deletePage(pageId);
 
 		} catch (Exception e) {
 			System.out.println(e);

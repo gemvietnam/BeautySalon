@@ -16,24 +16,28 @@ import models.User;
 
 public interface BeautyDAO {
 	
+	
+	// OPERATIONS ON CATEGORIES
 	public List<Category> getCategories();
 	public Category getCategoryById(int id);
 	public List<Category> searchCategories(String keyword);
+	public void addCategory(Category category);
 	public void updateCategory(Category category);
-	
-	public Service getServiceById(int id);
-	public List<Service> getServicesByCategoryId(int id);
+
+	// OPERATIONS ON SERVICES
 	public List<Service> getServices();
+	public Service getServiceById(int id);
 	public List<Service> searchServices(String keyword);
+	public void addService(Service service);
 	public void updateService(Service service);
-	
+	public void deleteService(int id);
+	public List<Service> getServicesByCategoryId(int id);
+	public boolean serviceHasEmployees(int id);
+
+	// OPERATIONS ON EMPLOYEES
 	public List<Employee> getEmployees();
 	public List<Employee> getEmployeesByServiceId(int id);
 	public List<Employee> searchEmployees(String keyword);
-
-	public void addCategory(Category category);
-	public void addService(Service service);
-	public void deleteService(int id);
 	public void addEmployee(Employee employee);
 	public void deleteEmployee(int id);
 	public void addEmployeeService(int employeeId, int serviceId);
@@ -42,34 +46,38 @@ public interface BeautyDAO {
 	public Employee getEmployeeById(int employeeId);
 	public List<Integer> getServicesByEmployeeId(int employeeId);
 	
+	// OPERATIONS ON BOOKINGS
+	public List<Booking> getBookings();
+	public List<Booking> getBookings(int employeeId);
+	public Booking getBookingById(int bookingId);	
+	public Booking addBooking(Booking booking);
+	public void cancelBooking(int bookingId);
+	public List<Time[]> getAvailableHoursByDateAndEmployee(Date date, int employeeId);
 	public void deleteRecord(int id, String tableName);
 	
+	// LOGIN OPERATIONS
 	public User getUserById(int id);
 	public User login(String email, String password);
 	
+	// OPERATIONS ON SETTINGS
 	public Setting getSettings();
 	public void saveSettings(Setting settings);
 	
-	public List<Time[]> getAvailableHoursByDateAndEmployee(Date date, int employeeId);
-	
+	// OPERATIONS ON GALLERY
+	public List<Image> getImages();
 	public void addGalleryImage(Image image);
 	public void deleteImage(int id);
 	public int getLastImageId();
-	public List<Image> getImages();
 	
-	public void addBooking(Booking booking);
-	public void cancelBooking(int bookingId);
-	public List<Booking> getBookings();
-	public List<Booking> getBookings(int employeeId);
-	
+	// DASHBOARD OPERATIONS
 	public int getTotalProfit();
 	public int getTotal(String table);
 
+	// OPERATIONS ON PAGES
 	public List<Page> getPages();
 	public void addPage(Page page);
 	public void updatePage(Page page);
+	public void deletePage(int pageId);
 	public Page getPageById(int id);
-	
-	public boolean serviceHasEmployees(int id);
 	
 }

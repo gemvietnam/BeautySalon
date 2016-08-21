@@ -2,8 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@	taglib	prefix="c"	uri="http://java.sun.com/jsp/jstl/core"	%> 
 <%@page import="java.util.List"%>
-<%@page import="models.Category"%>
-<%@page import="models.Service"%>  
+<%@page import="models.Booking"%> 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -19,26 +18,26 @@
 <%@include file="navigation.jsp" %>
 
 <% String firstName = request.getParameter("firstName"); %>
+<% Booking booking = (Booking) request.getAttribute("addedBooking"); %>
 
 <section id="treatments">
 	<div class="wrapper">
 		
-		<h2>You have booked a visit successfuly</h2>
+		<h1>You have booked a visit</h1>
 		
 		<h3>Selected treatment:</h3>
-		<c:out value="${service.name}"/>
-		<p><c:out value="${service.description}"/></p>
-		<p>Price: <c:out value="${service.price}"/> DKK</p>
-		<p>Duration: <c:out value="${service.time}"/> hours</p>
+		<h3><%= booking.getServiceName() %></h3>
+		<p>Price: <%= booking.getServicePrice() %> DKK</p>
+		<p>Duration: <%= booking.getServiceDuration() %> hours</p>
 	
 	
 		<h3>Your personal data:</h3>
 		<label>Name:</label><br/>
-		<%= request.getParameter("firstName") %> <%= request.getParameter("lastName") %><br/>
+		<%= booking.getFirstName() %> <%= booking.getLastName() %><br/>
 		<label>Email address:</label><br/>
-		<%= request.getParameter("email") %><br/>
+		<%= booking.getEmail() %><br/>
 		<label>Phone number:</label><br/>
-		<%= request.getParameter("phone") %><br/>
+		<%= booking.getPhone() %><br/>
 		
 		<h3>Cancelation of the visit can be done minimum 24 hours before the appointment. To cancel the visit please call +45 10204082.</h3>
 		

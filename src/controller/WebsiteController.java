@@ -14,6 +14,7 @@ import dao.BeautyDAOImpl;
 import models.Category;
 import models.Employee;
 import models.Image;
+import models.Page;
 import models.Service;
 import models.Setting;
 
@@ -36,7 +37,6 @@ public class WebsiteController extends HttpServlet {
 		
 		setupApplication();
 
-		
 		if (action != null) {
 			switch (action) {
 			case "category":
@@ -64,6 +64,10 @@ public class WebsiteController extends HttpServlet {
 				BeautyDAO beautyDAO = new BeautyDAOImpl();
 				List<Image> images = beautyDAO.getImages();
 				request.setAttribute("images", images);
+				break;
+			default:
+				url = "/jsp/custom-page.jsp";
+				getPageData(request, response);
 				break;
 			}
 		}
@@ -141,6 +145,19 @@ public class WebsiteController extends HttpServlet {
 			BeautyDAO beautyDAO = new BeautyDAOImpl();
 			List<Employee> employees = beautyDAO.getEmployees();
 			request.setAttribute("employees", employees);
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}	
+	
+	private void getPageData(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		try {
+			BeautyDAO beautyDAO = new BeautyDAOImpl();
+			int pageId = Integer.parseInt(request.getParameter("page"));
+			Page page = beautyDAO.getPageById(pageId);
+			request.setAttribute("customPage", page);
 
 		} catch (Exception e) {
 			System.out.println(e);

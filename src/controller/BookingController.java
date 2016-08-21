@@ -178,25 +178,18 @@ public class BookingController extends HttpServlet {
 		try {
 			
 			String date = request.getParameter("date");
-			System.out.println("Make booking with date: " + date);
-			
 			String time = request.getParameter("time");
-			System.out.println("Make booking with time: " + time);
 			
 			Booking b = new Booking();
 			b.setFirstName(request.getParameter("firstName"));
 			b.setLastName(request.getParameter("lastName"));
 			b.setEmail(request.getParameter("email"));
 			b.setPhone(request.getParameter("phone"));
-			
-			System.out.println("Gdzie jest problem, id: " + request.getParameter("employeeId"));
-			
+
 			int employeeId = Integer.parseInt(request.getParameter("employeeId"));
 			b.setEmployeeId(employeeId);
-			System.out.println("Employee id: " + employeeId);
 			int serviceId = Integer.parseInt(request.getParameter("serviceId"));
 			b.setServiceId(serviceId);
-			System.out.println("Service id: " + serviceId);
 			
 			Time hour = Time.valueOf(time);
 			b.setHour(hour);
@@ -205,9 +198,9 @@ public class BookingController extends HttpServlet {
 			b.setDate(dateConverted);
 			
 			BeautyDAO beautyDAO = new BeautyDAOImpl();
-			beautyDAO.addBooking(b);
+			Booking addedBookingData = beautyDAO.addBooking(b);
 			
-			System.out.println("Proba dodania do bazy danych");
+			request.setAttribute("addedBooking", addedBookingData);
 			
 		} catch (Exception e) {
 			System.out.println(e);

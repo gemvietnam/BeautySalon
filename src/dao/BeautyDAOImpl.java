@@ -243,6 +243,22 @@ public class BeautyDAOImpl implements BeautyDAO {
 		}
 	}	
 	
+	public void deletePage(int pageId) {		
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			PreparedStatement statement = connection.prepareStatement(
+					"delete from Pages where id=?",
+					Statement.RETURN_GENERATED_KEYS);
+			statement.setInt(1, pageId);
+			statement.execute();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			closeConnection(connection);
+		}
+	}	
+	
 	public Page getPageById(int id) {
 		Page page = new Page();
 		Connection connection = null;
@@ -709,6 +725,38 @@ public class BeautyDAOImpl implements BeautyDAO {
 		return result;
 	}
 	
+	
+	public Booking getBookingById(int id) {
+		
+		Booking booking = new Booking();
+		String sql = "select * from Bookings inner join Services on Bookings.serviceId=Services.id inner join Employees on Bookings.employeeId=Employees.id where Bookings.id=" + id;
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			PreparedStatement statement = connection.prepareStatement(sql);
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				booking.setId(resultSet.getInt("Bookings.id"));
+				booking.setDate(resultSet.getDate("date"));
+				booking.setHour(resultSet.getTime("hour"));
+				booking.setFirstName(resultSet.getString("firstName"));
+				booking.setLastName(resultSet.getString("lastName"));
+				booking.setEmail(resultSet.getString("email"));
+				booking.setPhone(resultSet.getString("phone"));
+				booking.setServiceName(resultSet.getString("Services.name"));
+				booking.setServiceDuration(resultSet.getTime("Services.time"));
+				booking.setServicePrice(resultSet.getInt("Services.price"));
+				booking.setEmployeeName(resultSet.getString("Employees.firstName") + " " + resultSet.getString("Employees.lastName"));
+				booking.setIsActive(resultSet.getInt("Bookings.isActive"));
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			closeConnection(connection);
+		}
+		return booking;
+	}
+	
 
 	public void cancelBooking(int bookingId) {		
 		Connection connection = null;
@@ -1024,7 +1072,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 		}
 	}		
 
-	public void addBooking(Booking booking) {		
+	public Booking addBooking(Booking booking) {		
 		Connection connection = null;
 		try {
 			connection = getConnection();
@@ -1046,12 +1094,15 @@ public class BeautyDAOImpl implements BeautyDAO {
 			ResultSet generatedKeys = statement.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				booking.setId(generatedKeys.getInt(1));
+				System.out.println("The booking id is: " + generatedKeys.getInt(1));
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		} finally {
 			closeConnection(connection);
 		}
+		
+		return booking;
 	}
 	
 	public List<Time[]> getAvailableHoursByDateAndEmployee(Date date, int employeeId) {		
