@@ -9,7 +9,7 @@
 <title><%= getServletContext().getAttribute("siteTitle") %> - <%= getServletContext().getAttribute("siteDescription") %></title>
 <%@include file="styles-dashboard.jsp" %>
 
-<% boolean isError = (boolean) request.getAttribute("error"); %>
+<%-- <% boolean isError = (boolean) request.getAttribute("error"); %> --%>
 </head>
 
 <body id="login">
@@ -30,11 +30,11 @@
 			</form>
 		</div>
 		
-		<% if (isError == true) { %>
+		<%-- <% if (isError == true) { %>
 			<div class="alert alert-danger" role="alert">
 				<p>You have entered wrong email and/or password. Please try again.</p>
 			</div>
-		<% } %>
+		<% } %> --%>
 
 	</div>
 </div>

@@ -37,8 +37,9 @@ public class BeautyDAOImpl implements BeautyDAO {
 	}
 
 	private Connection getConnection() throws SQLException {
-		return DriverManager.getConnection("jdbc:mysql://localhost:3306/beautySalonDB?useSSL=false",
-				"root", "root");
+//		return DriverManager.getConnection("jdbc:mysql://localhost:3306/beautySalonDB?useSSL=false",
+//				"root", "root");
+		return DriverManager.getConnection("jdbc:mysql://us-cdbr-iron-east-04.cleardb.net/ad_2902760f7e32034?user=b3d2a5634c6c8f&password=38f962a7");
 	}
 
 	private void closeConnection(Connection connection) {
