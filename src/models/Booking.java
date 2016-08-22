@@ -20,8 +20,7 @@ public class Booking {
 	private int servicePrice;
 	private int isActive;
 	
-	
-	
+
 	public int getIsActive() {
 		return isActive;
 	}
