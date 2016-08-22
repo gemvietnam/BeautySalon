@@ -54,18 +54,18 @@
 		</form> --%>
 		
 		
-		<form method="post" action="admin?page=employees">
+		<form id="form" method="post" action="admin?page=employees">
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
 						<label>First name</label>
-						<input type="text" name="firstName" class="form-control" placeholder="First name" />
+						<input type="text" name="firstName" class="form-control" placeholder="First name" minlength="2" required />
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
 						<label>Last name</label>
-						<input type="text" name="lastName" class="form-control" placeholder="Last name" />
+						<input type="text" name="lastName" class="form-control" placeholder="Last name" minlength="2" required />
 					</div>
 				</div>
 			</div>		
@@ -73,13 +73,13 @@
 				<div class="col-md-6">
 					<div class="form-group">
 						<label>Email</label>
-						<input type="text" name="email" class="form-control" placeholder="Email" />
+						<input type="text" name="email" class="form-control" placeholder="Email" required />
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
 						<label>Title</label>
-						<input type="text" name="title" class="form-control" placeholder="Title" />
+						<input type="text" name="title" class="form-control" placeholder="Title" minlength="2" required />
 					</div>
 				</div>
 			</div>		
@@ -135,6 +135,9 @@
 	
 </div>
 
+<script>
+	$("#form").validate();
+</script>
 
 </body>
 </html>

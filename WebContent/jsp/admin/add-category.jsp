@@ -24,12 +24,12 @@
 	
 	<div class="app-data">
 	
-		<form method="post" action="admin?page=categories">
+		<form method="post" action="admin?page=categories" enctype="multipart/form-data">
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
 						<label>Name</label>
-						<input type="text" name="name" class="form-control" placeholder="Name" />
+						<input type="text" name="name" class="form-control" placeholder="Name" minlength="5" required />
 					</div>
 				</div>
 				<div class="col-md-6">
@@ -42,8 +42,8 @@
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
-						<label>Image path</label>
-						<input type="text" name="picture" class="form-control" placeholder="Image path" />
+						<label>Image</label>
+						<input type="file" name="image" size="500" class="form-control"/>
 					</div>
 				</div>
 			</div>			
@@ -61,6 +61,9 @@
 	
 </div>
 
+<script>
+	$("form").validate();
+</script>
 
 </body>
 </html>

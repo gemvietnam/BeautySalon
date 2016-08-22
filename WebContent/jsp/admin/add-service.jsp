@@ -24,12 +24,12 @@
 
 	<div class="app-data">
 		
-		<form method="post" action="admin?page=treatments">
+		<form id="form" method="post" action="admin?page=treatments">
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
 						<label>Name</label>
-						<input type="text" name="name" class="form-control" placeholder="Name" />
+						<input type="text" name="name" class="form-control" placeholder="Name" minlength="2" required />
 					</div>
 				</div>
 				<div class="col-md-6">
@@ -44,7 +44,7 @@
 					<div class="form-group">
 						<label>Price</label>
 						<div class="input-group">
-					      <input type="number" name="price" class="form-control" placeholder="Price">
+					      <input type="number" name="price" class="form-control" placeholder="Price" required />
 					      <div class="input-group-addon">DKK</div>
 					    </div> 
 					</div>
@@ -53,7 +53,7 @@
 					<div class="form-group">
 						<label>Time</label>
 						<div class="input-group">
-					      <input type="time" name="time" class="form-control" value="01:00">
+					      <input type="time" name="time" class="form-control" value="01:00" required />
 					      <div class="input-group-addon">hours</div>
 					    </div> 
 					</div>
@@ -61,7 +61,7 @@
 				<div class="col-md-6">
 					<div class="form-group">
 						<label>Category</label>
-						<select name="categoryId" class="form-control">
+						<select name="categoryId" class="form-control" required>
 							<c:forEach items="${categories}" var="category">
 								<option value="<c:out value="${category.id}"/>"><c:out value="${category.name}"/></option>
 							</c:forEach>
@@ -82,6 +82,9 @@
 	
 </div>
 
+<script>
+	$("#form").validate();
+</script>
 
 </body>
 </html>

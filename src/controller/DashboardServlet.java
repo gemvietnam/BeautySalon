@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +33,7 @@ import models.Setting;
 
 
 @WebServlet("/admin")
+@MultipartConfig
 public class DashboardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -68,6 +70,13 @@ public class DashboardServlet extends HttpServlet {
 			BeautyDAO beautyDAO = new BeautyDAOImpl();
 			if (action != null) {
 				switch (action) {
+				case "addImage":
+					url = "/jsp/admin/add-image.jsp";
+					getImages(request, response);
+					String ruch = request.getParameter("action");
+					String title = request.getParameter("title");
+					System.out.println("Action: " + ruch + ", title: " + title);
+					break;
 				case "categories":
 					String type = (String) request.getParameter("type");
 					System.out.println("The type of category action is: " + type);
@@ -307,6 +316,21 @@ public class DashboardServlet extends HttpServlet {
 			System.out.println(e);
 		}
 	}
+	
+	
+	private void getImages(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		try {
+			BeautyDAO beautyDAO = new BeautyDAOImpl();
+			List<Image> images = beautyDAO.getImages();
+			request.setAttribute("images", images);
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	
 	
 	private void getDashboardStats(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {

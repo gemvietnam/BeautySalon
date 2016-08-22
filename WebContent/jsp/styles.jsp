@@ -16,4 +16,4 @@
 <script src="/BeautySalon/assets/bootstrap/jquery-3.1.0.min.js"></script>
 <script src="/BeautySalon/assets/bootstrap/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="/BeautySalon/assets/jquery-ui/jquery-ui.min.js"></script>
-
+<script src="/BeautySalon/assets/validate/dist/jquery.validate.min.js"></script>

@@ -26,12 +26,12 @@
 	
 	<div class="app-data">
 	
-		<form method="post" action="admin?page=categories">
+		<form id="form" method="post" action="admin?page=categories">
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
 						<label>Name</label>
-						<input type="text" name="name" class="form-control" placeholder="Name" value="<%= category.getName() %>" />
+						<input type="text" name="name" class="form-control" placeholder="Name" value="<%= category.getName() %>" minlength="2" required />
 					</div>
 				</div>
 				<div class="col-md-6">
@@ -64,6 +64,9 @@
 	
 </div>
 
+<script>
+	$("#form").validate();
+</script>
 
 </body>
 </html>

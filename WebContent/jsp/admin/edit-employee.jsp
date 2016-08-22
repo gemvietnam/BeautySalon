@@ -30,18 +30,18 @@
 	
 	<div class="app-data">
 		
-		<form method="post" action="admin?page=employees">
+		<form id="form" method="post" action="admin?page=employees">
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
 						<label>First name</label>
-						<input type="text" name="firstName" class="form-control" placeholder="First name" value="<%= employee.getFirstName() %>"/>
+						<input type="text" name="firstName" class="form-control" placeholder="First name" value="<%= employee.getFirstName() %>" minlength=2" required />
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
 						<label>Last name</label>
-						<input type="text" name="lastName" class="form-control" placeholder="Last name" value="<%= employee.getLastName() %>" />
+						<input type="text" name="lastName" class="form-control" placeholder="Last name" value="<%= employee.getLastName() %>" minlength="2" required />
 					</div>
 				</div>
 			</div>		
@@ -49,13 +49,13 @@
 				<div class="col-md-6">
 					<div class="form-group">
 						<label>Email</label>
-						<input type="text" name="email" class="form-control" placeholder="Email" value="<%= employee.getEmail() %>" />
+						<input type="text" name="email" class="form-control" placeholder="Email" value="<%= employee.getEmail() %>" required />
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
 						<label>Title</label>
-						<input type="text" name="title" class="form-control" placeholder="Title" value="<%= employee.getTitle() %>" />
+						<input type="text" name="title" class="form-control" placeholder="Title" value="<%= employee.getTitle() %>" minlength="2" required />
 					</div>
 				</div>
 			</div>		
@@ -82,11 +82,6 @@
 							</div>
 						</div>
 						
-						<%-- <% for (int serviceId : serviceIds) {
-							%>
-							<p>Co tam ziom <%= serviceId %></p>
-						<% } %>  --%>
-						
 						<% for (Service service : services) { %>
 							<% String isChecked = ""; %>
 							<% for (int serviceId : serviceIds) { %>
@@ -102,26 +97,7 @@
 								  </label>
 								</div>
 							</div>
-							
-							<%-- <div class="col-md-3">
-								<div class="checkbox" style="margin-bottom: 0px;">
-								  <label>
-								    <input type="checkbox" name="service" value="<%= service.getId() %>" <%= isChecked %>> <%= service.getName() %>
-								  </label>
-								</div>
-							</div> --%>
-						<% } %>
-						
-						<%-- <c:forEach items="${services}" var="service">
-							<div class="col-md-3">
-								<div class="checkbox" style="margin-bottom: 0px;">
-								  <label>
-								    <input type="checkbox" name="service" value="<c:out value="${service.id}"/>">
-								     <c:out value="${service.name}"/>
-								  </label>
-								</div>
-							</div>
-						</c:forEach> --%>
+				
 					</div>
 				</div>	
 			</div>		
@@ -144,6 +120,9 @@
 	
 </div>
 
+<script>
+	$("#form").validate();
+</script>
 
 </body>
 </html>

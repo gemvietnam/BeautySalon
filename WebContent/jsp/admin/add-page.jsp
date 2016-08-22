@@ -24,12 +24,12 @@
 
 	<div class="app-data">
 		
-		<form method="post" action="admin?page=pages">
+		<form id="form" method="post" action="admin?page=pages">
 			<div class="row">
 				<div class="col-md-9">
 					<div class="form-group">
 						<label>Title</label>
-						<input type="text" name="title" class="form-control" placeholder="Page title" />
+						<input type="text" name="title" class="form-control" placeholder="Page title" minlength="2" required />
 					</div>
 					<div class="form-group">
 						<label>Content</label>
@@ -39,7 +39,7 @@
 				<div class="col-md-3">
 					<div class="form-group">
 						<label>Slug</label>
-						<input type="text" name="slug" class="form-control" placeholder="Slug" />
+						<input type="text" name="slug" class="form-control" placeholder="Slug" minlength="2" required />
 					</div>
 					<div class="form-group">
 						<label>Published status</label>
@@ -62,6 +62,9 @@
 	
 </div>
 
+<script>
+	$("#form").validate();
+</script>
 
 </body>
 </html>

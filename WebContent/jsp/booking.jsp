@@ -43,18 +43,18 @@
 			
 				<h3>Booking data:</h3><br/><br/>
 			
-				<form method="post" action="booking?page=success">
+				<form id="bookingForm" method="post" action="booking?page=success">
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>First name</label>
-								<input type="text" name="firstName" class="form-control" placeholder="Your first name" />
+								<label for="firstName">First name</label>
+								<input type="text" id="firstName" name="firstName" class="form-control" placeholder="Your first name" minlength="2" required />
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Last name</label>
-								<input type="text" name="lastName" class="form-control" placeholder="Your last name" />
+								<input type="text" id="lastName" name="lastName" class="form-control" placeholder="Your last name" minlength="2" required/>
 							</div>
 						</div>
 					</div>
@@ -62,13 +62,13 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Email address</label>
-							    <input type="email" name="email" class="form-control" placeholder="Your email">
+							    <input type="email" name="email" class="form-control" placeholder="Your email" required />
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Phone number</label>
-								<input type="phone" name="phone" class="form-control" placeholder="Your phone number" />
+								<input type="phone" name="phone" class="form-control" placeholder="Your phone number" required />
 							</div>
 						</div>
 					</div>
@@ -101,7 +101,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<% Service service = (Service) request.getAttribute("service"); %>
-							<input id="hour" type="hidden" name="time" value="09:00" />
+							<input id="hour" type="hidden" name="time" value="09:00" required />
 							<input type="hidden" name="serviceId" value="<c:out value="${service.id}"/>">
 							<input id="duration" type="hidden" name="duration" value="<%= service.getTime() %>">
 							<input type="submit" value="Book the visit" class="btn btn-primary btn-lg" />
@@ -116,52 +116,53 @@
 
 <script>
 	
-	$(document).ready(function() {
-		
-		var tomorrow = new Date();
-		tomorrow.setDate(tomorrow.getDate() + 1);
-		tomorrow = tomorrow.toJSON().slice(0,10);
-		console.log("Tomorrow is: " + tomorrow);
-		
-		$('#datepicker').val(tomorrow);
-		
+$(document).ready(function() {
+	
+	$("#bookingForm").validate();
+	var tomorrow = new Date();
+	tomorrow.setDate(tomorrow.getDate() + 1);
+	tomorrow = tomorrow.toJSON().slice(0,10);
+	console.log("Tomorrow is: " + tomorrow);
+	
+	$('#datepicker').val(tomorrow);
+	
+	getData();
+	
+	$('#datepicker').datepicker('setDate', new Date());
+	$('#datepicker').on("change", function() {
 		getData();
+	}); 
+	$('#employeeId').on("change", function() {
+		getData();
+	}); 
+	
+	$(document).on('click', '.btn-success', function() {
+		$('#bookingHour .btn-success').removeClass('btn-selected');
+		$(this).addClass('btn-selected');
+		console.log('CLIKED TO BOOK');
+		var hour = $(this).attr('data-hour');
+		console.log('the hour is: ' + hour);
+		$('#hour').val(hour);
+	})
+	
+	function getData() {
+		var date = $('#datepicker').val();
+		var employeeId = $('#employeeId').val();
+		var duration = $('#duration').val();
 		
-		$('#datepicker').datepicker('setDate', new Date());
-		$('#datepicker').on("change", function() {
-			getData();
-		}); 
-		$('#employeeId').on("change", function() {
-			getData();
-		}); 
+		console.log("Date: " + date + " Employee id: " + employeeId);
 		
-		$(document).on('click', '.btn-success', function() {
-			$('#bookingHour .btn-success').removeClass('btn-selected');
-			$(this).addClass('btn-selected');
-			console.log('CLIKED TO BOOK');
-			var hour = $(this).attr('data-hour');
-			console.log('the hour is: ' + hour);
-			$('#hour').val(hour);
-		})
-		
-		function getData() {
-			var date = $('#datepicker').val();
-			var employeeId = $('#employeeId').val();
-			var duration = $('#duration').val();
-			
-			console.log("Date: " + date + " Employee id: " + employeeId);
-			
-			$.ajax({
-				url: 'booking',
-				method: 'post', 
-				data: {'page':'ajax', 'date': date, 'employeeId': employeeId, 'duration': duration},
-				success: function(responseText) {
-					console.log("hejka");
-					$('#bookingHour').html(responseText);
-				}
-			});
-		}
-	});	
+		$.ajax({
+			url: 'booking',
+			method: 'post', 
+			data: {'page':'ajax', 'date': date, 'employeeId': employeeId, 'duration': duration},
+			success: function(responseText) {
+				console.log("hejka");
+				$('#bookingHour').html(responseText);
+			}
+		});
+	}
+});	
 
 </script>
 

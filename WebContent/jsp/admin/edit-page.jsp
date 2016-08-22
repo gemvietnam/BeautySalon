@@ -27,12 +27,12 @@
 
 	<div class="app-data">
 		
-		<form method="post" action="admin?page=pages">
+		<form id="form" method="post" action="admin?page=pages">
 			<div class="row">
 				<div class="col-md-9">
 					<div class="form-group">
 						<label>Title</label>
-						<input type="text" name="title" class="form-control" placeholder="Page title" value="<%= editedPage.getTitle() %>"/>
+						<input type="text" name="title" class="form-control" placeholder="Page title" value="<%= editedPage.getTitle() %>" minlength="2" required />
 					</div>
 					<div class="form-group">
 						<label>Content</label>
@@ -75,6 +75,9 @@
 	
 </div>
 
+<script>
+	$("#form").validate();
+</script>
 
 </body>
 </html>

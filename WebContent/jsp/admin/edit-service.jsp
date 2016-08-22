@@ -33,7 +33,7 @@
 				<div class="col-md-6">
 					<div class="form-group">
 						<label>Name</label>
-						<input type="text" name="name" class="form-control" placeholder="Name" value="<%= service.getName() %>" />
+						<input type="text" name="name" class="form-control" placeholder="Name" value="<%= service.getName() %>" minlength="2" required />
 					</div>
 				</div>
 				<div class="col-md-6">
@@ -48,7 +48,7 @@
 					<div class="form-group">
 						<label>Price</label>
 						<div class="input-group">
-					      <input type="number" name="price" class="form-control" placeholder="Price" value="<%= service.getPrice() %>">
+					      <input type="number" name="price" class="form-control" placeholder="Price" value="<%= service.getPrice() %>" required />
 					      <div class="input-group-addon">DKK</div>
 					    </div> 
 					</div>
@@ -57,7 +57,7 @@
 					<div class="form-group">
 						<label>Time</label>
 						<div class="input-group">
-					      <input type="time" name="time" class="form-control" value="<%= service.getTime() %>">
+					      <input type="time" name="time" class="form-control" value="<%= service.getTime() %>" required />
 					      <div class="input-group-addon">hours</div>
 					    </div> 
 					</div>
@@ -65,7 +65,7 @@
 				<div class="col-md-6">
 					<div class="form-group">
 						<label>Category</label>
-						<select name="categoryId" class="form-control">
+						<select name="categoryId" class="form-control" required>
 							<% int catId = service.getCategoryId(); %>
 							<% for (Category category : categories) { 
 								String selectedText;
@@ -95,6 +95,9 @@
 	
 </div>
 
+<script>
+	$("#form").validate();
+</script>
 
 </body>
 </html>
