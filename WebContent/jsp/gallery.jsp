@@ -11,10 +11,9 @@
 <title><%= getServletContext().getAttribute("siteTitle") %> - <%= getServletContext().getAttribute("siteDescription") %></title>
 <%@include file="styles.jsp" %>
 <!-- Add fancyBox -->
-<link rel="stylesheet" href="/BeautySalon/assets/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
-<script type="text/javascript" src="/BeautySalon/assets/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-<script src="/BeautySalon/assets/masonry/masonry.pkgd.min.js"></script>
+<link rel="stylesheet" href="<%= Helpers.getBaseUrl(request) %>/assets/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="<%= Helpers.getBaseUrl(request) %>/assets/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+<script src="<%= Helpers.getBaseUrl(request) %>/assets/masonry/masonry.pkgd.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$(".fancybox").fancybox();
@@ -38,7 +37,7 @@
 				<div class="grid">
 				<% for (Image image : images) { %>
 					<div class="grid-item">
-						<a class="fancybox" rel="group" href="/BeautySalon/uploads/<%= image.getPath() %>"><img src="/BeautySalon/uploads/<%= image.getPath() %>" alt="" /></a>
+						<a class="fancybox" rel="group" href="<%= Helpers.getBaseUrl(request) %>/uploads/<%= image.getPath() %>"><img src="<%= Helpers.getBaseUrl(request) %>/uploads/<%= image.getPath() %>" alt="" /></a>
 					</div>
 				<% } %>
 				</div>
