@@ -78,9 +78,11 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group" style="margin-bottom: 0px;">
-								<label>Services</label>
+								<label>Treatments</label>
 							</div>
 						</div>
+						
+						<div class="services columns-3">
 						
 						<% for (Service service : services) { %>
 							<% String isChecked = ""; %>
@@ -90,13 +92,15 @@
 								} %>
 							<% } %> 
 							
-							<div class="col-md-3">
-								<div class="checkbox" style="margin-bottom: 0px;">
+								<div class="checkbox">
 								  <label>
 								    <input type="checkbox" name="service" value="<%= service.getId() %>" <%= isChecked %>> <%= service.getName() %>
 								  </label>
 								</div>
-							</div>
+
+							<% } %>
+						
+						</div>
 				
 					</div>
 				</div>	
