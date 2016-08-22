@@ -25,12 +25,12 @@
       </ul>
     
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="website">Home</a></li>
-        <li><a href="website?page=about">About</a></li>
-        <li><a href="website?page=treatments">Treatments</a></li>
-        <li><a href="website?page=employees">Our Staff</a></li>
-        <li><a href="website?page=gallery">Gallery</a></li>
-        <li><a href="website?page=contact">Contact</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="?page=about">About</a></li>
+        <li><a href="?page=treatments">Treatments</a></li>
+        <li><a href="?page=employees">Our Staff</a></li>
+        <li><a href="?page=gallery">Gallery</a></li>
+        <li><a href="?page=contact">Contact</a></li>
         <!-- <li><a href="website?page=treatments"><strong>Book a visit</strong></a></li> -->
         
         <!-- <li class="dropdown">

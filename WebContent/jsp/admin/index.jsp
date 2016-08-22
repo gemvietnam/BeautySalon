@@ -13,11 +13,11 @@
 	<%@include file="navigation.jsp" %>
 </div>
 
-<% int totalProfit = (int) request.getAttribute("totalProfit"); %>
-<% int totalCategories = (int) request.getAttribute("totalCategories"); %>
-<% int totalEmployees = (int) request.getAttribute("totalEmployees"); %>
-<% int totalServices = (int) request.getAttribute("totalServices"); %>
-<% int totalBookings = (int) request.getAttribute("totalBookings"); %>
+<% Integer totalProfit = (Integer) request.getAttribute("totalProfit"); %>
+<% Integer totalCategories = (Integer) request.getAttribute("totalCategories"); %>
+<% Integer totalEmployees = (Integer) request.getAttribute("totalEmployees"); %>
+<% Integer totalServices = (Integer) request.getAttribute("totalServices"); %>
+<% Integer totalBookings = (Integer) request.getAttribute("totalBookings"); %>
 
 <div id="content">
 

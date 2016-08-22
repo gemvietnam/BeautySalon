@@ -6,10 +6,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><%= getServletContext().getAttribute("siteTitle") %> - <%= getServletContext().getAttribute("siteDescription") %></title>
+<title>Login to the dashboard - Prettier CMS</title>
 <%@include file="styles-dashboard.jsp" %>
 
-<%-- <% boolean isError = (boolean) request.getAttribute("error"); %> --%>
+<% Boolean isError = (Boolean) request.getAttribute("isError"); %>
 </head>
 
 <body id="login">
@@ -30,11 +30,11 @@
 			</form>
 		</div>
 		
-		<%-- <% if (isError == true) { %>
+		<% if (isError == true) { %>
 			<div class="alert alert-danger" role="alert">
 				<p>You have entered wrong email and/or password. Please try again.</p>
 			</div>
-		<% } %> --%>
+		<% } %>
 
 	</div>
 </div>

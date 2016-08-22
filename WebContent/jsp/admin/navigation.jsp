@@ -2,7 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@page import="models.User"%>  
 
-<%-- <% User user = (User) session.getAttribute("user"); %> --%>
+<% 
+User user = new User();
+user.setFirstName("");
+user.setLastName("");
+if (session.getAttribute("user") != null) {
+	user = (User) session.getAttribute("user");
+}
+%>
 
 <div class="title">
 	<h4>Avanti Beauty Salon</h4>
@@ -13,14 +20,13 @@
 <ul>
 	<li class="user"><div class="dropdown">
 			  <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-			  	<i class="fa fa-user"></i> Hello, Jagoda Przybyla
-			    <%-- <%= user.getFirstName() %> <%= user.getLastName() %> --%>
+			  	<i class="fa fa-user"></i> Hello, <%= user.getFirstName() %> <%= user.getLastName() %>
 			    <span class="caret pull-right"></span>
 			  </a>
-			  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-			    <li><a href="#">Edit profile</a></li>
-			    <li role="separator" class="divider"></li>
-			    <li><form method="post" action="login"><input type="submit" value="Logout"/></form></li>
+			  <ul class="dropdown-menu logout" aria-labelledby="dropdownMenu1">
+			    <!-- <li><a href="#">Edit profile</a></li>
+			    <li role="separator" class="divider"></li> -->
+			    <li><form method="post" action="login?action=logout"><input type="submit" value="Logout"/></form></li>
 			  </ul>
 			</div></li>
 	<li><a href="admin?"><i class="fa fa-dashboard"></i> Dashboard</a></li>

@@ -1262,6 +1262,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 					user.setEmail(resultSet.getString("email"));
 					user.setFirstName(resultSet.getString("firstName"));
 					user.setLastName(resultSet.getString("lastName"));
+					user.setId(resultSet.getInt("id"));
 					System.out.println("Got the user: " + user.getEmail() + " " + user.getFirstName() + " " + user.getLastName());
 				}
 				

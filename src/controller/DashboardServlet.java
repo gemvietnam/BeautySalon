@@ -30,6 +30,7 @@ import models.Image;
 import models.Page;
 import models.Service;
 import models.Setting;
+import models.User;
 
 
 @WebServlet("/admin")
@@ -47,244 +48,245 @@ public class DashboardServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("page");
+		action = (action == null) ? "default" : action;
 		String url = "/jsp/admin/index.jsp";	
 		
 		System.out.println("Check if logged in");
-		
 		HttpSession session = request.getSession();
-		boolean isLoggedIn = false;
+		System.out.println("The session login content: " + session.getAttribute("isLoggedIn"));
+		
+		Boolean isLoggedIn = false;
 		
 		if (session.getAttribute("isLoggedIn") != null) {
-			isLoggedIn = (boolean) session.getAttribute("isLoggedIn");	
+			isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
 		}
-		
-		System.out.println("Our booolean is: " + session.getAttribute("isLoggedIn"));
 		
 		if (isLoggedIn == false) {
 			System.out.println("The user is not logged in, redirect to login screen");
-			request.setAttribute("error", false);
+			request.setAttribute("isError", false);
 			url = "/jsp/login.jsp";
 		}
 		else {
 			System.out.println("The user is logged in");
 			BeautyDAO beautyDAO = new BeautyDAOImpl();
-			if (action != null) {
-				switch (action) {
-				case "addImage":
-					url = "/jsp/admin/add-image.jsp";
-					getImages(request, response);
-					String ruch = request.getParameter("action");
-					String title = request.getParameter("title");
-					System.out.println("Action: " + ruch + ", title: " + title);
-					break;
-				case "categories":
-					String type = (String) request.getParameter("type");
-					System.out.println("The type of category action is: " + type);
-					if (type != null) {
-						switch (type) {
-						case "add":
-							System.out.println("Add category");
-							addCategory(request, response);
-							break;
-						case "update":
-							System.out.println("Update category");
-							updateCategory(request, response);
-							break;
-						}
-					}
-					url = "/jsp/admin/categories.jsp";
-					getCategories(request, response);
-					break;
-				case "searchCategories":
-					url = "/jsp/admin/categories.jsp";
-					searchCategories(request, response);
-					break;
-				case "addCategory":
-					url = "/jsp/admin/add-category.jsp";
-					break;
-				case "editCategory":
-					url = "/jsp/admin/edit-category.jsp";
-					getCategoryById(request, response);
-					break;
-				case "delete":
-					System.out.println("Wer are deleting the record now");
-					deleteRecord(request, response);
-					String page = request.getParameter("table");
-					url = "/jsp/admin/" + page.toLowerCase() + ".jsp";
-					switch (page) {
-					case "Services":
-						getServices(request, response);
+			User user = (User) session.getAttribute("user");
+			request.setAttribute("user", user);
+			switch (action) {
+			case "addImage":
+				url = "/jsp/admin/add-image.jsp";
+				getImages(request, response);
+				String ruch = request.getParameter("action");
+				String title = request.getParameter("title");
+				System.out.println("Action: " + ruch + ", title: " + title);
+				break;
+			case "categories":
+				String type = (String) request.getParameter("type");
+				System.out.println("The type of category action is: " + type);
+				if (type != null) {
+					switch (type) {
+					case "add":
+						System.out.println("Add category");
+						addCategory(request, response);
 						break;
-					case "Categories":
-						getCategories(request, response);
-						break;
-					case "Employees":
-						getEmployees(request, response);
+					case "update":
+						System.out.println("Update category");
+						updateCategory(request, response);
 						break;
 					}
-					break;	
-				case "deleteEmployee":
-					url = "/jsp/admin/employees.jsp";
-					int employeeId = Integer.parseInt(request.getParameter("id"));
-					beautyDAO.deleteEmployee(employeeId);
-					getEmployees(request, response);
-					break;
-				case "treatments":
-					String typeAction = (String) request.getParameter("type");
-					System.out.println("The type of service action is: " + typeAction);
-					if (typeAction != null) {
-						switch (typeAction) {
-						case "add":
-							System.out.println("Add service");
-							addService(request, response);
-							break;
-						case "update":
-							System.out.println("Update service");
-							updateService(request, response);
-							break;
-						}
-					}
-					url = "/jsp/admin/services.jsp";
+				}
+				url = "/jsp/admin/categories.jsp";
+				getCategories(request, response);
+				break;
+			case "searchCategories":
+				url = "/jsp/admin/categories.jsp";
+				searchCategories(request, response);
+				break;
+			case "addCategory":
+				url = "/jsp/admin/add-category.jsp";
+				break;
+			case "editCategory":
+				url = "/jsp/admin/edit-category.jsp";
+				getCategoryById(request, response);
+				break;
+			case "delete":
+				System.out.println("Wer are deleting the record now");
+				deleteRecord(request, response);
+				String page = request.getParameter("table");
+				url = "/jsp/admin/" + page.toLowerCase() + ".jsp";
+				switch (page) {
+				case "Services":
 					getServices(request, response);
 					break;
-				case "searchTreatments":
-					url = "/jsp/admin/services.jsp";
-					searchServices(request, response);
-					break;
-				case "addTreatment":
-					url = "/jsp/admin/add-service.jsp";
+				case "Categories":
 					getCategories(request, response);
 					break;
-				case "editTreatment":
-					url = "/jsp/admin/edit-service.jsp";
-					getServiceById(request, response);
-					getCategories(request, response);
-					break;
-				case "deleteService":
-					int serviceId = Integer.parseInt(request.getParameter("id"));
-					beautyDAO.deleteService(serviceId);
-					url = "/jsp/admin/services.jsp";
-					getServices(request, response);
-					break;
-				case "bookings":
-					url = "/jsp/admin/bookings.jsp";
-					getBookings(request, response);
-					break;
-				case "cancelBooking":
-					int bookingId = Integer.parseInt(request.getParameter("id"));
-					beautyDAO.cancelBooking(bookingId);
-					url = "/jsp/admin/bookings.jsp";
-					getBookings(request, response);
-					break;
-				case "pages":
-					String pageType = (String) request.getParameter("type");
-					System.out.println("The type of category action is: " + pageType);
-					if (pageType != null) {
-						switch (pageType) {
-						case "add":
-							System.out.println("Add page");
-							addPage(request, response);
-							break;
-						case "update":
-							System.out.println("Update page");
-							updatePage(request, response);
-							break;
-						}
-					}
-					url = "/jsp/admin/pages.jsp";
-					getPages(request, response);
-					break;
-				case "addPage":
-					url = "/jsp/admin/add-page.jsp";
-					break;
-				case "editPage":
-					url = "/jsp/admin/edit-page.jsp";
-					getPageById(request, response);
-					break;
-				case "deletePage":
-					url = "/jsp/admin/pages.jsp";
-					deletePage(request, response);
-					getPages(request, response);
-					break;
-				case "employees":
-					String typeEmployee = (String) request.getParameter("type");
-					System.out.println("The type of service action is: " + typeEmployee);
-					if (typeEmployee != null) {
-						switch (typeEmployee) {
-						case "add":
-							System.out.println("Add employee");
-							addEmployee(request, response);
-							break;
-						case "update":
-							System.out.println("Update employee");
-							updateEmployee(request, response);
-							break;
-						}
-					}
-					url = "/jsp/admin/employees.jsp";
+				case "Employees":
 					getEmployees(request, response);
-					break;
-				case "searchEmployees":
-					url = "/jsp/admin/employees.jsp";
-					searchEmployees(request, response);
-					break;
-				case "addEmployee":
-					getServices(request, response);
-					url = "/jsp/admin/add-employee.jsp";
-					break;
-				case "editEmployee":
-					url = "/jsp/admin/edit-employee.jsp";
-					getEmployeeById(request, response);
-					getServices(request, response);
-					getServicesByEmployeeId(request, response);
-					break;
-				case "settings":
-					url = "/jsp/admin/settings.jsp";
-					getSettings(request, response);
-					break;
-				case "saveSettings":
-					url = "/jsp/admin/settings.jsp";
-					System.out.println("Attempting to save settings");
-					saveSettings(request, response);
-					System.out.println("Getting the settings back");
-					getSettings(request, response);
-					break;
-				case "schedule":
-					url = "/jsp/admin/schedule.jsp";
-					getEmployees(request, response);
-					if (request.getParameter("employeeId") != null) {
-						getSchedule(request, response);
-						url = "/jsp/admin/render-schedule.jsp";
-					}
-					break;
-				case "images":
-					url = "/jsp/admin/fileupload.jsp";
-					List<Image> images = beautyDAO.getImages();
-					request.setAttribute("images", images);
-					String akcja = (String) request.getParameter("action");
-					String delete = (String) request.getParameter("delete");
-					System.out.println("ackaj is: " + akcja);
-					
-					if (akcja != null) {
-						System.out.println("Add image to database");
-						addImageToDb(request, response);
-						System.out.println("IMAGE ADDED");
-						List<Image> imagesUpdated = beautyDAO.getImages();
-						request.setAttribute("images", imagesUpdated);
-					}
-					
-					if (delete != null) {
-						System.out.println("Delete the image from database");
-						deleteImage(request, response);
-					}
-					
 					break;
 				}
-			}
-			else {
+				break;	
+			case "deleteEmployee":
+				url = "/jsp/admin/employees.jsp";
+				int employeeId = Integer.parseInt(request.getParameter("id"));
+				beautyDAO.deleteEmployee(employeeId);
+				getEmployees(request, response);
+				break;
+			case "treatments":
+				String typeAction = (String) request.getParameter("type");
+				System.out.println("The type of service action is: " + typeAction);
+				if (typeAction != null) {
+					switch (typeAction) {
+					case "add":
+						System.out.println("Add service");
+						addService(request, response);
+						break;
+					case "update":
+						System.out.println("Update service");
+						updateService(request, response);
+						break;
+					}
+				}
+				url = "/jsp/admin/services.jsp";
+				getServices(request, response);
+				break;
+			case "searchTreatments":
+				url = "/jsp/admin/services.jsp";
+				searchServices(request, response);
+				break;
+			case "addTreatment":
+				url = "/jsp/admin/add-service.jsp";
+				getCategories(request, response);
+				break;
+			case "editTreatment":
+				url = "/jsp/admin/edit-service.jsp";
+				getServiceById(request, response);
+				getCategories(request, response);
+				break;
+			case "deleteService":
+				int serviceId = Integer.parseInt(request.getParameter("id"));
+				beautyDAO.deleteService(serviceId);
+				url = "/jsp/admin/services.jsp";
+				getServices(request, response);
+				break;
+			case "bookings":
+				url = "/jsp/admin/bookings.jsp";
+				getBookings(request, response);
+				break;
+			case "cancelBooking":
+				int bookingId = Integer.parseInt(request.getParameter("id"));
+				beautyDAO.cancelBooking(bookingId);
+				url = "/jsp/admin/bookings.jsp";
+				getBookings(request, response);
+				break;
+			case "pages":
+				String pageType = (String) request.getParameter("type");
+				System.out.println("The type of category action is: " + pageType);
+				if (pageType != null) {
+					switch (pageType) {
+					case "add":
+						System.out.println("Add page");
+						addPage(request, response);
+						break;
+					case "update":
+						System.out.println("Update page");
+						updatePage(request, response);
+						break;
+					}
+				}
+				url = "/jsp/admin/pages.jsp";
+				getPages(request, response);
+				break;
+			case "addPage":
+				url = "/jsp/admin/add-page.jsp";
+				break;
+			case "editPage":
+				url = "/jsp/admin/edit-page.jsp";
+				getPageById(request, response);
+				break;
+			case "deletePage":
+				url = "/jsp/admin/pages.jsp";
+				deletePage(request, response);
+				getPages(request, response);
+				break;
+			case "employees":
+				String typeEmployee = (String) request.getParameter("type");
+				System.out.println("The type of service action is: " + typeEmployee);
+				if (typeEmployee != null) {
+					switch (typeEmployee) {
+					case "add":
+						System.out.println("Add employee");
+						addEmployee(request, response);
+						break;
+					case "update":
+						System.out.println("Update employee");
+						updateEmployee(request, response);
+						break;
+					}
+				}
+				url = "/jsp/admin/employees.jsp";
+				getEmployees(request, response);
+				break;
+			case "searchEmployees":
+				url = "/jsp/admin/employees.jsp";
+				searchEmployees(request, response);
+				break;
+			case "addEmployee":
+				getServices(request, response);
+				url = "/jsp/admin/add-employee.jsp";
+				break;
+			case "editEmployee":
+				url = "/jsp/admin/edit-employee.jsp";
+				getEmployeeById(request, response);
+				getServices(request, response);
+				getServicesByEmployeeId(request, response);
+				break;
+			case "settings":
+				url = "/jsp/admin/settings.jsp";
+				getSettings(request, response);
+				break;
+			case "saveSettings":
+				url = "/jsp/admin/settings.jsp";
+				System.out.println("Attempting to save settings");
+				saveSettings(request, response);
+				System.out.println("Getting the settings back");
+				getSettings(request, response);
+				break;
+			case "schedule":
+				url = "/jsp/admin/schedule.jsp";
+				getEmployees(request, response);
+				if (request.getParameter("employeeId") != null) {
+					getSchedule(request, response);
+					url = "/jsp/admin/render-schedule.jsp";
+				}
+				break;
+			case "images":
+				url = "/jsp/admin/fileupload.jsp";
+				List<Image> images = beautyDAO.getImages();
+				request.setAttribute("images", images);
+				String akcja = (String) request.getParameter("action");
+				String delete = (String) request.getParameter("delete");
+				System.out.println("ackaj is: " + akcja);
+				
+				if (akcja != null) {
+					System.out.println("Add image to database");
+					addImageToDb(request, response);
+					System.out.println("IMAGE ADDED");
+					List<Image> imagesUpdated = beautyDAO.getImages();
+					request.setAttribute("images", imagesUpdated);
+				}
+				
+				if (delete != null) {
+					System.out.println("Delete the image from database");
+					deleteImage(request, response);
+				}
+				
+				break;
+			default:
+				System.out.println("Getting dashboard stats");
 				getDashboardStats(request, response);
 				getCategories(request, response);
-			}			
+				break;
+			}		
 		}
 		
 		getServletContext().getRequestDispatcher(url).forward(request, response);
