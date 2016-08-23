@@ -122,6 +122,7 @@
 			<div class="row" style="margin-top: 20px;">
 				<div class="col-md-12">
 					<div class="form-group">
+						<input type="hidden" name="type" value="add" class="btn btn-primary" />
 						<input type="submit" value="Add employee" class="btn btn-primary" />
 					</div>
 				</div>
