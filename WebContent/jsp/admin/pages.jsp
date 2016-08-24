@@ -60,7 +60,7 @@
 						<td><%= currentPage.getSlug() %></td>
 						<td><a class="btn btn-primary btn-sm" href="?page=editPage&id=<%= currentPage.getId() %>" role="button">Edit</a></td>
 						<td><a class="btn btn-danger btn-sm" href="?page=deletePage&id=<%= currentPage.getId() %>" role="button">Delete</a></td>
-						<td><a class="btn btn-default btn-sm" href="website?page=<%= currentPage.getId() %>" target="_BLANK">Preview</a>
+						<td><a class="btn btn-default btn-sm" href="<%= Helpers.getBaseUrl(request) %>/?page=<%= currentPage.getId() %>" target="_BLANK">Preview</a>
 					</tr>
 				<% } %>
 			</tbody>
