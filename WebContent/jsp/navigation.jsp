@@ -25,7 +25,7 @@
       </ul>
     
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="/">Home</a></li>
+        <li><a href="<%= Helpers.getBaseUrl(request) %>/">Home</a></li>
         <li><a href="?page=about">About</a></li>
         <li><a href="?page=treatments">Treatments</a></li>
         <li><a href="?page=employees">Our Staff</a></li>
