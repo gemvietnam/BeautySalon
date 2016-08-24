@@ -1141,6 +1141,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 	public void addGalleryImage(Image image) {		
 		Connection connection = null;
 		try {
+			System.out.println("Trying to add record to gallery db");
 			connection = getConnection();
 			PreparedStatement statement = connection.prepareStatement(
 					"insert into Images (path) values (?)",
@@ -1148,6 +1149,8 @@ public class BeautyDAOImpl implements BeautyDAO {
 			statement.setString(1, image.getPath());
 
 			statement.execute();
+			
+			System.out.println("Done");
 			ResultSet generatedKeys = statement.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				image.setId(generatedKeys.getInt(1));

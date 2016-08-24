@@ -124,7 +124,7 @@ public class FileLoader extends HttpServlet
 	    	            item.write(file);
 	    	            success = "File created successfully";
 	    	            request.setAttribute("title", success);
-	    	            request.getRequestDispatcher("jsp/admin/fileupload.jsp").include(request, response);
+	    	            request.getRequestDispatcher("jsp/admin/index.jsp").include(request, response);
 	    	            
 //	    	            getServletContext().getRequestDispatcher("/jsp/admin/fileupload.jsp").forward(request, response);
 	    	            System.out.println("File created successfully");

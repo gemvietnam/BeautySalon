@@ -34,13 +34,35 @@ import models.User;
 
 
 @WebServlet("/admin")
-@MultipartConfig
+//@MultipartConfig
 public class DashboardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	private File file;
+	//private File uploadDir = new File("/Users/Dora/Tuk");
+	//private File tmp = new File("/Users/Dora/Tam");
+	//private File uploadDir = new File("/Users/Dora/Documents/EclipseWorkspace/NewLibraryV3Web/WebContent/resources");	
+	private File uploadDir;
+	private String filePath;
+	private String myWebDir;
+	private int maxFileSize = 256 * 1024;
+	private int maxMemSize = 4 * 1024;
+	String success = new String();
+	
     public DashboardServlet() {
         super();
     }
+    
+    public void init( )
+    {
+        // Get the file storage location from web.xml
+        filePath = getServletContext().getInitParameter("file-upload"); 
+        myWebDir = getServletContext().getRealPath("/");
+//        System.out.println("MY WEB DIRECTORY " + myWebDir);
+        uploadDir = new File( myWebDir + "/uploads");
+//        System.out.println("UPLOAD DIRECTORY" + uploadDir);
+//        System.out.println("FILE PATH" + filePath);
+    }   
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
@@ -72,13 +94,13 @@ public class DashboardServlet extends HttpServlet {
 			User user = (User) session.getAttribute("user");
 			request.setAttribute("user", user);
 			switch (action) {
-			case "addImage":
-				url = "/jsp/admin/add-image.jsp";
-				getImages(request, response);
-				String ruch = request.getParameter("action");
-				String title = request.getParameter("title");
-				System.out.println("Action: " + ruch + ", title: " + title);
-				break;
+//			case "addImage":
+//				url = "/jsp/admin/add-image.jsp";
+//				getImages(request, response);
+//				String ruch = request.getParameter("action");
+//				String title = request.getParameter("title");
+//				System.out.println("Action: " + ruch + ", title: " + title);
+//				break;
 			case "categories":
 				String type = (String) request.getParameter("type");
 				System.out.println("The type of category action is: " + type);
@@ -358,78 +380,69 @@ public class DashboardServlet extends HttpServlet {
 	
 	private void addImageToDb(HttpServletRequest request,
 			HttpServletResponse response) {
-		// Commons file upload classes are specifically instantiated
-				FileItemFactory factory = new DiskFileItemFactory();
-			 
-				ServletFileUpload upload = new ServletFileUpload(factory);
-				ServletOutputStream out = null;
-				
-				System.out.println("Attempting to try to upload the file.");
-			 
-				try {
-					// Parse the incoming HTTP request
-					// Commons takes over incoming request at this point
-					// Get an iterator for all the data that was sent
-					List items = upload.parseRequest(request);
-					Iterator iter = items.iterator();
-			 
-					System.out.println("JEstesmy w try clause");
-//					// Set a response content type
-					response.setContentType("text/html");
-//			 
-//					// Setup the output stream for the return XML data
-//					out = response.getOutputStream();
-			 
-					// Iterate through the incoming request data
-					while (iter.hasNext()) {
-						// Get the current item in the iteration
-						FileItem item = (FileItem) iter.next();
-						System.out.println("JEstesmy w ITER clause");
-			 
-						// If the current item is an HTML form field
-						if (item.isFormField()) {
-							// Return an XML node with the field name and value
-//							out.println("this is a form data " + item.getFieldName() + "<br>");
-//			 
-							// If the current item is file data
-						} else {
-							// Specify where on disk to write the file
-							// Using a servlet init param to specify location on disk
-							// Write the file data to disk
-							// TODO: Place restrictions on upload data
-							
-							BeautyDAO beautyDAO = new BeautyDAOImpl();
-							int lastId = beautyDAO.getLastImageId();
-							int thisId = lastId + 1;
-							
-							String uploadPath = getServletContext().getRealPath("") + "uploads";
-							System.out.println("UPLOAD PATH IS: " + uploadPath);
-							String fileName = new File(item.getName()).getName();
-							fileName = String.valueOf(thisId) + fileName;
-							String filePath = uploadPath + File.separator + fileName;
-							System.out.println("FILE PATH IS: " + filePath);
-							File disk = new File(filePath);
-							item.write(disk);
-			 
-							Image uploadedImage = new Image();
-							uploadedImage.setPath(fileName);
-							
-							beautyDAO.addGalleryImage(uploadedImage);
-						}
-					}
-			 
-					// Close off the response XML data and stream
-			 
-//					out.close();
-					// Rudimentary handling of any exceptions
-					// TODO: Something useful if an error occurs
-				} catch (FileUploadException fue) {
-					fue.printStackTrace();
-				} catch (IOException ioe) {
-					ioe.printStackTrace();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+		
+		// Check for a file upload request
+		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+		if(!isMultipart)	
+		{
+//			out.println("Nothing to upload");
+	    	   	return; 
+	    	}
+	     
+	    // Configure the environment
+		DiskFileItemFactory factory = new DiskFileItemFactory();
+	    // max memory size
+	    factory.setSizeThreshold(maxMemSize);
+	    // location for storage larger than maxMemSize 
+	    factory.setRepository(uploadDir);
+
+	    // Create a new file upload handler
+	    //FileItemFactory itemFactory = new DiskFileItemFactory();
+	    ServletFileUpload upload = new ServletFileUpload(factory);
+	    // max file size 
+	    upload.setSizeMax(maxFileSize);
+	    
+	      // Parse the request to get file items.
+	      try
+	      {
+	    		List<FileItem>  items = upload.parseRequest(request);
+	    		for(FileItem item:items)
+	    		{ 
+	    			//if ( !item.isFormField () )	
+	    	         {
+	    	            // Get file parameters
+	    	            String fieldName = item.getFieldName();
+	    	            String fileName = item.getName();
+	    	            String contentType = item.getContentType();
+	    	            boolean isInMemory = item.isInMemory();
+	    	            long sizeInBytes = item.getSize();
+	    	            System.out.println(fileName);
+	    	            
+	    	            // Write the file	    	            
+	    	            //file = File.createTempFile("img",".png",uploadDir);
+	    	            file = new File(uploadDir,fileName);
+	    	            item.write(file);
+	    	            success = "File created successfully";
+	    	            request.setAttribute("title", success);
+	    	            BeautyDAO beautyDAO = new BeautyDAOImpl();
+	    	            Image image = new Image();
+	    	            image.setPath(fileName);
+	    	            beautyDAO.addGalleryImage(image);
+	    	            System.out.println("File created successfully");
+	    	            request.getRequestDispatcher("jsp/admin/fileupload.jsp").include(request, response);
+	    	         
+	    	         }
+	    			}
+	      	}
+	      	catch(FileUploadException ex) 
+	    		{
+	   	      System.out.println("Upload error " + ex);
+	    		}
+	      	catch(Exception ex) 
+  			{
+	      		System.out.println("Can not save " + ex);
+  			}		
+		
 	}
 	
 
