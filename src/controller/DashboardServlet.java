@@ -373,8 +373,9 @@ public class DashboardServlet extends HttpServlet {
 					List items = upload.parseRequest(request);
 					Iterator iter = items.iterator();
 			 
+					System.out.println("JEstesmy w try clause");
 //					// Set a response content type
-//					response.setContentType("text/html");
+					response.setContentType("text/html");
 //			 
 //					// Setup the output stream for the return XML data
 //					out = response.getOutputStream();
@@ -383,6 +384,7 @@ public class DashboardServlet extends HttpServlet {
 					while (iter.hasNext()) {
 						// Get the current item in the iteration
 						FileItem item = (FileItem) iter.next();
+						System.out.println("JEstesmy w ITER clause");
 			 
 						// If the current item is an HTML form field
 						if (item.isFormField()) {

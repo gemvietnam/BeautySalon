@@ -9,6 +9,12 @@
     <param-name>siteDescription</param-name>
     <param-value>Opis strony</param-value>
   </context-param>
+  <context-param> 
+	<description>Storage location</description> 
+	<param-name>file-upload</param-name> 
+	<param-value>/BeautySalon/uploads/</param-value> 
+  </context-param>
+	
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
