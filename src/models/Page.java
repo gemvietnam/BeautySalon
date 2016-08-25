@@ -9,8 +9,29 @@ public class Page {
 	private String title;
 	private String content;
 	private int isPublished;
+	private String template;
+	private String heading;
+	private String subheading;
 	
 	
+	public String getTemplate() {
+		return template;
+	}
+	public void setTemplate(String template) {
+		this.template = template;
+	}
+	public String getHeading() {
+		return heading;
+	}
+	public void setHeading(String heading) {
+		this.heading = heading;
+	}
+	public String getSubheading() {
+		return subheading;
+	}
+	public void setSubheading(String subheading) {
+		this.subheading = subheading;
+	}
 	public Timestamp getCreated() {
 		return created;
 	}

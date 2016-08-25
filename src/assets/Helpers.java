@@ -8,6 +8,10 @@ import java.text.SimpleDateFormat;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.ibm.watson.developer_cloud.language_translation.v2.LanguageTranslation;
+import com.ibm.watson.developer_cloud.language_translation.v2.model.Language;
+import com.ibm.watson.developer_cloud.language_translation.v2.model.TranslationResult;
+
 import dao.BeautyDAO;
 import dao.BeautyDAOImpl;
 
@@ -58,6 +62,14 @@ public class Helpers {
 	             request.getServerName() + ":" + request.getServerPort() +
 	             request.getContextPath();
 	}
+	
+//	public static String Translate(String inputText, String language) {
+//		Language chosenLanguage = Language.SPANISH;
+//		LanguageTranslation service = new LanguageTranslation();
+//	    service.setUsernameAndPassword("552acf01-fdfd-45de-8353-ad7a965c24bd", "7fG1WKLcg1eP");
+//	    TranslationResult translationResult = service.translate(inputText, Language.ENGLISH, chosenLanguage).execute();
+//	    return translationResult.getFirstTranslation();
+//	}
 
 	
 }

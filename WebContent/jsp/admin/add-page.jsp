@@ -38,17 +38,22 @@ tinymce.init({
 		
 		<form id="form" method="post" action="admin?page=pages">
 			<div class="row">
-				<div class="col-md-9">
-					<div class="form-group">
-						<label>Title</label>
-						<input type="text" name="title" class="form-control" placeholder="Page title" minlength="2" required />
-					</div>
-					<div class="form-group">
-						<label>Content</label>
-						<textarea rows="20" cols="10" name="content" class="form-control"></textarea>
-					</div>
+				<div id="pageOptions" class="col-md-9">
+					<%@ include file="page-templates/standard.jspf" %>
+					<%@ include file="page-templates/treatments.jspf" %>
+					<%@ include file="page-templates/employees.jspf" %>
+					<%@ include file="page-templates/gallery.jspf" %>
 				</div>
 				<div class="col-md-3">
+					<div class="form-group">
+						<label>Template</label>
+						<select id="templateSelect" name="template" class="form-control">
+							<option value="standard">Standard</option>
+							<option value="treatments">Treatments</option>
+							<option value="employees">Employees</option>
+							<option value="gallery">Gallery</option>
+						</select>
+					</div>
 					<div class="form-group">
 						<label>Slug</label>
 						<input type="text" name="slug" class="form-control" placeholder="Slug" minlength="2" required />
@@ -75,6 +80,20 @@ tinymce.init({
 </div>
 
 <script>
+	$("#templateSelect").change(function() {
+		$(".template-options").hide();
+		var selectedTemplate = $("#templateSelect").val();
+		var targetOptionsId = "#" + selectedTemplate + "Template";
+		$(targetOptionsId).show();
+	})
+	
+	$("input").change(function() {
+		var inputName = $(this).attr("name");
+		var value = $(this).val();
+		var targetInput = "input[name=" + inputName + "]";
+		$(targetInput).val(value);
+	})
+	
 	$("#form").validate();
 </script>
 

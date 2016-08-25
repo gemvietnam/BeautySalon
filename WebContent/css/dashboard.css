@@ -278,3 +278,11 @@ img {
 	font-size: 22px;
 	color: #666;
 }
+
+.template-options {
+	display: none;
+}
+
+#standardTemplate {
+	display: block;
+}

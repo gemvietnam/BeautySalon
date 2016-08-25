@@ -1,0 +1,22 @@
+<div id="employeesTemplate" class="template-options">
+	<div class="panel panel-info">
+	  <div class="panel-heading">Employees template</div>
+	  <div class="panel-body">
+	    <strong>Employees template</strong> allows you to display all of the employees added 
+		in the dashboard. Employees will be displayed automaticaly at this page.
+		To manage displayed data, go to <a href="?page=employees"><strong>Employees</strong></a>.
+	  </div>
+	</div>
+	<div class="form-group">
+		<label>Title</label>
+		<input type="text" name="title" class="form-control" placeholder="Page title" minlength="2" required />
+	</div>
+	<div class="form-group">
+		<label>Heading</label>
+		<input type="text" name="heading" class="form-control" placeholder="Heading" minlength="2" required />
+	</div>
+	<div class="form-group">
+		<label>Subheading</label>
+		<input type="text" name="subheading" class="form-control" placeholder="Subheading" minlength="2" required />
+	</div>
+</div>

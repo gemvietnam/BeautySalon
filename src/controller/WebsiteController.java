@@ -3,12 +3,17 @@ package controller;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.ibm.watson.developer_cloud.language_translation.v2.LanguageTranslation;
+import com.ibm.watson.developer_cloud.language_translation.v2.model.Language;
+import com.ibm.watson.developer_cloud.language_translation.v2.model.TranslationResult;
 
 import dao.BeautyDAO;
 import dao.BeautyDAOImpl;
@@ -23,7 +28,7 @@ import models.Setting;
 @WebServlet("")
 public class WebsiteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	
     public WebsiteController() {
         super();
     }
@@ -76,6 +81,7 @@ public class WebsiteController extends HttpServlet {
 				if (page.isPublished()) {
 					url = "/jsp/custom-page.jsp";
 					request.setAttribute("customPage", page);
+					getPageData(request, response);
 				}
 				else {
 					url = "/jsp/404.jsp";
@@ -90,8 +96,7 @@ public class WebsiteController extends HttpServlet {
 		getServletContext().getRequestDispatcher(url).forward(request, response);
 	}
 	
-	private void setupApplication() {
-		
+	private void setupApplication() {	
 		BeautyDAO beautyDAO = new BeautyDAOImpl();
 		Setting settings = (Setting) beautyDAO.getSettings();
 		List<String[]> pages = beautyDAO.getMenu();
@@ -109,7 +114,6 @@ public class WebsiteController extends HttpServlet {
 		getServletContext().setAttribute("pinterest", settings.getPinterest());	
 		getServletContext().setAttribute("googlePlus", settings.getGooglePlus());	
 		getServletContext().setAttribute("menu", pages);
-		
 	}
 	
 	private void getCategories(HttpServletRequest request,
@@ -171,16 +175,29 @@ public class WebsiteController extends HttpServlet {
 			int pageId = Integer.parseInt(request.getParameter("page"));
 			Page page = beautyDAO.getPageById(pageId);
 			
-			if (page.isPublished() == false) {
-				request.setAttribute("customPage", false);
+			if (page.getTemplate().equals("employees")) {
+				List<Employee> employees = beautyDAO.getEmployees();
+				request.setAttribute("employees", employees);
 			}
-			else {
-				request.setAttribute("customPage", page);
+			else if (page.getTemplate().equals("gallery")) {
+				List<Image> images = beautyDAO.getImages();
+				request.setAttribute("images", images);
+			}
+			else if (page.getTemplate().equals("treatments")) {
+				List<Category> categories = beautyDAO.getCategories();
+				request.setAttribute("categories", categories);
 			}
 
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}	
+	
+	public static String Translate(String inputText) {	
+		LanguageTranslation service = new LanguageTranslation();
+	    service.setUsernameAndPassword("552acf01-fdfd-45de-8353-ad7a965c24bd", "7fG1WKLcg1eP");
+	    TranslationResult translationResult = service.translate(inputText, Language.ENGLISH, Language.SPANISH).execute();
+	    return translationResult.getFirstTranslation();
+	}
 	
 }

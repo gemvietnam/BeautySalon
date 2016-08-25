@@ -210,13 +210,16 @@ public class BeautyDAOImpl implements BeautyDAO {
 		try {
 			connection = getConnection();
 			PreparedStatement statement = connection.prepareStatement(
-					"insert into Pages (title, slug, content, isPublished, created) values (?, ?, ?, ?, ?)",
+					"insert into Pages (title, slug, content, isPublished, created, template, heading, subheading) values (?, ?, ?, ?, ?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, page.getTitle());
 			statement.setString(2, page.getSlug());
 			statement.setString(3, page.getContent());
 			statement.setInt(4, page.getIsPublished());
 			statement.setTimestamp(5, page.getCreated());
+			statement.setString(6, page.getTemplate());
+			statement.setString(7, page.getHeading());
+			statement.setString(8, page.getSubheading());
 			statement.execute();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -277,6 +280,9 @@ public class BeautyDAOImpl implements BeautyDAO {
 				page.setSlug(resultSet.getString("slug"));
 				page.setContent(resultSet.getString("content"));
 				page.setIsPublished(resultSet.getInt("isPublished"));
+				page.setTemplate(resultSet.getString("template"));
+				page.setHeading(resultSet.getString("heading"));
+				page.setSubheading(resultSet.getString("subheading"));
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();

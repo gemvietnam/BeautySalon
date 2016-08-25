@@ -265,6 +265,9 @@ public class DashboardServlet extends HttpServlet {
 				url = "/jsp/admin/settings.jsp";
 				getSettings(request, response);
 				break;
+			case "translator":
+				url = "/jsp/admin/translator.jsp";
+				break;
 			case "saveSettings":
 				url = "/jsp/admin/settings.jsp";
 				System.out.println("Attempting to save settings");
@@ -903,6 +906,10 @@ public class DashboardServlet extends HttpServlet {
 			p.setIsPublished(Integer.parseInt(request.getParameter("isPublished")));
 			Timestamp created = new Timestamp(System.currentTimeMillis());
 			p.setCreated(created);
+			p.setHeading(request.getParameter("heading"));
+			p.setSubheading(request.getParameter("subheading"));
+			p.setTemplate(request.getParameter("template"));
+			
 			System.out.println("Page data: " + p.getTitle() + ", " + p.getSlug() + ", " + p.getContent() + " ," + p.getIsPublished() + ", " + p.getCreated());
 			
 			BeautyDAO beautyDAO = new BeautyDAOImpl();
@@ -955,7 +962,7 @@ public class DashboardServlet extends HttpServlet {
 			request.setAttribute("page", page);
 
 		} catch (Exception e) {
-			System.out.println(e);
+			System.out.println("Error: " + e);
 		}
 	}	
 	

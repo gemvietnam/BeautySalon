@@ -15,20 +15,24 @@
 
 <%@include file="navigation.jsp" %>
 <% Page customPage = (Page) request.getAttribute("customPage"); %>
+<% String template = customPage.getTemplate(); %>
+<% System.out.println("PAGE TEMPLATE IS: " + template); %>
 
-<section id="treatments">
-	<div class="wrapper">
-		<div class="row">
-			<div class="col-md-12">
-				<h1><%= customPage.getTitle() %></h1>
-				<p><%= customPage.getContent() %></p>		
-			</div>
-		</div>
-	
-	</div>
-</section>
 
-<%@include file="calltoaction.jsp" %>
+<% switch(template) { 
+	case "standard": %>
+<%@include file="page-templates/standard.jspf" %>
+<%  break; 
+	case "treatments": %>
+<%@include file="page-templates/treatments.jspf" %>
+<% break; 
+   case "employees": %>
+<%@include file="page-templates/employees.jspf" %>
+<% break;
+   case "gallery": %>
+<%@include file="page-templates/gallery.jspf" %>
+<% break;
+   } %> 
 
 <%@include file="footer.jsp" %>
 
