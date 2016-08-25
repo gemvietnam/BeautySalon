@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Bookings - Prettier CMS</title>
+<title>Pages - Prettier CMS</title>
 <%@include file="../styles-dashboard.jsp" %>
 </head>
 <body>
@@ -65,8 +65,50 @@
 				<% } %>
 			</tbody>
 		</table>
+		
+		<div class="row">
+			<div class="col-md-6">
+				<h3>Menu order</h3>
+				<ul id="sortable">
+					<% for (Page currentPage : pages) { %>
+						<li class="ui-state-default" data-pageId="<%= currentPage.getId() %>"><%= currentPage.getTitle() %></li>
+					<% } %>
+				</ul>
+				<input id="updateMenu" type="submit" value="Update menu" class="btn btn-primary" />
+			</div>
+		</div>
+		
+		
 	</div>
 </div>
+
+<script>
+$(function() {
+  $("#sortable").sortable();
+  $("#sortable").disableSelection();
+});
+
+var pagesOrder = [];
+
+$("#updateMenu").click(function() {
+	$("#sortable li").each(function(i) {
+		var id = $(this).attr("data-pageId");
+		console.log("Page id: " + id);
+		pagesOrder.push(id);
+		pagesOrder.push(i+1);
+	});
+/* 	console.log("Our array: " + pagesOrder[0].order); */
+	
+	$.ajax({
+		url: 'admin',
+		method: 'post', 
+		data: {'page':'pages', 'type': 'updateMenu', 'pagesOrder': [1,5,6,2,6,7]},
+		success: function(responseText) {
+			console.log("Menu has been updated");
+		}
+	});
+});
+</script>
 
 </body>
 </html>

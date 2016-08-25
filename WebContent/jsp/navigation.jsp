@@ -29,15 +29,9 @@
       	<li><a href="<%= getServletContext().getAttribute("instagram") %>"><i class="fa fa-instagram"></i></a></li>
       	<li><a href="<%= getServletContext().getAttribute("pinterest") %>"><i class="fa fa-pinterest"></i></a></li>
       </ul>
-      
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="?lang=en">English</a></li>
-        <li><a href="?lang=es">Spanish</a></li>
-        <li><a href="?lang=po">Portugese</a></li>
-	  </ul>	
     
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="<%= Helpers.getBaseUrl(request) %>/">Home</a></li>
+        <%-- <li><a href="<%= Helpers.getBaseUrl(request) %>/">Home</a></li> --%>
 <!--         <li><a href="?page=about">About</a></li>
         <li><a href="?page=treatments">Treatments</a></li>
         <li><a href="?page=employees">Our Staff</a></li>

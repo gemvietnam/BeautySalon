@@ -203,8 +203,9 @@ public class BookingController extends HttpServlet {
 			
 			BeautyDAO beautyDAO = new BeautyDAOImpl();
 			Booking addedBookingData = beautyDAO.addBooking(b);
-			
+			Service bookedServiceData = beautyDAO.getServiceById(serviceId);			
 			request.setAttribute("addedBooking", addedBookingData);
+			request.setAttribute("bookedService", bookedServiceData);
 			
 		} catch (Exception e) {
 			System.out.println(e);

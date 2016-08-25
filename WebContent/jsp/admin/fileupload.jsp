@@ -44,16 +44,6 @@
 		</div>
 		<br/><br/>
 		
-		<%-- <h1>New file uploader</h1>
-		<div>
-			<form action="FileLoader" method="post" enctype="multipart/form-data">
-				<input type="file" name="file" size="50" />
-				<br/>
-				<input type="submit" value="Upload File" />
-				<p>${request.getAttribute("title")}</p>
-			</form>
-		</div> --%>
-		
 		<h3>Uploaded images</h3>
 	
 		<div class="grid">

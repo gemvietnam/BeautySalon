@@ -14,6 +14,7 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="<%= Helpers.getBaseUrl(request) %>/assets/bootstrap/jquery-3.1.0.min.js"></script>
+<script src="<%= Helpers.getBaseUrl(request) %>/assets/jquery-ui/jquery-ui.min.js"></script>
 <script src="<%= Helpers.getBaseUrl(request) %>/assets/bootstrap/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="<%= Helpers.getBaseUrl(request) %>/assets/tinymce/js/tinymce/tinymce.min.js"></script>
 <script src="<%= Helpers.getBaseUrl(request) %>/assets/DataTables/datatables.min.js"></script>

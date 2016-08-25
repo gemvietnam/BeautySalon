@@ -210,6 +210,10 @@ public class DashboardServlet extends HttpServlet {
 						System.out.println("Update page");
 						updatePage(request, response);
 						break;
+					case "updateMenu":
+						System.out.println("Update menu");
+						updateMenu(request, response);
+						break;
 					}
 				}
 				url = "/jsp/admin/pages.jsp";
@@ -939,6 +943,25 @@ public class DashboardServlet extends HttpServlet {
 			System.out.println(e);
 		}
 	}	
+	
+	private void updateMenu(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		try {
+			System.out.println("Show menuorder");
+			String[] menuOrder = request.getParameterValues("pagesOrder");
+//			System.out.println("The whole array: " + menuOrder.toString());
+			
+			for (String item : menuOrder) {
+				System.out.println(item);
+			}
+			
+//			BeautyDAO beautyDAO = new BeautyDAOImpl();
+//			beautyDAO.updatePage(p);
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}		
 	
 	private void deletePage(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
