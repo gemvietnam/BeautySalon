@@ -94,6 +94,7 @@ public class WebsiteController extends HttpServlet {
 		
 		BeautyDAO beautyDAO = new BeautyDAOImpl();
 		Setting settings = (Setting) beautyDAO.getSettings();
+		List<String[]> pages = beautyDAO.getMenu();
 		
 		getServletContext().setAttribute("siteTitle", settings.getSiteTitle());
 		getServletContext().setAttribute("siteDescription", settings.getSiteDescription());
@@ -107,7 +108,7 @@ public class WebsiteController extends HttpServlet {
 		getServletContext().setAttribute("instagram", settings.getInstagram());	
 		getServletContext().setAttribute("pinterest", settings.getPinterest());	
 		getServletContext().setAttribute("googlePlus", settings.getGooglePlus());	
-		
+		getServletContext().setAttribute("menu", pages);
 		
 	}
 	

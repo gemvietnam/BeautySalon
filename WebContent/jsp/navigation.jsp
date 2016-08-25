@@ -1,6 +1,11 @@
 <%@page import="assets.Helpers"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
+    
+<% List<String[]> menu = (List<String[]>) getServletContext().getAttribute("menu"); 
+   System.out.println(menu);
+%>    
     
 <nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -32,31 +37,11 @@
         <li><a href="?page=employees">Our Staff</a></li>
         <li><a href="?page=gallery">Gallery</a></li>
         <li><a href="?page=contact">Contact</a></li>
-        <!-- <li><a href="website?page=treatments"><strong>Book a visit</strong></a></li> -->
-        
-        <!-- <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="admin">Admin panel</a></li>
-          </ul>
-        </li>
-      </ul> -->
-      
-    
-      
-      <!-- <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Login</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-          </ul>
-        </li>
-      </ul> -->
+        <% for (String[] pageData : menu) { %>
+        	<li><a href="?page=<%= pageData[0] %>"><%= pageData[1] %></a></li>
+        <% } %> 
+	  </ul>	
+
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>

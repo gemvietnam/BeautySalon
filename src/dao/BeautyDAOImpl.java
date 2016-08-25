@@ -544,6 +544,33 @@ public class BeautyDAOImpl implements BeautyDAO {
 		return setting;		
 	}	
 	
+	public List<String[]> getMenu() {
+		
+		List<String[]> pages = new ArrayList<String[]>();
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			
+			PreparedStatement statement = connection.prepareStatement(
+					"select * from Pages where isPublished=1",
+					Statement.RETURN_GENERATED_KEYS);
+			ResultSet resultSet = statement.executeQuery();
+			
+			while (resultSet.next()) {
+				String title = resultSet.getString("title");
+				String id = String.valueOf(resultSet.getString("id"));
+				String[] pageDetails = {id, title};
+				pages.add(pageDetails);
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			closeConnection(connection);
+		}
+		return pages;		
+	}		
+	
+	
 	public void saveSettings(Setting settings) {
 		
 		System.out.println("INSIDE SAVE SETTINGS FUNCTION");

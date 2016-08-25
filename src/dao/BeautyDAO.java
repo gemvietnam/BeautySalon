@@ -62,6 +62,7 @@ public interface BeautyDAO {
 	// OPERATIONS ON SETTINGS
 	public Setting getSettings();
 	public void saveSettings(Setting settings);
+	public List<String[]> getMenu();
 	
 	// OPERATIONS ON GALLERY
 	public List<Image> getImages();

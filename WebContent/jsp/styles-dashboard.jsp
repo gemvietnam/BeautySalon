@@ -18,4 +18,5 @@
 <script src="<%= Helpers.getBaseUrl(request) %>/assets/tinymce/js/tinymce/tinymce.min.js"></script>
 <script src="<%= Helpers.getBaseUrl(request) %>/assets/DataTables/datatables.min.js"></script>
 <script src="<%= Helpers.getBaseUrl(request) %>/assets/validate/dist/jquery.validate.min.js"></script>
+<script src="<%= Helpers.getBaseUrl(request) %>/assets/chartjs/chart.js"></script>
 <script src="<%= Helpers.getBaseUrl(request) %>/js/dashboard.js"></script>
