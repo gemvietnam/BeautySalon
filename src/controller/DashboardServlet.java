@@ -3,6 +3,7 @@ package controller;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -893,11 +894,16 @@ public class DashboardServlet extends HttpServlet {
 	private void addPage(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
+			
+			System.out.println("Trying to add the page");
 			Page p = new Page();
 			p.setTitle(request.getParameter("title"));
 			p.setSlug(request.getParameter("slug"));
 			p.setContent(request.getParameter("content"));
 			p.setIsPublished(Integer.parseInt(request.getParameter("isPublished")));
+			Timestamp created = new Timestamp(System.currentTimeMillis());
+			p.setCreated(created);
+			System.out.println("Page data: " + p.getTitle() + ", " + p.getSlug() + ", " + p.getContent() + " ," + p.getIsPublished() + ", " + p.getCreated());
 			
 			BeautyDAO beautyDAO = new BeautyDAOImpl();
 			beautyDAO.addPage(p);

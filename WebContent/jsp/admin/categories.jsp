@@ -26,7 +26,7 @@
 
 	<div id="content-bar">
 		<a href="?page=addCategory" class="btn btn-primary pull-right">Add new category</a>
-		<div class="pull-right" style="margin-right: 50px;">
+		<!-- <div class="pull-right" style="margin-right: 50px;">
 			<div class="row">
 				<form method="post" action="admin?page=searchCategories">
 					<div class="col-md-8" style="padding: 0px;">
@@ -37,7 +37,7 @@
 					</div>
 				</form>
 			</div>
-		</div>
+		</div> -->
 		<h1>Categories</h1>
 	</div>
 	
@@ -65,7 +65,7 @@
 		<% } %>
 		
 	
-		<table class="table table-bordered table-hover">
+		<table class="table table-bordered table-hover" data-order='[[ 1, "desc" ]]' data-page-length='25'>
 			<thead>
 				<tr>
 					<td>Name</td>
@@ -93,6 +93,15 @@
 	
 </div>
 
-
+<script>
+$(document).ready( function () {
+	$('table').dataTable({
+		  "columnDefs": [{
+		      "targets": [2, 3, 4],
+		      "orderable": false
+		    }],
+		} );
+});
+</script>
 </body>
 </html>

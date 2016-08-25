@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@	taglib	prefix="c"	uri="http://java.sun.com/jsp/jstl/core"	%> 
 <%@page import="java.util.List"%>
+<%@page import="java.sql.Time"%>
 <%@page import="models.Booking"%> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -21,7 +22,7 @@
 <div id="content">
 
 	<div id="content-bar">
-		<div class="pull-right" style="margin-right: 50px;">
+		<!-- <div class="pull-right" style="margin-right: 50px;">
 			<div class="row">
 				<form method="post" action="admin?page=searchEmployees">
 					<div class="col-md-8" style="padding: 0px;">
@@ -32,7 +33,7 @@
 					</div>
 				</form>
 			</div>
-		</div>
+		</div> -->
 		<h1>Bookings</h1>
 	</div>
 	
@@ -52,9 +53,10 @@
 			<thead>
 				<tr>
 					<td>Status</td>
-					<td>Date</td>
+					<td class="created">Created</td>
+					<td class="date">Date</td>
 					<td>Time</td>
-					<td>Employee</td>
+					<td class="employee">Employee</td>
 					<td>Treatment</td>
 					<td>Customer Name</td>
 					<td>Email</td>
@@ -70,11 +72,12 @@
 					<% String disableButton = (booking.getIsActive() == 1) ? "" : "disabled"; %>
 					<tr>
 						<td><span class="label label-<%= bookingLabel %>"><%= bookingStatus %></span></td>
-						<td><%= booking.getDate() %></td>
-						<td><%= booking.getHour() %></td>
-						<td><%= booking.getEmployeeName() %></td>
+						<td class="created"><%= Helpers.TimestampToString(booking.getCreated()) %></td>
+						<td class="date"><%= booking.getDate() %></td>
+						<td><%= Helpers.TimeToHour((Time)booking.getHour()) %></td>
+						<td class="employee"><%= booking.getEmployeeName() %></td>
 						<td><%= booking.getServiceName() %></td>
-						<td><%= booking.getFirstName() %> <%= booking.getLastName() %></td>
+						<td class="customerName"><%= booking.getFirstName() %> <%= booking.getLastName() %></td>
 						<td><%= booking.getEmail() %></td>
 						<td><%= booking.getPhone() %></td>
 						<td><a class="btn btn-danger btn-sm <%= disableButton %>" href="?page=cancelBooking&id=<%= booking.getId() %>" role="button">Cancel</a></td>
@@ -103,8 +106,6 @@ $(document).ready( function () {
 		    ] */
 		} );
 });
-
-
 </script>
 
 </body>

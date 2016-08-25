@@ -51,6 +51,18 @@
 						<textarea class="form-control" name="siteDescription" placeholder="The description that will appear in google search." rows="3"><%= settings.getSiteDescription() %></textarea>
 					</div>
 				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Logo</label>
+					<div class="col-sm-10">
+						<input type="file" name="file"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Favicon</label>
+					<div class="col-sm-10">
+						<input type="file" name="file"/>
+					</div>
+				</div>
 		  </div>
 		  <div role="tabpanel" class="tab-pane" id="contact">
 			  	<div class="form-group">

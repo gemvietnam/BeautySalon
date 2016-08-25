@@ -41,7 +41,8 @@ public class WebsiteController extends HttpServlet {
 		session.setAttribute("website", "hejka");
 		
 		setupApplication();
-
+		BeautyDAO beautyDAO = new BeautyDAOImpl();
+		
 		if (action != null) {
 			switch (action) {
 			case "category":
@@ -66,13 +67,19 @@ public class WebsiteController extends HttpServlet {
 				break;
 			case "gallery":
 				url = "/jsp/gallery.jsp";
-				BeautyDAO beautyDAO = new BeautyDAOImpl();
 				List<Image> images = beautyDAO.getImages();
 				request.setAttribute("images", images);
 				break;
 			default:
-				url = "/jsp/custom-page.jsp";
-				getPageData(request, response);
+				int pageId = Integer.parseInt(request.getParameter("page"));
+				Page page = beautyDAO.getPageById(pageId);
+				if (page.isPublished()) {
+					url = "/jsp/custom-page.jsp";
+					request.setAttribute("customPage", page);
+				}
+				else {
+					url = "/jsp/404.jsp";
+				}
 				break;
 			}
 		}
@@ -162,7 +169,13 @@ public class WebsiteController extends HttpServlet {
 			BeautyDAO beautyDAO = new BeautyDAOImpl();
 			int pageId = Integer.parseInt(request.getParameter("page"));
 			Page page = beautyDAO.getPageById(pageId);
-			request.setAttribute("customPage", page);
+			
+			if (page.isPublished() == false) {
+				request.setAttribute("customPage", false);
+			}
+			else {
+				request.setAttribute("customPage", page);
+			}
 
 		} catch (Exception e) {
 			System.out.println(e);

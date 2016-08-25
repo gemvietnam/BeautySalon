@@ -1,6 +1,7 @@
 package assets;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -23,6 +24,20 @@ public class Helpers {
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		String stringDate = dateFormat.format(date);
+		return stringDate;
+	}
+	
+	public static String TimeToHumanHour(Timestamp time) {
+		
+		DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+		String stringDate = dateFormat.format(time);
+		return stringDate;
+	}
+	
+	public static String TimeToHour(Time time) {
+		
+		DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+		String stringDate = dateFormat.format(time);
 		return stringDate;
 	}
 	

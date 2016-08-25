@@ -2,6 +2,7 @@ package models;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 
 public class Booking {
 	
@@ -19,8 +20,15 @@ public class Booking {
 	private Time serviceDuration;
 	private int servicePrice;
 	private int isActive;
+	private Timestamp created;
 	
-
+	
+	public Timestamp getCreated() {
+		return created;
+	}
+	public void setCreated(Timestamp created) {
+		this.created = created;
+	}
 	public int getIsActive() {
 		return isActive;
 	}

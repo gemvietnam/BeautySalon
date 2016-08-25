@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@	taglib	prefix="c"	uri="http://java.sun.com/jsp/jstl/core"	%> 
 <%@page import="java.util.List"%>
+<%@page import="java.sql.Time"%>
 <%@page import="models.Service"%> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -24,7 +25,7 @@
 
 	<div id="content-bar">
 		<a href="?page=addTreatment" class="btn btn-primary pull-right">Add new treatment</a>
-		<div class="pull-right" style="margin-right: 50px;">
+		<!-- <div class="pull-right" style="margin-right: 50px;">
 			<div class="row">
 				<form method="post" action="admin?page=searchTreatments">
 					<div class="col-md-8" style="padding: 0px;">
@@ -35,7 +36,7 @@
 					</div>
 				</form>
 			</div>
-		</div>
+		</div> -->
 		<h1>Treatments</h1>
 	</div>
 	
@@ -62,30 +63,30 @@
 			</div>
 		<% } %>
 	
-		<table class="table table-bordered table-hover">
+		<table class="table table-bordered table-hover" data-order='[[ 0, "asc" ]]' data-page-length='25'>
 			<thead>
 				<tr>
 					<td>Category</td>
 					<td>Name</td>
 					<td>Description</td>
-					<td>Price</td>
-					<td>Time</td>
+					<td class="price">Price</td>
+					<td>Duration</td>
 					<td>Edit</td>
 					<td>Delete</td>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${services}" var="service">
+				<% for (Service service : services) { %>
 					<tr>
-						<td><c:out value="${service.categoryName}"/></td>
-						<td><c:out value="${service.name}"/></td>
-						<td><c:out value="${service.description}"/></td>
-						<td><c:out value="${service.price}"/> DKK</td>
-						<td><c:out value="${service.time}"/> hours</td>
-						<td><a class="btn btn-primary" href="?page=editTreatment&id=<c:out value="${service.id}"/>" role="button">Edit</a></td>
-						<td><a class="btn btn-danger" href="?page=deleteService&id=<c:out value="${service.id}"/>" role="button">Delete</a></td>
+						<td><%= service.getCategoryName() %></td>
+						<td><%= service.getName() %></td>
+						<td><%= service.getDescription() %></td>
+						<td class="price"><%= service.getPrice() %> DKK</td>
+						<td><%= Helpers.TimeToHour((Time)service.getTime()) %> hours</td>
+						<td><a class="btn btn-primary" href="?page=editTreatment&id=<%= service.getId() %>" role="button">Edit</a></td>
+						<td><a class="btn btn-danger" href="?page=deleteService&id=<%= service.getId() %>" role="button">Delete</a></td>
 					</tr>
-				</c:forEach>
+				<% } %>
 			</tbody>
 		</table>
 		
@@ -94,6 +95,15 @@
 	
 </div>
 
-
+<script>
+$(document).ready( function () {
+	$('table').dataTable({
+		  "columnDefs": [{
+		      "targets": [6, 5],
+		      "orderable": false
+		    }],
+		} );
+});
+</script>
 </body>
 </html>

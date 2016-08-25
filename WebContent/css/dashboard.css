@@ -99,6 +99,26 @@ i.fa {
 	max-width: 150px;
 }
 
+.table tr td.created {
+	min-width: 85px;
+}
+
+.table tr td.date {
+	min-width: 55px;
+}
+
+.table tr td.customerName {
+	min-width: 130px;
+}
+
+.table tr td.price {
+	min-width: 55px;
+}
+
+.table tr td.firstName, .table tr td.lastName {
+	min-width: 100px;
+}
+
 img {
 	max-width: 100%;
 }

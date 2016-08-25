@@ -8,7 +8,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Add Page - Prettier CMS</title>
 <%@include file="../styles-dashboard.jsp" %>
-<script>tinymce.init({ selector:'textarea' });</script>
+<script>
+tinymce.init({
+  selector: 'textarea',  // change this value according to your HTML
+  theme: 'modern',
+  toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons',
+  menubar: false,
+  plugins: [
+      'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
+      'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+      'save table contextmenu directionality emoticons template paste textcolor'
+    ]
+});
+</script>
 </head>
 <body>
 

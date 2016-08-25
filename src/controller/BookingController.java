@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -196,6 +197,9 @@ public class BookingController extends HttpServlet {
 			
 			Date dateConverted = Date.valueOf(date);
 			b.setDate(dateConverted);
+			
+			Timestamp created = new Timestamp(System.currentTimeMillis());
+			b.setCreated(created);
 			
 			BeautyDAO beautyDAO = new BeautyDAOImpl();
 			Booking addedBookingData = beautyDAO.addBooking(b);

@@ -24,7 +24,7 @@
 
 	<div id="content-bar">
 		<a href="?page=addEmployee" class="btn btn-primary pull-right">Add new employee</a>
-		<div class="pull-right" style="margin-right: 50px;">
+		<!-- <div class="pull-right" style="margin-right: 50px;">
 			<div class="row">
 				<form method="post" action="admin?page=searchEmployees">
 					<div class="col-md-8" style="padding: 0px;">
@@ -35,7 +35,7 @@
 					</div>
 				</form>
 			</div>
-		</div>
+		</div> -->
 		<h1>Employees</h1>
 	</div>
 	
@@ -63,12 +63,12 @@
 			</div>
 		<% } %>	
 	
-		<table class="table table-bordered table-hover">
+		<table class="table table-bordered table-hover" data-order='[[ 1, "asc" ]]' data-page-length='10'>
 			<thead>
 				<tr>
 					<td>Picture</td>
-					<td>First Name</td>
-					<td>Last Name</td>
+					<td class="firstName">First Name</td>
+					<td class="lastName">Last Name</td>
 					<td>Title</td>
 					<td>Description</td>
 					<td>Edit</td>
@@ -95,6 +95,16 @@
 	
 </div>
 
+<script>
+$(document).ready( function () {
+	$('table').dataTable({
+		  "columnDefs": [{
+		      "targets": [0,5,6],
+		      "orderable": false
+		    }],
+		} );
+});
+</script>
 
 </body>
 </html>

@@ -210,12 +210,13 @@ public class BeautyDAOImpl implements BeautyDAO {
 		try {
 			connection = getConnection();
 			PreparedStatement statement = connection.prepareStatement(
-					"insert into Pages (title, slug, content, isPublished) values (?, ?, ?, ?)",
+					"insert into Pages (title, slug, content, isPublished, created) values (?, ?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, page.getTitle());
 			statement.setString(2, page.getSlug());
 			statement.setString(3, page.getContent());
 			statement.setInt(4, page.getIsPublished());
+			statement.setTimestamp(5, page.getCreated());
 			statement.execute();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -715,6 +716,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 				booking.setServicePrice(resultSet.getInt("Services.price"));
 				booking.setEmployeeName(resultSet.getString("Employees.firstName") + " " + resultSet.getString("Employees.lastName"));
 				booking.setIsActive(resultSet.getInt("Bookings.isActive"));
+				booking.setCreated(resultSet.getTimestamp("Bookings.created"));
 				
 				result.add(booking);
 			}
@@ -1078,7 +1080,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 		try {
 			connection = getConnection();
 			PreparedStatement statement = connection.prepareStatement(
-					"insert into Bookings (date, hour, employeeId, serviceId, firstName, lastName, email, phone) values (?, ?, ?, ?, ?, ?, ?, ?)",
+					"insert into Bookings (date, hour, employeeId, serviceId, firstName, lastName, email, phone, created) values (?, ?, ?, ?, ?, ?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setDate(1, booking.getDate());
 			statement.setTime(2, booking.getHour());
@@ -1088,6 +1090,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 			statement.setString(6, booking.getLastName());
 			statement.setString(7, booking.getEmail());
 			statement.setString(8, booking.getPhone());
+			statement.setTimestamp(9, booking.getCreated());
 			statement.execute();
 			
 			System.out.println("Statement executed");
