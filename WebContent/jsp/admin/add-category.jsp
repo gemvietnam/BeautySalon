@@ -24,7 +24,7 @@
 	
 	<div class="app-data">
 	
-		<form method="post" action="admin?page=categories" enctype="multipart/form-data">
+		<form method="post" action="admin?page=categories&type=add" enctype="multipart/form-data">
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">

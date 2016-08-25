@@ -30,49 +30,47 @@
 	
 	<div class="app-data">
 		
-		<form id="form" method="post" action="admin?page=employees">
+		<form id="form" method="post" action="admin?page=employees&type=update" enctype="multipart/form-data">
 			<div class="row">
 				<div class="col-md-6">
-					<div class="form-group">
-						<label>First name</label>
-						<input type="text" name="firstName" class="form-control" placeholder="First name" value="<%= employee.getFirstName() %>" minlength=2" required />
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>First name</label>
+								<input type="text" name="firstName" class="form-control" placeholder="First name" value="<%= employee.getFirstName() %>" minlength=2" required />
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Last name</label>
+								<input type="text" name="lastName" class="form-control" placeholder="Last name" value="<%= employee.getLastName() %>" minlength="2" required />
+							</div>
+						</div>
 					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label>Last name</label>
-						<input type="text" name="lastName" class="form-control" placeholder="Last name" value="<%= employee.getLastName() %>" minlength="2" required />
-					</div>
-				</div>
-			</div>		
-			<div class="row">
-				<div class="col-md-6">
 					<div class="form-group">
 						<label>Email</label>
 						<input type="text" name="email" class="form-control" placeholder="Email" value="<%= employee.getEmail() %>" required />
 					</div>
-				</div>
-				<div class="col-md-6">
 					<div class="form-group">
 						<label>Title</label>
 						<input type="text" name="title" class="form-control" placeholder="Title" value="<%= employee.getTitle() %>" minlength="2" required />
 					</div>
-				</div>
-			</div>		
-			<div class="row">
-				<div class="col-md-6">
 					<div class="form-group">
 						<label>Description</label>
-						<input type="text" name="description" class="form-control" placeholder="Description" value="<%= employee.getDescription() %>" />
+						<textarea rows="5" name="description" class="form-control"><%= employee.getDescription() %></textarea>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
-						<label>Profile picture path</label>
-						<input type="text" name="profilePicture" class="form-control" placeholder="Profile picture path" value="<%= employee.getProfilePicture() %>"/>
+						<label>Profile picture</label><br/>
+						<% if (employee.getProfilePicture() != null) { %>
+							<div class="edit-image-thumbnail imageHideable" style="background-image: url('<%= Helpers.getBaseUrl(request) %>/uploads/employees/<%= employee.getProfilePicture() %>')"></div>
+							<a id="showFileUpload" class="btn btn-danger">Remove</a>
+						<% } %><br/>
+						<input class="fileUploadHideable" type="file" name="file" size="50" style="display: none"/>
 					</div>
 				</div>
-			</div>		
+			</div>				
 			<div class="row">
 				<div class="col-md-6">
 					<div class="row">
@@ -111,6 +109,7 @@
 					<div class="form-group">
 						<input type="hidden" name="id" value="<%= employee.getId() %>" />
 						<input type="hidden" name="type" value="update" />
+						<input id="existingImagePath" type="hidden" name="existingImagePath" value="<%= employee.getProfilePicture() %>" />
 						<input type="submit" value="Update employee" class="btn btn-primary" />
 					</div>
 				</div>
@@ -126,6 +125,12 @@
 
 <script>
 	$("#form").validate();
+	$("#showFileUpload").click(function() {
+		$(this).hide();
+		$(".fileUploadHideable").show();
+		$(".imageHideable").hide();
+		$("#existingImagePath").val("newFile");
+	})
 </script>
 
 </body>

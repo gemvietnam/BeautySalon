@@ -28,14 +28,23 @@
 		<br/><br/><br/>
 		
 		<div class="row">
-			<c:forEach items="${employees}" var="employee">
-				<div class="col-md-4">
-					<img src="img/<c:out value="${employee.profilePicture}"/>" />
-					<h1><c:out value="${employee.firstName}"/> <c:out value="${employee.lastName}"/></h1>
-					<h3><c:out value="${employee.title}"/></h3>
-					<p><c:out value="${employee.description}"/></p>
-				</div>
-			</c:forEach>
+			<%-- <c:forEach items="${employees}" var="employee"> --%>
+			<% for (int i = 1; i <= employees.size(); i++) { %>
+				<% if ((i == 1) || (i % 3 == 1)) { %>
+					<div class="row">
+				<% } %>
+					<div class="col-md-4 employee-profile">
+						<div class="employee-thumbnail" style="background-image: url('<%= Helpers.getBaseUrl(request) %>/uploads/employees/<%= employees.get(i-1).getProfilePicture() %>');"></div>
+						<%-- <img src="<%= Helpers.getBaseUrl(request) %>/uploads/employees/<c:out value="${employee.profilePicture}"/>" /> --%>
+						<h1><%= employees.get(i-1).getFirstName() %> <%= employees.get(i-1).getLastName() %></h1>
+						<h3><%= employees.get(i-1).getTitle() %></h3>
+						<p><%= employees.get(i-1).getDescription() %></p>
+					</div>
+				<% if (i % 3 == 0) { %>
+					</div>
+				<% } %>
+			<% } %>
+			<%-- </c:forEach> --%>
 		</div>
 	</div>
 </section>

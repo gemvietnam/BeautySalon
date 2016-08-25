@@ -75,7 +75,10 @@ i.fa {
 }
 
 .app-data {
+	position: relative;
+	display: table;
 	padding: 30px;
+	width: 100%;
 }
 
 .alert {
@@ -90,6 +93,10 @@ i.fa {
 
 .table thead tr td {
 	font-weight: 700;
+}
+
+.table .thumbnail {
+	max-width: 150px;
 }
 
 img {
@@ -220,4 +227,34 @@ img {
 	background-color: #53586b;
 	padding: 15px 20px;
 	text-align: left;
+}
+
+.image-thumbnail {
+	background-size: cover;
+	background-position: center center;
+	width: 120px;
+	height: 120px;
+}
+
+.edit-image-thumbnail {
+	background-size: cover;
+	background-position: center center;
+	width: 100%;
+	height: 240px;
+	margin-bottom: 15px;
+}
+
+#loading {
+	width: 100%;
+	height: 70vh;
+	box-sizing: border-box;
+	background-color: #fff;
+	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+#loading i {
+	font-size: 22px;
+	color: #666;
 }

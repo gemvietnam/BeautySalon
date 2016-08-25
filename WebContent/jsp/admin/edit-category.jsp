@@ -26,33 +26,46 @@
 	
 	<div class="app-data">
 	
-		<form id="form" method="post" action="admin?page=categories">
+		<form id="form" method="post" action="admin?page=categories&type=update" enctype="multipart/form-data">
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
 						<label>Name</label>
 						<input type="text" name="name" class="form-control" placeholder="Name" value="<%= category.getName() %>" minlength="2" required />
 					</div>
+					<div class="form-group">
+						<label>Description</label>
+						<textarea name="description" class="form-control" rows="10"><%= category.getDescription() %></textarea>
+					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
-						<label>Description</label>
-						<input type="text" name="description" class="form-control" placeholder="Description"  value="<%= category.getDescription() %>"  />
+						<label>Category image</label><br/>
+						<% if (category.getPicture() != null) { %>
+							<div class="edit-image-thumbnail imageHideable" style="background-image: url('<%= Helpers.getBaseUrl(request) %>/uploads/categories/<%= category.getPicture() %>')"></div>
+							<a id="showFileUpload" class="btn btn-danger">Remove</a>
+						<% } %><br/>
+						<input class="fileUploadHideable" type="file" name="file" size="50" style="display: none"/>
 					</div>
 				</div>
 			</div>
-			<div class="row">
+			<%-- <div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
-						<label>Image path</label>
-						<input type="text" name="picture" class="form-control" placeholder="Image path"  value="<%= category.getPicture() %>"  />
+						<label>Category image</label>
+						<% if (category.getPicture() != null) { %>
+							<img class="imageHideable" src="<%= Helpers.getBaseUrl(request) %>/uploads/categories/<%= category.getPicture() %>" /><br/>
+							<a id="showFileUpload" class="btn btn-danger">Remove</a>
+						<% } %><br/>
+						<input class="fileUploadHideable" type="file" name="file" size="50" style="display: none"/>
 					</div>
 				</div>
-			</div>			
+			</div>	 --%>		
 			<div class="row">
 				<div class="col-md-12">
 					<input type="hidden" name="id" value="<%= category.getId() %>" />
 					<input type="hidden" name="type" value="update" />
+					<input id="existingImagePath" type="hidden" name="existingImagePath" value="<%= category.getPicture() %>" />
 					<input type="submit" value="Update category" class="btn btn-primary"/>
 				</div>
 			</div>
@@ -66,6 +79,12 @@
 
 <script>
 	$("#form").validate();
+	$("#showFileUpload").click(function() {
+		$(this).hide();
+		$(".fileUploadHideable").show();
+		$(".imageHideable").hide();
+		$("#existingImagePath").val("newFile");
+	})
 </script>
 
 </body>

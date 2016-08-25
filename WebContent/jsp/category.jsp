@@ -40,7 +40,7 @@
 				<a href="#" id="book-visit-link" class="book-visit">BOOK THE VISIT</a>
 			</div>
 			<div class="col-md-5">
-				<img src="img/<%= category.getPicture() %>">
+				<img src="<%= Helpers.getBaseUrl(request) %>/uploads/categories/<%= category.getPicture() %>">
 				<br/><br/>
 				
 				<h1>Book a visit online</h1>

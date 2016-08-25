@@ -47,53 +47,43 @@
 	</div>
 
 	<div class="app-data">
-	
-		<%-- <label>Select employee:</label>
-		<div class="row">
-			<div class="col-md-4">
-				<select id="employeeId" name="employeeId" class="form-control">
-					<% for (Employee employee : employees) { %>
-						<option value="<%= employee.getId() %>"><%= employee.getFirstName() %> <%= employee.getLastName() %></option> 
-					<% } %>
-				</select>
-			</div>
-		</div> --%>
-		
-		
-		<div id="responseText">
-		
-		</div>
-	
+		<div id="loading"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div>
+		<div id="responseText"></div>
 	</div>
 	
 </div>
 
 <script>
 	
-	$(document).ready(function() {
+$(document).ajaxStart(function() {
+  $("#loading").show();
+  $("#responseText").hide();
+});
+
+$(document).ajaxStop(function() {
+  $("#loading").hide();
+  $("#responseText").show();
+});	
 	
+$(document).ready(function() {
+	getData();
+	$('#employeeId').on("change", function() {
 		getData();
-
-		$('#employeeId').on("change", function() {
-			getData();
-		}); 
-		
-		function getData() {
-			var employeeId = $('#employeeId').val();
-
-			console.log("Get data for employee: #" + employeeId);
-			
-			$.ajax({
-				url: 'admin',
-				method: 'post', 
-				data: {'page':'schedule', 'employeeId': employeeId},
-				success: function(responseText) {
-					console.log("hejka");
-					$('#responseText').html(responseText);
-				}
-			});
-		}
-	});	
+	}); 
+	
+	function getData() {
+		var employeeId = $('#employeeId').val();
+		$.ajax({
+			url: 'admin',
+			method: 'post', 
+			data: {'page':'schedule', 'employeeId': employeeId},
+			success: function(responseText) {
+				console.log("hejka");
+				$('#responseText').html(responseText);
+			}
+		});
+	}
+});	
 
 </script>
 

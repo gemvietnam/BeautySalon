@@ -93,7 +93,7 @@
 			<div class="col-md-12">
 				<c:forEach items="${categories}" var="category">
 					<a href="?page=category&id=<c:out value="${category.id}"/>">
-						<div class="col-md-4 text-center treatment" style="background-image: url('img/<c:out value="${category.picture}"/>')")>
+						<div class="col-md-4 text-center treatment" style="background-image: url('<%= Helpers.getBaseUrl(request) %>/uploads/categories/<c:out value="${category.picture}"/>')")>
 							<div class="fade-effect">
 								<h2><c:out value="${category.name}"/></h2>
 							</div>

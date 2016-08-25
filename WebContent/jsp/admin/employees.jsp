@@ -78,7 +78,7 @@
 			<tbody>
 				<c:forEach items="${employees}" var="employee">
 					<tr>
-						<td><a class="thumbnail"><img src="img/<c:out value="${employee.profilePicture}"/>" /></a></td>
+						<td><div class="image-thumbnail" style="background-image: url('<%= Helpers.getBaseUrl(request) %>/uploads/employees/<c:out value="${employee.profilePicture}"/>')"></div></td>
 						<td><c:out value="${employee.firstName}"/></td>
 						<td><c:out value="${employee.lastName}"/></td>
 						<td><c:out value="${employee.title}"/></td>

@@ -54,7 +54,7 @@
 		</form> --%>
 		
 		
-		<form id="form" method="post" action="admin?page=employees">
+		<form id="form" method="post" action="admin?page=employees&type=add" enctype="multipart/form-data">
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
@@ -92,8 +92,8 @@
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
-						<label>Profile picture path</label>
-						<input type="text" name="profilePicture" class="form-control" placeholder="Profile picture path" />
+						<label>Profile picture</label>
+						<input type="file" name="file" size="50" />
 					</div>
 				</div>
 			</div>		
@@ -105,16 +105,16 @@
 								<label>Services</label>
 							</div>
 						</div>
+						<div class="services columns-3">
 						<c:forEach items="${services}" var="service">
-							<div class="col-md-3">
 								<div class="checkbox" style="margin-bottom: 0px;">
 								  <label>
 								    <input type="checkbox" name="service" value="<c:out value="${service.id}"/>">
 								     <c:out value="${service.name}"/>
 								  </label>
 								</div>
-							</div>
 						</c:forEach>
+						</div>
 					</div>
 				</div>	
 			</div>		

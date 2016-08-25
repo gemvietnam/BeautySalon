@@ -357,3 +357,33 @@ input {
 	background-color: #e2cd8f !important;
 	background-image: none;
 }
+
+.employee-thumbnail {
+	position: relative;
+	height: 400px;
+	width: 100%;
+	box-sizing: border-box;
+	background-position: center center;
+	background-size: cover;
+}
+
+.employee-profile {
+	margin-bottom: 30px;
+}
+
+.employee-profile p {
+	font-family: 'Proxima Nova';
+}
+
+.employee-profile h1 {
+	font-size: 28px;
+	margin-bottom: 15px;
+}
+
+.employee-profile h3 {
+	font-family: 'Proxima Nova';
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-size: 14px;
+	margin-bottom: 15px;
+}

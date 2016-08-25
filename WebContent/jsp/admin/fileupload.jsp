@@ -44,7 +44,7 @@
 		</div>
 		<br/><br/>
 		
-		<h1>New file uploader</h1>
+		<%-- <h1>New file uploader</h1>
 		<div>
 			<form action="FileLoader" method="post" enctype="multipart/form-data">
 				<input type="file" name="file" size="50" />
@@ -52,7 +52,7 @@
 				<input type="submit" value="Upload File" />
 				<p>${request.getAttribute("title")}</p>
 			</form>
-		</div>
+		</div> --%>
 		
 		<h3>Uploaded images</h3>
 	
@@ -60,7 +60,7 @@
 		<% for (Image image : images) { %>
 			<div class="grid-item">
 				<div class="delete-image btn btn-danger" data-imageId="<%= image.getId() %>"><i class="fa fa-trash"></i></div>
-				<a class="fancybox" rel="group" href="/BeautySalon/uploads/<%= image.getPath() %>"><img src="/BeautySalon/uploads/<%= image.getPath() %>" alt="" /></a>
+				<a class="fancybox" rel="group" href="<%= Helpers.getBaseUrl(request) %>/uploads/<%= image.getPath() %>"><img src="<%= Helpers.getBaseUrl(request) %>/uploads/<%= image.getPath() %>" alt="" /></a>
 			</div>
 		<% } %>
 		</div>
