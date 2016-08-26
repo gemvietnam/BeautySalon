@@ -37,7 +37,7 @@
 			</div>
 		<% } %>	
 	
-		<table class="table table-bordered table-hover">
+		<table class="table table-bordered table-hover" data-order='[[ 1, "desc" ]]' data-page-length='25'>
 			<thead>
 				<tr>
 					<td>Status</td>
@@ -78,16 +78,28 @@
 				<% } %>
 			</tbody>
 		</table>
+		<br/><br/>
 		
 		<div class="row">
 			<div class="col-md-3">
-				<h3>Menu order</h3>
+				<h4><strong>Menu order</strong></h4>
 				<ul id="sortable">
 					<% for (String[] item : menu) { %>
 						<li class="ui-state-default" data-pageId="<%= item[0] %>"><%= item[1] %></li>
 					<% } %>
 				</ul>
 				<input id="updateMenu" type="submit" value="Update menu" class="btn btn-primary form-control" />
+			</div>
+			<div class="col-md-3">
+				<br/><br/>
+				<div class="panel panel-info">
+				  <div class="panel-heading">Menu order</div>
+				  <div class="panel-body">
+				    <strong>Menu order</strong> allows you to sort the links displayed in the top
+				     navigation bar of the website. Simply drag and drop selected pages to sort 
+				     the menu and hit <strong>Update menu</strong> when you are ready to save the changes.
+				  </div>
+				</div>
 			</div>
 		</div>
 		
@@ -123,6 +135,17 @@ $("#updateMenu").click(function() {
 			console.log("Menu has been updated");
 		}
 	});
+});
+</script>
+
+<script>
+$(document).ready( function () {
+	$('table').dataTable({
+		  "columnDefs": [{
+		      "targets": [5, 6, 7],
+		      "orderable": false
+		    }],
+		} );
 });
 </script>
 

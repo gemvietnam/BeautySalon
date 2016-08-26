@@ -86,7 +86,7 @@
 						<td><%= employee.getTitle() %></td>
 						<td><%= employee.getDescription() %></td>
 						<td><%= employee.getAuthorName() %></td>
-						<td><%= employee.getLastUpdated() %></td>
+						<td><%= Helpers.TimestampToString(employee.getLastUpdated()) %></td>
 						<td><a class="btn btn-primary" href="?page=editEmployee&id=<%= employee.getId() %>" role="button">Edit</a></td>
 						<td><a class="btn btn-danger" href="?page=deleteEmployee&id=<%= employee.getId() %>" role="button">Delete</a></td>
 					</tr>
@@ -103,7 +103,7 @@
 $(document).ready( function () {
 	$('table').dataTable({
 		  "columnDefs": [{
-		      "targets": [0,5,6],
+		      "targets": [0,7,8],
 		      "orderable": false
 		    }],
 		} );

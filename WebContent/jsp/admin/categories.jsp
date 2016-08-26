@@ -103,7 +103,7 @@
 $(document).ready( function () {
 	$('table').dataTable({
 		  "columnDefs": [{
-		      "targets": [2, 3, 4],
+		      "targets": [2, 5, 6],
 		      "orderable": false
 		    }],
 		} );
