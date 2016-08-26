@@ -27,6 +27,13 @@ import models.Service;
 import models.Setting;
 import models.User;
 
+/**
+* <h1>BeautyDAOImpl</h1>
+* Connects with the database, provides data access object for the whole application.
+* All the important data operations are performed here.
+*
+*/
+
 public class BeautyDAOImpl implements BeautyDAO {
 
 	static {

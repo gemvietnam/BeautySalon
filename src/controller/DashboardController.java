@@ -31,15 +31,25 @@ import models.Setting;
 import models.User;
 
 
+/**
+* <h1>Prettier CMS</h1>
+* Prettier CMS is content management system for small enterprises. 
+* It allows to manage all the website data with booking functionality.
+* <p>
+* Application consists of dashboard panel and public website.
+* In dashboard panel, administrators can manage business data like bookings, employees, treatments and contents of the website.
+* 
+*
+* @author  Jagoda Przybyla
+* @version 1.0
+* @since   2016-06-20 
+*/
+
 @WebServlet("/admin")
-//@MultipartConfig
 public class DashboardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private File file;
-	//private File uploadDir = new File("/Users/Dora/Tuk");
-	//private File tmp = new File("/Users/Dora/Tam");
-	//private File uploadDir = new File("/Users/Dora/Documents/EclipseWorkspace/NewLibraryV3Web/WebContent/resources");	
 	private File uploadDir;
 	private String filePath;
 	private String myWebDir;
@@ -53,19 +63,21 @@ public class DashboardController extends HttpServlet {
     
     public void init( )
     {
-        // Get the file storage location from web.xml
         filePath = getServletContext().getInitParameter("file-upload"); 
         myWebDir = getServletContext().getRealPath("/");
-//        System.out.println("MY WEB DIRECTORY " + myWebDir);
         uploadDir = new File( myWebDir + "/uploads");
-//        System.out.println("UPLOAD DIRECTORY" + uploadDir);
-//        System.out.println("FILE PATH" + filePath);
     }   
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
 
+	/**
+	   * DashboardController doPost method contains all the routing for the application. 
+	   * Routing is executed using switch case by getting page parameter. 
+	   * It controlls all the operations performed in the dashboard.
+	   */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("page");
 		action = (action == null) ? "default" : action;
@@ -103,12 +115,10 @@ public class DashboardController extends HttpServlet {
 					switch (type) {
 					case "add":
 						System.out.println("Add category");
-//						addCategory(request, response);
 						addCategoryWithImage(request, response);
 						break;
 					case "update":
 						System.out.println("Update category");
-//						updateCategory(request, response);
 						updateCategoryWithImage(request, response);
 						break;
 					}
@@ -252,12 +262,10 @@ public class DashboardController extends HttpServlet {
 					switch (typeEmployee) {
 					case "add":
 						System.out.println("Add employee");
-//						addEmployee(request, response);
 						addEmployeeWithImage(request, response);
 						break;
 					case "update":
 						System.out.println("Update employee");
-//						updateEmployee(request, response);
 						updateEmployeeWithImage(request, response);
 						break;
 					}
@@ -335,6 +343,10 @@ public class DashboardController extends HttpServlet {
 		getServletContext().getRequestDispatcher(url).forward(request, response);
 	}
 	
+	/**
+	   * GetCategories method calls data access object and fetches list of categories from the database.
+	   * Afterwards sends it to website by setting request attribute.
+	   */
 	private void getCategories(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
@@ -348,6 +360,10 @@ public class DashboardController extends HttpServlet {
 		}
 	}
 	
+	/**
+	   * GetSchedule method calls data access object and fetches list of bookings for employee from the database.
+	   * Afterwards sends it to website by setting request attribute.
+	   */
 	private void getSchedule(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
@@ -362,21 +378,10 @@ public class DashboardController extends HttpServlet {
 		}
 	}
 	
-	
-	private void getImages(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		try {
-			BeautyDAO beautyDAO = new BeautyDAOImpl();
-			List<Image> images = beautyDAO.getImages();
-			request.setAttribute("images", images);
-
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-	}
-	
-	
-	
+	/**
+	   * GetDashboardStats method calls data access object and fetches total statistics from the database.
+	   * Afterwards sends it to website by setting request attribute.
+	   */
 	private void getDashboardStats(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
@@ -398,7 +403,9 @@ public class DashboardController extends HttpServlet {
 	}
 	
 	
-	
+	/**
+	   * AddImageToDb method writed the file on the server and adds the record to the database images table.
+	   */
 	private void addImageToDb(HttpServletRequest request,
 			HttpServletResponse response) {
 		
@@ -444,7 +451,6 @@ public class DashboardController extends HttpServlet {
 	    	            System.out.println(fileName);
 	    	            
 	    	            // Write the file	    	            
-	    	            //file = File.createTempFile("img",".png",uploadDir);
 	    	            file = new File(uploadDir,fileName);
 	    	            item.write(file);
 	    	            success = "File created successfully";
@@ -455,7 +461,6 @@ public class DashboardController extends HttpServlet {
 	    	            beautyDAO.addGalleryImage(image);
 	    	            
 	    	            System.out.println("File created successfully");
-//	    	            request.getRequestDispatcher("jsp/admin/fileupload.jsp").include(request, response);
 	    	         }
 	    			}
 	      	}
@@ -469,7 +474,9 @@ public class DashboardController extends HttpServlet {
   			}			
 	}
 	
-	
+	/**
+	   * AddEmployeeWithImage method adds the employee to the database using data access object and writes uploaded file on the server.
+	   */
 	private void addEmployeeWithImage(HttpServletRequest request,
 			HttpServletResponse response) {
 		
@@ -585,7 +592,10 @@ public class DashboardController extends HttpServlet {
   			}			
 	}	
 	
-
+	/**
+	   * UpdateEmployeeWithImage allows to update employee image and database employee record.
+	   */
+	
 	private void updateEmployeeWithImage(HttpServletRequest request,
 				HttpServletResponse response) {
 			
@@ -734,6 +744,11 @@ public class DashboardController extends HttpServlet {
 	  			}			
 		}
 
+	
+	/**
+	   * DeleteImage method deleted the record from database images table.
+	   */
+	
 	private void deleteImage(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
@@ -749,7 +764,9 @@ public class DashboardController extends HttpServlet {
 		}
 	}
 	
-	
+	/**
+	   * getCategoryById method fetches category data from the database using category id.
+	   */
 	private void getCategoryById(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
@@ -764,6 +781,9 @@ public class DashboardController extends HttpServlet {
 		}
 	}
 	
+	/**
+	   * getUserById method fetches user data from the database using user id.
+	   */
 	private void getUserById(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
@@ -780,6 +800,9 @@ public class DashboardController extends HttpServlet {
 	}
 	
 
+	/**
+	   * updateUser method allows to update user data in database.
+	   */
 	private void updateUser(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
@@ -804,6 +827,9 @@ public class DashboardController extends HttpServlet {
 		}
 	}
 	
+	/**
+	   * getServiceById method fetches service data from the database using service id.
+	   */
 	private void getServiceById(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
@@ -818,6 +844,9 @@ public class DashboardController extends HttpServlet {
 		}
 	}	
 	
+	/**
+	   * getServices method fetches list of services from the database.
+	   */
 	private void getServices(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
@@ -869,6 +898,9 @@ public class DashboardController extends HttpServlet {
 		}
 	}		
 	
+	/**
+	   * getSettings method fetches all the settings from the database.
+	   */
 	private void getSettings(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
@@ -882,32 +914,36 @@ public class DashboardController extends HttpServlet {
 		}
 	}	
 	
-	private void saveSettings(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		try {
-			
-			Setting s = new Setting();
-			s.setSiteTitle(request.getParameter("siteTitle"));
-			s.setSiteDescription(request.getParameter("siteDescription"));
-			s.setCompanyName(request.getParameter("companyName"));
-			s.setAddress(request.getParameter("address"));
-			s.setVatNumber(request.getParameter("vatNumber"));
-			s.setPhone(request.getParameter("phone"));
-			s.setEmail(request.getParameter("email"));
-			s.setFacebook(request.getParameter("facebook"));
-			s.setTwitter(request.getParameter("twitter"));
-			s.setGooglePlus(request.getParameter("googlePlus"));
-			s.setInstagram(request.getParameter("instagram"));
-			s.setPinterest(request.getParameter("pinterest"));
-
-			BeautyDAO beautyDAO = new BeautyDAOImpl();
-			beautyDAO.saveSettings(s);
-
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-	}		
+//	private void saveSettings(HttpServletRequest request,
+//			HttpServletResponse response) throws ServletException, IOException {
+//		try {
+//			
+//			Setting s = new Setting();
+//			s.setSiteTitle(request.getParameter("siteTitle"));
+//			s.setSiteDescription(request.getParameter("siteDescription"));
+//			s.setCompanyName(request.getParameter("companyName"));
+//			s.setAddress(request.getParameter("address"));
+//			s.setVatNumber(request.getParameter("vatNumber"));
+//			s.setPhone(request.getParameter("phone"));
+//			s.setEmail(request.getParameter("email"));
+//			s.setFacebook(request.getParameter("facebook"));
+//			s.setTwitter(request.getParameter("twitter"));
+//			s.setGooglePlus(request.getParameter("googlePlus"));
+//			s.setInstagram(request.getParameter("instagram"));
+//			s.setPinterest(request.getParameter("pinterest"));
+//
+//			BeautyDAO beautyDAO = new BeautyDAOImpl();
+//			beautyDAO.saveSettings(s);
+//
+//		} catch (Exception e) {
+//			System.out.println(e);
+//		}
+//	}		
 	
+	
+	/**
+	   * saveSettingsWithImage method adds all the settings to the database and writes images on server.
+	   */
 	private void saveSettingsWithImage(HttpServletRequest request,
 			HttpServletResponse response) {
 		
@@ -1039,6 +1075,7 @@ public class DashboardController extends HttpServlet {
 	      		System.out.println("Can not save " + ex);
   			}			
 	}		
+	
 	
 	
 	private void getServicesByCategoryId(HttpServletRequest request,

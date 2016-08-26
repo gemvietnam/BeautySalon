@@ -24,6 +24,12 @@ import models.Page;
 import models.Service;
 import models.Setting;
 
+/**
+* <h1>Website Controller</h1>
+* Controlls all the routing in the website.
+* Sets up application data for the whole website.
+*
+*/
 
 @WebServlet("")
 public class WebsiteController extends HttpServlet {

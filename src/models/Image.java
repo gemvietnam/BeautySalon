@@ -1,5 +1,10 @@
 package models;
 
+/**
+* <h1>Image Model</h1>
+* Model for the image.
+*
+*/
 public class Image {
 
 	private int id;

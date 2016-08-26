@@ -14,6 +14,12 @@ import models.Service;
 import models.Setting;
 import models.User;
 
+/**
+* <h1>Beauty DAO</h1>
+* Data access object interface.
+*
+*/
+
 public interface BeautyDAO {
 	
 	

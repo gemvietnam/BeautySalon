@@ -1,5 +1,11 @@
 package models;
 
+/**
+* <h1>EmployeeServices Model</h1>
+* Model for the employeeServices.
+*
+*/
+
 public class EmployeeServices {
 	
 	private int employeeId;

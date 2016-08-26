@@ -4,6 +4,12 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 
+/**
+* <h1>Booking Model</h1>
+* Model for the booking.
+*
+*/
+
 public class Booking {
 	
 	private int id;

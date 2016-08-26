@@ -3,6 +3,11 @@ package models;
 import java.sql.Time;
 import java.sql.Timestamp;
 
+/**
+* <h1>Service Model</h1>
+* Model for the service.
+*
+*/
 public class Service {
 	
 	private int id;

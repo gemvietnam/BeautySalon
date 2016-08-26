@@ -2,6 +2,12 @@ package models;
 
 import java.sql.Timestamp;
 
+/**
+* <h1>Employee Model</h1>
+* Model for the employee.
+*
+*/
+
 public class Employee {
 	
 	private int id;

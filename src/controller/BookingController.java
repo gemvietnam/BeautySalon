@@ -22,8 +22,13 @@ import models.Employee;
 import models.Service;
 
 /**
- * Servlet implementation class BookingController
- */
+* <h1>Booking Controller</h1>
+* Contains the methods for booking functionality on the website.
+* Renders the available time slots for specific date and employee.
+*
+*/
+
+
 @WebServlet("/booking")
 public class BookingController extends HttpServlet {
 	private static final long serialVersionUID = 1L;

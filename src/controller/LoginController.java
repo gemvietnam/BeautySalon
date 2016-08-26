@@ -13,8 +13,12 @@ import dao.BeautyDAOImpl;
 import models.User;
 
 /**
- * Servlet implementation class LoginServlet
- */
+* <h1>Login Controller</h1>
+* Contains the methods for logging in to the dashboard.
+* Redirects to login page if credentials were wrong or user logs out.
+*
+*/
+
 @WebServlet("/login")
 public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;

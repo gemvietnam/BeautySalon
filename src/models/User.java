@@ -2,6 +2,11 @@ package models;
 
 import java.sql.Date;
 
+/**
+* <h1>User Model</h1>
+* Model for the user.
+*
+*/
 public class User {
 
 	private int id;

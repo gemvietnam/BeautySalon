@@ -16,8 +16,12 @@ import dao.BeautyDAOImpl;
 import models.User;
 
 /**
- * Servlet implementation class LoginServlet
- */
+* <h1>Translation Controller</h1>
+* Communicates with IBM Watson language translation web service.
+* Provides translator functionality in the dashboard.
+*
+*/
+
 @WebServlet("/translate")
 public class TranslatorController extends HttpServlet {
 	private static final long serialVersionUID = 1L;

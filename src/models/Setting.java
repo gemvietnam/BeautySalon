@@ -2,6 +2,11 @@ package models;
 
 import java.sql.Time;
 
+/**
+* <h1>Setting Model</h1>
+* Model for the setting.
+*
+*/
 public class Setting {
 
 	private int id;

@@ -2,6 +2,12 @@ package models;
 
 import java.sql.Timestamp;
 
+/**
+* <h1>Category Model</h1>
+* Model for the category.
+*
+*/
+
 public class Category {
 	
 	private int id;

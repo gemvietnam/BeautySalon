@@ -2,6 +2,11 @@ package models;
 
 import java.sql.Timestamp;
 
+/**
+* <h1>Page Model</h1>
+* Model for the page.
+*
+*/
 public class Page {
 	private int id;
 	private Timestamp created;
