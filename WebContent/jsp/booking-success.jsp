@@ -28,33 +28,27 @@
 		<div class="row">
 			<div class="col-md-6">
 				<h1>You have booked a visit</h1>
-				<h3>Selected treatment:</h3>
-				<h3><%= bookedService.getName() %></h3>
-				<p>Price: <%= bookedService.getPrice() %> DKK</p>
-				<p>Duration: <%= Helpers.TimeToHour(bookedService.getTime()) %> hours</p>
+				<h4><strong><%= bookedService.getName() %></strong></h4>
+				<p>Price: <%= bookedService.getPrice() %> DKK<br/>
+				   Duration: <%= Helpers.TimeToHour(bookedService.getTime()) %> hours<br/></p><br/>
 				
-				<h3>Your personal data:</h3>
-				<label>Name:</label><br/>
-				<%= booking.getFirstName() %> <%= booking.getLastName() %><br/>
+				<label>Your name:</label><br/>
+				<p><%= booking.getFirstName() %> <%= booking.getLastName() %></p>
 				<label>Email address:</label><br/>
-				<%= booking.getEmail() %><br/>
+				<p><%= booking.getEmail() %></p>
 				<label>Phone number:</label><br/>
-				<%= booking.getPhone() %><br/>
+				<p><%= booking.getPhone() %></p>
 			</div>
 			<div class="col-md-6">
-				<h2>Cancelation conditions</h2>
-				<h3>Cancelation of the visit can be done minimum 24 hours before the appointment. 
-				To cancel the visit please call <strong>+45 10204082</strong>.</h3>
+				<h1>Cancelation conditions</h1>
+				<p>Cancelation of the visit can be done minimum 24 hours before the appointment. 
+				To cancel the visit please call <strong>+45 10204082</strong>.</p>
 			</div>
 		</div>
-		
-		<h3>Cancelation of the visit can be done minimum 24 hours before the appointment. To cancel the visit please call +45 10204082.</h3>
-		
+	
 		
 	</div>
 </section>
-
-<%@include file="calltoaction.jsp" %>
 
 <%@include file="footer.jsp" %>
 

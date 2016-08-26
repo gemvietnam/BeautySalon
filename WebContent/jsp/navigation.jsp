@@ -17,7 +17,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="?"><%= getServletContext().getAttribute("siteTitle") %></a>
+      <a class="navbar-brand" href="<%= Helpers.getBaseUrl(request) %>/"><div class="logo"><img src="<%= Helpers.getBaseUrl(request) %>/uploads/settings/<%= getServletContext().getAttribute("logo") %>"></div></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -31,7 +31,7 @@
       </ul>
     
       <ul class="nav navbar-nav navbar-right">
-        <%-- <li><a href="<%= Helpers.getBaseUrl(request) %>/">Home</a></li> --%>
+        <li><a href="<%= Helpers.getBaseUrl(request) %>/">Home</a></li>
 <!--         <li><a href="?page=about">About</a></li>
         <li><a href="?page=treatments">Treatments</a></li>
         <li><a href="?page=employees">Our Staff</a></li>

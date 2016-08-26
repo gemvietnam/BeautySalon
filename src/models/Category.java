@@ -6,6 +6,25 @@ public class Category {
 	private String name;
 	private String description;
 	private String picture;
+	private int author;
+	private String authorName;
+
+	
+	public String getAuthorName() {
+		return authorName;
+	}
+
+	public void setAuthorName(String authorName) {
+		this.authorName = authorName;
+	}
+
+	public int getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(int author) {
+		this.author = author;
+	}
 
 	public int getId() {
 		return id;

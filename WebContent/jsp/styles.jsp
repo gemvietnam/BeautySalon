@@ -12,6 +12,7 @@
 
 <link rel="stylesheet" href="css/style.css" />
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i" rel="stylesheet">
+<link rel="shortcut icon" href="<%= Helpers.getBaseUrl(request) %>/uploads/settings/<%= application.getAttribute("favicon") %>" />
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="<%= Helpers.getBaseUrl(request) %>/assets/bootstrap/jquery-3.1.0.min.js"></script>

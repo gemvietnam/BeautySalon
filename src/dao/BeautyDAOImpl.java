@@ -54,7 +54,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 	public List<Category> getCategories() {
 		
 		List<Category> result = new ArrayList<Category>();
-		String sql = "select * from Categories";
+		String sql = "select * from Categories inner join Users on Categories.author=Users.id";
 		Connection connection = null;
 		try {
 			connection = getConnection();
@@ -66,6 +66,8 @@ public class BeautyDAOImpl implements BeautyDAO {
 				category.setName(resultSet.getString("name"));
 				category.setDescription(resultSet.getString("description"));
 				category.setPicture(resultSet.getString("picture"));
+				category.setAuthor(resultSet.getInt("author"));
+				category.setAuthorName(resultSet.getString("Users.firstName") + " " + resultSet.getString("Users.lastName"));
 				result.add(category);
 			}
 		} catch (SQLException ex) {
@@ -137,11 +139,12 @@ public class BeautyDAOImpl implements BeautyDAO {
 		try {
 			connection = getConnection();
 			PreparedStatement statement = connection.prepareStatement(
-					"insert into Categories (name, description, picture) values (?, ?, ?)",
+					"insert into Categories (name, description, picture, author) values (?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, category.getName());
 			statement.setString(2, category.getDescription());
 			statement.setString(3, category.getPicture());
+			statement.setInt(4, category.getAuthor());
 			statement.execute();
 			ResultSet generatedKeys = statement.getGeneratedKeys();
 			if (generatedKeys.next()) {
@@ -180,7 +183,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 	public List<Page> getPages() {
 		
 		List<Page> result = new ArrayList<Page>();
-		String sql = "select * from Pages";
+		String sql = "select * from Pages inner join Users on Pages.author=Users.id";
 		Connection connection = null;
 		try {
 			connection = getConnection();
@@ -188,13 +191,15 @@ public class BeautyDAOImpl implements BeautyDAO {
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
 				Page page = new Page();
-				page.setId(resultSet.getInt("id"));
+				page.setId(resultSet.getInt("Pages.id"));
 				Timestamp dateCreated = new Timestamp(resultSet.getTimestamp("created").getTime());
 				page.setCreated(dateCreated);
 				page.setSlug(resultSet.getString("slug"));
 				page.setTitle(resultSet.getString("title"));
 				page.setContent(resultSet.getString("content"));
 				page.setIsPublished(resultSet.getInt("isPublished"));
+				page.setAuthor(resultSet.getInt("Users.id"));
+				page.setAuthorName(resultSet.getString("Users.firstName") + " " + resultSet.getString("Users.lastName"));
 				result.add(page);
 			}
 		} catch (SQLException ex) {
@@ -210,7 +215,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 		try {
 			connection = getConnection();
 			PreparedStatement statement = connection.prepareStatement(
-					"insert into Pages (title, slug, content, isPublished, created, template, heading, subheading) values (?, ?, ?, ?, ?, ?, ?, ?)",
+					"insert into Pages (title, slug, content, isPublished, created, template, heading, subheading, author) values (?, ?, ?, ?, ?, ?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, page.getTitle());
 			statement.setString(2, page.getSlug());
@@ -220,7 +225,9 @@ public class BeautyDAOImpl implements BeautyDAO {
 			statement.setString(6, page.getTemplate());
 			statement.setString(7, page.getHeading());
 			statement.setString(8, page.getSubheading());
+			statement.setInt(9, page.getAuthor());
 			statement.execute();
+
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		} finally {
@@ -233,20 +240,43 @@ public class BeautyDAOImpl implements BeautyDAO {
 		try {
 			connection = getConnection();
 			PreparedStatement statement = connection.prepareStatement(
-					"update Pages set title=?, slug=?, content=?, isPublished=? where id=?",
+					"update Pages set title=?, slug=?, content=?, isPublished=?, template=?, heading=?, subheading=?, author=?, created=? where id=?",
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, page.getTitle());
 			statement.setString(2, page.getSlug());
 			statement.setString(3, page.getContent());
 			statement.setInt(4, page.getIsPublished());
-			statement.setInt(5, page.getId());
+			statement.setString(5, page.getTemplate());
+			statement.setString(6, page.getHeading());
+			statement.setString(7, page.getSubheading());	
+			statement.setInt(8, page.getAuthor());
+			statement.setTimestamp(9, page.getCreated());
+			statement.setInt(10, page.getId());
 			statement.execute();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		} finally {
 			closeConnection(connection);
 		}
-	}	
+	}
+	
+	public void updatePageOrder(int pageId, int order) {		
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			PreparedStatement statement = connection.prepareStatement(
+					"update Pages set pageOrder=? where id=?",
+					Statement.RETURN_GENERATED_KEYS);
+			statement.setInt(1, order);
+			statement.setInt(2, pageId);
+			statement.execute();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			closeConnection(connection);
+		}
+	}
+	
 	
 	public void deletePage(int pageId) {		
 		Connection connection = null;
@@ -540,7 +570,9 @@ public class BeautyDAOImpl implements BeautyDAO {
 				setting.setTwitter(resultSet.getString("twitter"));
 				setting.setGooglePlus(resultSet.getString("googlePlus"));
 				setting.setInstagram(resultSet.getString("instagram"));
-				setting.setPinterest(resultSet.getString("pinterest"));				
+				setting.setPinterest(resultSet.getString("pinterest"));	
+				setting.setLogo(resultSet.getString("logo"));	
+				setting.setFavicon(resultSet.getString("favicon"));	
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -558,7 +590,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 			connection = getConnection();
 			
 			PreparedStatement statement = connection.prepareStatement(
-					"select * from Pages where isPublished=1",
+					"select * from Pages where isPublished=1 order by pageOrder asc",
 					Statement.RETURN_GENERATED_KEYS);
 			ResultSet resultSet = statement.executeQuery();
 			
@@ -585,7 +617,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 		try {
 			connection = getConnection();
 			PreparedStatement statement = connection.prepareStatement(
-					"update Settings set siteTitle=?, siteDescription=?, companyName=?, vatNumber=?, address=?, phone=?, email=?, facebook=?, twitter=?, googlePlus=?, instagram=?, pinterest=? where id=1",
+					"update Settings set siteTitle=?, siteDescription=?, companyName=?, vatNumber=?, address=?, phone=?, email=?, facebook=?, twitter=?, googlePlus=?, instagram=?, pinterest=?, logo=?, favicon=? where id=1",
 					Statement.RETURN_GENERATED_KEYS);
 			System.out.println("Update sitetitle with: " + settings.getSiteTitle());
 			statement.setString(1, settings.getSiteTitle());
@@ -600,6 +632,8 @@ public class BeautyDAOImpl implements BeautyDAO {
 			statement.setString(10, settings.getGooglePlus());
 			statement.setString(11, settings.getInstagram());
 			statement.setString(12, settings.getPinterest());
+			statement.setString(13, settings.getLogo());
+			statement.setString(14, settings.getFavicon());
 			
 			statement.execute();
 			ResultSet generatedKeys = statement.getGeneratedKeys();

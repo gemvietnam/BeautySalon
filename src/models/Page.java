@@ -12,8 +12,22 @@ public class Page {
 	private String template;
 	private String heading;
 	private String subheading;
+	private int author;
+	private String authorName;
 	
 	
+	public String getAuthorName() {
+		return authorName;
+	}
+	public void setAuthorName(String authorName) {
+		this.authorName = authorName;
+	}
+	public int getAuthor() {
+		return author;
+	}
+	public void setAuthor(int author) {
+		this.author = author;
+	}
 	public String getTemplate() {
 		return template;
 	}

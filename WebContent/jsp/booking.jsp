@@ -93,7 +93,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group">
-								<label>Choose an hour</label><br/>
+								<label>Choose appointment time</label><br/>
 								<div id="bookingHour"></div>
 							</div>
 						</div>
@@ -101,10 +101,12 @@
 					<div class="row">
 						<div class="col-md-12">
 							<% Service service = (Service) request.getAttribute("service"); %>
-							<input id="hour" type="hidden" name="time" value="09:00" required />
+							<input id="hour" type="hidden" name="time" value="" required />
 							<input type="hidden" name="serviceId" value="<c:out value="${service.id}"/>">
 							<input id="duration" type="hidden" name="duration" value="<%= service.getTime() %>">
-							<input type="submit" value="Book the visit" class="btn btn-primary btn-lg" />
+							<div>
+								<input id="submitForm" type="submit" value="Book the visit" class="btn btn-primary btn-lg" />
+							</div>
 						</div>
 					</div>
 				</form>
@@ -118,7 +120,12 @@
 	
 $(document).ready(function() {
 	
-	$("#bookingForm").validate();
+	$("#bookingForm").validate({
+		ignore: ".ignore",
+		messages: {
+			time: "Please choose appointment time."
+		}
+	});
 	var tomorrow = new Date();
 	tomorrow.setDate(tomorrow.getDate() + 1);
 	tomorrow = tomorrow.toJSON().slice(0,10);

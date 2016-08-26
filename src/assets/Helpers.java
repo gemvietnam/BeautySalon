@@ -63,6 +63,15 @@ public class Helpers {
 	             request.getContextPath();
 	}
 	
+	public static String DisplayIfNotNull(String string) {
+		if (string != null) {
+			return string;
+		}
+		else {
+			return "";
+		}
+	}
+	
 //	public static String Translate(String inputText, String language) {
 //		Language chosenLanguage = Language.SPANISH;
 //		LanguageTranslation service = new LanguageTranslation();

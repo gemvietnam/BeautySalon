@@ -80,5 +80,6 @@ public interface BeautyDAO {
 	public void updatePage(Page page);
 	public void deletePage(int pageId);
 	public Page getPageById(int id);
+	public void updatePageOrder(int pageId, int order);
 	
 }

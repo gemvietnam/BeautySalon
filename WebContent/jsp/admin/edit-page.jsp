@@ -7,9 +7,21 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Add Page - Prettier CMS</title>
+<title>Edit Page - Prettier CMS</title>
 <%@include file="../styles-dashboard.jsp" %>
-<script>tinymce.init({ selector:'textarea' });</script>
+<script>
+tinymce.init({
+  selector: 'textarea',  // change this value according to your HTML
+  theme: 'modern',
+  toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons',
+  menubar: false,
+  plugins: [
+      'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
+      'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+      'save table contextmenu directionality emoticons template paste textcolor'
+    ]
+});
+</script>
 </head>
 <body>
 
@@ -26,23 +38,48 @@
 	</div>
 
 	<div class="app-data">
-		
+
 		<form id="form" method="post" action="admin?page=pages">
 			<div class="row">
-				<div class="col-md-9">
-					<div class="form-group">
-						<label>Title</label>
-						<input type="text" name="title" class="form-control" placeholder="Page title" value="<%= editedPage.getTitle() %>" minlength="2" required />
-					</div>
-					<div class="form-group">
-						<label>Content</label>
-						<textarea rows="20" cols="10" name="content" class="form-control"><%= editedPage.getContent() %></textarea>
-					</div>
+				<div id="pageOptions" class="col-md-9">
+					<%@ include file="page-templates/edit-standard.jspf" %>
+					<%@ include file="page-templates/edit-treatments.jspf" %>
+					<%@ include file="page-templates/edit-employees.jspf" %>
+					<%@ include file="page-templates/edit-gallery.jspf" %>
 				</div>
 				<div class="col-md-3">
 					<div class="form-group">
+						<label>Template</label>
+						<% String selectedStandard = "";
+						   String selectedTreatments = "";
+						   String selectedEmployees = "";
+						   String selectedGallery = "";
+
+						   switch(editedPage.getTemplate()) {
+						   		case "standard":
+						   			selectedStandard = "selected";
+						   			break;
+						   		case "treatments":
+						   			selectedTreatments = "selected";
+						   			break;
+						   		case "employees":
+						   			selectedEmployees = "selected";
+						   			break;
+						   		case "gallery":
+						   			selectedGallery = "selected";
+						   			break;
+						   }
+						%>
+						<select id="templateSelect" name="template" class="form-control">
+							<option value="standard" <%= selectedStandard %>>Standard</option>
+							<option value="treatments" <%= selectedTreatments %>>Treatments</option>
+							<option value="employees" <%= selectedEmployees %>>Employees</option>
+							<option value="gallery" <%= selectedGallery %>>Gallery</option>
+						</select>
+					</div>
+					<div class="form-group">
 						<label>Slug</label>
-						<input type="text" name="slug" class="form-control" placeholder="Slug" value="<%= editedPage.getSlug() %>"/>
+						<input type="text" name="slug" class="form-control" placeholder="Slug" minlength="2" required value="<%= Helpers.DisplayIfNotNull(editedPage.getSlug()) %>" />
 					</div>
 					<div class="form-group">
 						<label>Published status</label>
@@ -75,7 +112,29 @@
 	
 </div>
 
+
 <script>
+	$(document).ready(function() {
+		$(".template-options").hide();
+		var selectedTemplate = $("#templateSelect").val();
+		var targetOptionsId = "#" + selectedTemplate + "Template";
+		$(targetOptionsId).show();
+	});
+	
+	$("#templateSelect").change(function() {
+		$(".template-options").hide();
+		var selectedTemplate = $("#templateSelect").val();
+		var targetOptionsId = "#" + selectedTemplate + "Template";
+		$(targetOptionsId).show();
+	})
+	
+	$("input").change(function() {
+		var inputName = $(this).attr("name");
+		var value = $(this).val();
+		var targetInput = "input[name=" + inputName + "]";
+		$(targetInput).val(value);
+	})
+	
 	$("#form").validate();
 </script>
 

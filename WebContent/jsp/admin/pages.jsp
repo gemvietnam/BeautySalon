@@ -14,6 +14,7 @@
 <body>
 
 <% List<Page> pages = (List<Page>) request.getAttribute("pages"); %>
+<% List<String[]> menu = (List<String[]>) request.getAttribute("menu"); %>
 <% String keyword = (String) request.getParameter("keyword"); %>
 
 <div id="navigation">	
@@ -40,9 +41,10 @@
 			<thead>
 				<tr>
 					<td>Status</td>
-					<td>Created</td>
 					<td>Title</td>
 					<td>Slug</td>
+					<td>Last updated</td>
+					<td>Author</td>
 					<td>Edit</td>
 					<td>Delete</td>
 					<td>Preview</td>
@@ -50,14 +52,25 @@
 			</thead>
 			
 			<tbody>
+				<tr class="homepage">
+					<td><span class="label label-success">published</span></td>
+					<td>Homepage</td>
+					<td>index</td>
+					<td></td>
+					<td></td>
+					<td><a class="btn btn-primary btn-sm" href="?page=editHomePage" role="button">Edit</a></td>
+					<td><a class="btn btn-danger btn-sm" href="#" role="button" disabled>Delete</a></td>
+					<td><a class="btn btn-default btn-sm" href="<%= Helpers.getBaseUrl(request) %>/" target="_BLANK">Preview</a>
+				</tr>
 				<% for (Page currentPage : pages) { %>
 					<% String pageStatus = (currentPage.isPublished()) ? "published" : "draft"; %>
 					<% String pageLabel = (currentPage.isPublished()) ? "success" : "danger"; %>
 					<tr>
 						<td><span class="label label-<%= pageLabel %>"><%= pageStatus %></span></td>
-						<td><%= Helpers.TimestampToString(currentPage.getCreated()) %></td>
 						<td><%= currentPage.getTitle() %></td>
 						<td><%= currentPage.getSlug() %></td>
+						<td><%= Helpers.TimestampToString(currentPage.getCreated()) %></td>
+						<td><%= currentPage.getAuthorName() %></td>
 						<td><a class="btn btn-primary btn-sm" href="?page=editPage&id=<%= currentPage.getId() %>" role="button">Edit</a></td>
 						<td><a class="btn btn-danger btn-sm" href="?page=deletePage&id=<%= currentPage.getId() %>" role="button">Delete</a></td>
 						<td><a class="btn btn-default btn-sm" href="<%= Helpers.getBaseUrl(request) %>/?page=<%= currentPage.getId() %>" target="_BLANK">Preview</a>
@@ -67,14 +80,14 @@
 		</table>
 		
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-3">
 				<h3>Menu order</h3>
 				<ul id="sortable">
-					<% for (Page currentPage : pages) { %>
-						<li class="ui-state-default" data-pageId="<%= currentPage.getId() %>"><%= currentPage.getTitle() %></li>
+					<% for (String[] item : menu) { %>
+						<li class="ui-state-default" data-pageId="<%= item[0] %>"><%= item[1] %></li>
 					<% } %>
 				</ul>
-				<input id="updateMenu" type="submit" value="Update menu" class="btn btn-primary" />
+				<input id="updateMenu" type="submit" value="Update menu" class="btn btn-primary form-control" />
 			</div>
 		</div>
 		
@@ -88,7 +101,7 @@ $(function() {
   $("#sortable").disableSelection();
 });
 
-var pagesOrder = [];
+var pagesOrder = new Array();
 
 $("#updateMenu").click(function() {
 	$("#sortable li").each(function(i) {
@@ -97,12 +110,15 @@ $("#updateMenu").click(function() {
 		pagesOrder.push(id);
 		pagesOrder.push(i+1);
 	});
-/* 	console.log("Our array: " + pagesOrder[0].order); */
+	
+	$(pagesOrder).each(function(i) {
+		console.log(pagesOrder[i]);
+	});
 	
 	$.ajax({
 		url: 'admin',
 		method: 'post', 
-		data: {'page':'pages', 'type': 'updateMenu', 'pagesOrder': [1,5,6,2,6,7]},
+		data: {'page':'pages', 'type': 'updateMenu', 'pagesOrder': pagesOrder},
 		success: function(responseText) {
 			console.log("Menu has been updated");
 		}

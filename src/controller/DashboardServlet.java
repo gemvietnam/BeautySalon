@@ -85,6 +85,10 @@ public class DashboardServlet extends HttpServlet {
 			isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
 		}
 		
+		if (session.getAttribute("user") == null) {
+			isLoggedIn = false;
+		}
+		
 		if (isLoggedIn == false) {
 			System.out.println("The user is not logged in, redirect to login screen");
 			request.setAttribute("isError", false);
@@ -226,6 +230,10 @@ public class DashboardServlet extends HttpServlet {
 				url = "/jsp/admin/edit-page.jsp";
 				getPageById(request, response);
 				break;
+			case "editHomePage":
+				url = "/jsp/admin/edit-homepage.jsp";
+//				getHomePage(request, response);
+				break;
 			case "deletePage":
 				url = "/jsp/admin/pages.jsp";
 				deletePage(request, response);
@@ -275,7 +283,8 @@ public class DashboardServlet extends HttpServlet {
 			case "saveSettings":
 				url = "/jsp/admin/settings.jsp";
 				System.out.println("Attempting to save settings");
-				saveSettings(request, response);
+//				saveSettings(request, response);
+				saveSettingsWithImage(request, response);
 				System.out.println("Getting the settings back");
 				getSettings(request, response);
 				break;
@@ -691,17 +700,147 @@ public class DashboardServlet extends HttpServlet {
 			s.setGooglePlus(request.getParameter("googlePlus"));
 			s.setInstagram(request.getParameter("instagram"));
 			s.setPinterest(request.getParameter("pinterest"));
-			
-			
+
 			BeautyDAO beautyDAO = new BeautyDAOImpl();
 			beautyDAO.saveSettings(s);
-//			request.setAttribute("settings", setting);
-//			getServletContext().setAttribute("settings", setting);
-			
+
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}		
+	
+	private void saveSettingsWithImage(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+		if (!isMultipart) {
+			System.out.println("Nothing to upload");
+	    	return; 
+	    }
+		
+		DiskFileItemFactory factory = new DiskFileItemFactory();
+	    factory.setSizeThreshold(maxMemSize);
+	    factory.setRepository(uploadDir);
+	    ServletFileUpload upload = new ServletFileUpload(factory);
+	    upload.setSizeMax(maxFileSize);
+	    
+	    String siteTitle = "";
+	    String siteDescription = "";
+	    String logo = "";
+	    String favicon = "";
+	    String companyName = "";
+	    String vatNumber = "";
+	    String address = "";
+	    String phone = "";
+	    String email = "";
+	    String facebook = "";
+	    String twitter = "";
+	    String instagram = "";
+	    String googlePlus = "";
+	    String pinterest = "";
+	    String fileName = "";
+	    
+	      try
+	      {
+	    		List<FileItem>  items = upload.parseRequest(request);
+	    		for(FileItem item:items)
+	    		{ 
+	    			if (item.isFormField()) {
+	    				System.out.println("Getting value of form field");
+	    				String name = item.getFieldName();
+	    			    String value = item.getString();
+	    			    switch(name) {
+	    			    case "siteTitle":
+	    			    	siteTitle = value;
+	    			    	break;
+	    			    case "siteDescription":
+	    			    	siteDescription = value;
+	    			    	break;
+	    			    case "companyName":
+	    			    	companyName = value;
+	    			    	break;
+	    			    case "vatNumber":
+	    			    	vatNumber = value;
+	    			    	break;
+	    			    case "address":
+	    			    	address = value;
+	    			    	break;
+	    			    case "phone":
+	    			    	phone = value;
+	    			    	break;
+	    			    case "email":
+	    			    	email = value;
+	    			    	break;
+	    			    case "facebook":
+	    			    	facebook = value;
+	    			    	break;
+	    			    case "twitter":
+	    			    	twitter = value;
+	    			    	break;
+	    			    case "instagram":
+	    			    	instagram = value;
+	    			    	break;
+	    			    case "googlePlus":
+	    			    	googlePlus = value;
+	    			    	break;
+	    			    case "pinterest":
+	    			    	pinterest = value;
+	    			    	break;
+	    			    }
+	    			}
+	    			
+	    			else {
+	    	            String fieldName = item.getFieldName();
+	    	            fileName = item.getName();
+	    	            if (fieldName.equals("logo")) {
+	    	            	logo = fileName;
+	    	            }
+	    	            else if (fieldName.equals("favicon")) {
+	    	            	favicon = fileName;
+	    	            }
+	    	            
+	    	            String contentType = item.getContentType();
+	    	            boolean isInMemory = item.isInMemory();
+	    	            long sizeInBytes = item.getSize();
+	    	            System.out.println(fileName);
+	    	            uploadDir = new File( myWebDir + "/uploads/settings");
+	    	            file = new File(uploadDir,fileName);
+	    	            item.write(file);
+	    	            System.out.println("File created successfully");
+	    	         }
+	    		}
+	    		
+	    		Setting s = new Setting();
+				s.setSiteTitle(siteTitle);
+				s.setSiteDescription(siteDescription);
+				s.setCompanyName(companyName);
+				s.setAddress(address);
+				s.setVatNumber(vatNumber);
+				s.setPhone(phone);
+				s.setEmail(email);
+				s.setFacebook(facebook);
+				s.setTwitter(twitter);
+				s.setGooglePlus(googlePlus);
+				s.setInstagram(instagram);
+				s.setPinterest(pinterest);
+				s.setLogo(logo);
+				s.setFavicon(favicon);
+
+				BeautyDAO beautyDAO = new BeautyDAOImpl();
+				beautyDAO.saveSettings(s);
+				System.out.println("Settings saved!");
+	    		
+	      	}
+	      	catch(FileUploadException ex) 
+	    		{
+	   	      System.out.println("Upload error " + ex);
+	    		}
+	      	catch(Exception ex) 
+  			{
+	      		System.out.println("Can not save " + ex);
+  			}			
+	}		
+	
 	
 	private void getServicesByCategoryId(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -762,6 +901,9 @@ public class DashboardServlet extends HttpServlet {
 			BeautyDAO beautyDAO = new BeautyDAOImpl();
 			List<Page> pages = beautyDAO.getPages();
 			request.setAttribute("pages", pages);
+			
+			List<String[]> menu = beautyDAO.getMenu();
+			request.setAttribute("menu", menu);
 
 		} catch (Exception e) {
 			System.out.println(e);
@@ -789,6 +931,9 @@ public class DashboardServlet extends HttpServlet {
 			c.setName(request.getParameter("name"));
 			c.setDescription(request.getParameter("description"));
 			c.setPicture(request.getParameter("picture"));
+			HttpSession session = request.getSession();
+			User user = (User) session.getAttribute("user");
+			c.setAuthor(user.getId());
 			
 			System.out.println("Trying to add the category");
 			
@@ -882,6 +1027,9 @@ public class DashboardServlet extends HttpServlet {
 				c.setName(catName);
 				c.setDescription(description);
 				c.setPicture(fileName);
+				HttpSession session = request.getSession();
+				User user = (User) session.getAttribute("user");
+				c.setAuthor(user.getId());
 				
 				BeautyDAO beautyDAO = new BeautyDAOImpl();
 				beautyDAO.addCategory(c);
@@ -914,6 +1062,10 @@ public class DashboardServlet extends HttpServlet {
 			p.setSubheading(request.getParameter("subheading"));
 			p.setTemplate(request.getParameter("template"));
 			
+			HttpSession session = request.getSession();
+			User user = (User) session.getAttribute("user");
+			p.setAuthor(user.getId());
+			
 			System.out.println("Page data: " + p.getTitle() + ", " + p.getSlug() + ", " + p.getContent() + " ," + p.getIsPublished() + ", " + p.getCreated());
 			
 			BeautyDAO beautyDAO = new BeautyDAOImpl();
@@ -933,8 +1085,17 @@ public class DashboardServlet extends HttpServlet {
 			p.setSlug(request.getParameter("slug"));
 			p.setContent(request.getParameter("content"));
 			p.setIsPublished(Integer.parseInt(request.getParameter("isPublished")));
+			p.setTemplate(request.getParameter("template"));
+			p.setHeading(request.getParameter("heading"));
+			p.setSubheading(request.getParameter("subheading"));
+			Timestamp created = new Timestamp(System.currentTimeMillis());
+			p.setCreated(created);
 			
-			System.out.println("Trying to update the page");
+			HttpSession session = request.getSession();
+			User user = (User) session.getAttribute("user");
+			p.setAuthor(user.getId());
+			
+			System.out.println("Trying to update the page, " + p.getSubheading());
 			
 			BeautyDAO beautyDAO = new BeautyDAOImpl();
 			beautyDAO.updatePage(p);
@@ -948,15 +1109,21 @@ public class DashboardServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
 			System.out.println("Show menuorder");
-			String[] menuOrder = request.getParameterValues("pagesOrder");
-//			System.out.println("The whole array: " + menuOrder.toString());
 			
-			for (String item : menuOrder) {
-				System.out.println(item);
+			String type = request.getParameter("type");
+			System.out.println("Print type " + type);
+			
+			String[] menuOrder = request.getParameterValues("pagesOrder[]");
+			System.out.println("Print menuorder " + menuOrder);
+			
+			BeautyDAO beautyDAO = new BeautyDAOImpl();
+			
+			for (int i = 0; i < menuOrder.length; i=i+2) {
+				System.out.println("Page id: " + menuOrder[i] + ", order: " + menuOrder[i+1]);
+				int pageId = Integer.parseInt(menuOrder[i]);
+				int order = Integer.parseInt(menuOrder[i+1]);
+				beautyDAO.updatePageOrder(pageId, order);
 			}
-			
-//			BeautyDAO beautyDAO = new BeautyDAOImpl();
-//			beautyDAO.updatePage(p);
 
 		} catch (Exception e) {
 			System.out.println(e);
@@ -976,6 +1143,20 @@ public class DashboardServlet extends HttpServlet {
 	}	
 	
 	private void getPageById(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		try {
+			String id = request.getParameter("id");
+			int pageId = Integer.parseInt(id);
+			BeautyDAO beautyDAO = new BeautyDAOImpl();
+			Page page = beautyDAO.getPageById(pageId);
+			request.setAttribute("page", page);
+
+		} catch (Exception e) {
+			System.out.println("Error: " + e);
+		}
+	}	
+	
+	private void getHomePage(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
 			String id = request.getParameter("id");

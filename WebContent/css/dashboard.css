@@ -4,9 +4,8 @@ body {
 }
 
 #login {
-	background-image: url("../img/massage2.jpg");
-	background-size: cover;
-	background-position: center center;
+	background-image: url("../img/admin/bg.png");
+	background-repeat: repeat;
 	height: 100vh;
 }
 
@@ -117,6 +116,10 @@ i.fa {
 
 .table tr td.firstName, .table tr td.lastName {
 	min-width: 100px;
+}
+
+.table tr td.author-name {
+	min-width: 120px;
 }
 
 img {
@@ -256,6 +259,11 @@ img {
 	height: 120px;
 }
 
+.image-thumbnail.favicon {
+	width: 30px;
+	height: 30px;
+}
+
 .edit-image-thumbnail {
 	background-size: cover;
 	background-position: center center;
@@ -314,9 +322,14 @@ img {
 }
 
 #sortable li {
-	border: 1px solid grey;
-	background-color: #f4f4f4;
-	padding: 5px 10px;
+	border: 1px solid #eaeaea;
+	border-radius: 3px;
+	background-color: #f7f7f7;
+	padding: 8px 12px;
 	margin: 3px 0px;
 	cursor: move;
+}
+
+tr.homepage td {
+	background-color: #f9f9f9;
 }

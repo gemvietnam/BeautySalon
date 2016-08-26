@@ -29,10 +29,23 @@ public class Setting {
 	private String googlePlus;
 	private String instagram;
 	private String pinterest;
+	private String logo;
+	private String favicon;
 	
 	
 	
-	
+	public String getLogo() {
+		return logo;
+	}
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
+	public String getFavicon() {
+		return favicon;
+	}
+	public void setFavicon(String favicon) {
+		this.favicon = favicon;
+	}
 	public String getFacebook() {
 		return facebook;
 	}

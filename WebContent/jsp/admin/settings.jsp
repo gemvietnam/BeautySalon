@@ -18,7 +18,7 @@
 
 <% Setting settings = (Setting) application.getAttribute("settings"); %>
 
-<form method="post" action="admin?page=saveSettings" class="form-horizontal">
+<form method="post" action="admin?page=saveSettings" class="form-horizontal" enctype="multipart/form-data">
 <div id="content">
 
 	<div id="content-bar">
@@ -53,14 +53,20 @@
 				</div>
 				<div class="form-group">
 					<label class="col-sm-2 control-label">Logo</label>
-					<div class="col-sm-10">
-						<input type="file" name="file"/>
+					<div class="col-sm-2">
+						<div class="image-thumbnail" style="background-image: url('<%= Helpers.getBaseUrl(request) %>/uploads/settings/<%= settings.getLogo() %>')"></div>
+					</div>
+					<div class="col-sm-8">
+						<input type="file" name="logo"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-2 control-label">Favicon</label>
-					<div class="col-sm-10">
-						<input type="file" name="file"/>
+					<div class="col-sm-2">
+						<div class="image-thumbnail favicon" style="background-image: url('<%= Helpers.getBaseUrl(request) %>/uploads/settings/<%= settings.getFavicon() %>')"></div>
+					</div>
+					<div class="col-sm-8">
+						<input type="file" name="favicon"/>
 					</div>
 				</div>
 		  </div>
