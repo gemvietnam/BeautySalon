@@ -1,3 +1,6 @@
+<%@page import="assets.Helpers"%>
+<%@page import="models.Page"%>
+<% Page editedPage = (Page) request.getAttribute("page"); %>
 <div id="employeesTemplate" class="template-options">
 	<div class="panel panel-info">
 	  <div class="panel-heading">Employees template</div>

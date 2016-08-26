@@ -1,6 +1,8 @@
+<%@page import="assets.Helpers"%>
 <%@ page import="java.util.List" %>
 <%@ page import="models.Category" %>
-
+<%@ page import="models.Page" %>
+<%-- <% Page customPage = (Page) request.getAttribute("customPage"); %> --%>
 <% List<Category> categories = (List<Category>) request.getAttribute("categories"); %>
 
 <section id="treatments">

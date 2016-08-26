@@ -1,3 +1,6 @@
+<%@ page import="models.Page" %>
+<%-- <% Page customPage = (Page) request.getAttribute("customPage"); %> --%>
+
 <section id="treatments">
 	<div class="wrapper">
 		<div class="row">

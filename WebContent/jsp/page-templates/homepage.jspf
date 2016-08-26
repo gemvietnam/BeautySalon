@@ -1,9 +1,11 @@
 <%@page import="assets.Helpers"%>
 <%@ page import="models.Category" %>
+<%@ page import="models.Page" %>
 <%@ page import="java.util.List" %>
 
 <%-- <% String url = (String) request.getAttribute("javax.servlet.forward.request_uri"); %> --%>
 <% List<Category> categories = (List<Category>) request.getAttribute("categories"); %>
+<%-- <% Page customPage = (Page) request.getAttribute("customPage"); %> --%>
 
 <section id="home">
 	<div class="fade-bg">

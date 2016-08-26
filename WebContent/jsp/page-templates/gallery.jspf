@@ -1,10 +1,12 @@
 <%@page import="assets.Helpers"%>
 <%@ page import="models.Image" %>
+<%@ page import="models.Page" %>
 <%@ page import="java.util.List" %>
 
 <% List<Image> images = (List<Image>) request.getAttribute("images"); %>
 <% String url = (String) request.getAttribute("javax.servlet.forward.request_uri"); %>
-
+<%-- <% Page customPage = (Page) request.getAttribute("customPage"); %>
+ --%>
 <!-- Add fancyBox -->
 <link rel="stylesheet" href="<%= Helpers.getBaseUrl(request) %>/assets/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
 <script type="text/javascript" src="<%= Helpers.getBaseUrl(request) %>/assets/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>

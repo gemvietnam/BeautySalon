@@ -14,7 +14,7 @@
 	<param-name>file-upload</param-name> 
 	<param-value>/BeautySalon/uploads/</param-value> 
   </context-param>
-  
+
   <session-config>
 	<session-timeout>40</session-timeout>
   </session-config>

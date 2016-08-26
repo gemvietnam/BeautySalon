@@ -16,7 +16,6 @@
 <%@include file="navigation.jsp" %>
 <% Page customPage = (Page) request.getAttribute("customPage"); %>
 <% String template = customPage.getTemplate(); %>
-<% System.out.println("PAGE TEMPLATE IS: " + template); %>
 
 
 <% switch(template) { 

@@ -15,6 +15,12 @@ import com.ibm.watson.developer_cloud.language_translation.v2.model.TranslationR
 import dao.BeautyDAO;
 import dao.BeautyDAOImpl;
 
+/**
+* <h1>Helpers</h1>
+* Contains helper methods for displaying the data throughout application.
+*
+*/
+
 public class Helpers {
 	
 	public static String DateToString(Date date) {

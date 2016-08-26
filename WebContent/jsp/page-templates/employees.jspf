@@ -1,8 +1,9 @@
 <%@page import="assets.Helpers"%>
 <%@ page import="models.Employee" %>
+<%@ page import="models.Page" %>
 <%@ page import="java.util.List" %>
-<% List<Employee> employees = (List<Employee>) request.getAttribute("employees"); 
-   System.out.println(employees); %>
+<% List<Employee> employees = (List<Employee>) request.getAttribute("employees"); %>
+<%-- <% Page customPage = (Page) request.getAttribute("customPage"); %> --%>
 
 <section id="employees">
 	<div class="wrapper">
