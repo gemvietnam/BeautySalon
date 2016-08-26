@@ -46,12 +46,12 @@
 			</div>
 		</div>
 		
-		<div class="row">
+		<!-- <div class="row">
 			<div class="col-md-6">
 				<h3>Profit by month</h3>
 				<canvas id="myChart" width="400" height="400"></canvas>
 			</div>
-		</div>
+		</div> -->
 
 	</div>
 	

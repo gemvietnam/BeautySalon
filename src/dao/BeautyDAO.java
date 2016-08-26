@@ -57,6 +57,7 @@ public interface BeautyDAO {
 	
 	// LOGIN OPERATIONS
 	public User getUserById(int id);
+	public void updateUser(User user);
 	public User login(String email, String password);
 	
 	// OPERATIONS ON SETTINGS

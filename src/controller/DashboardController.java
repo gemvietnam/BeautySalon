@@ -37,7 +37,7 @@ import models.User;
 
 @WebServlet("/admin")
 //@MultipartConfig
-public class DashboardServlet extends HttpServlet {
+public class DashboardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private File file;
@@ -51,7 +51,7 @@ public class DashboardServlet extends HttpServlet {
 	private int maxMemSize = 4 * 1024;
 	String success = new String();
 	
-    public DashboardServlet() {
+    public DashboardController() {
         super();
     }
     
@@ -130,6 +130,16 @@ public class DashboardServlet extends HttpServlet {
 			case "editCategory":
 				url = "/jsp/admin/edit-category.jsp";
 				getCategoryById(request, response);
+				break;
+			case "editProfile":
+				url = "/jsp/admin/edit-profile.jsp";
+				getUserById(request, response);
+				String update = request.getParameter("update");
+				if (update != null && update.equals("true")) {
+					System.out.println("Updating the user");
+					updateUser(request, response);
+					getUserById(request, response);
+				}
 				break;
 			case "delete":
 				System.out.println("Wer are deleting the record now");
@@ -752,6 +762,46 @@ public class DashboardServlet extends HttpServlet {
 			BeautyDAO beautyDAO = new BeautyDAOImpl();
 			Category category = beautyDAO.getCategoryById(categoryId);
 			request.setAttribute("category", category);
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	private void getUserById(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		try {
+			HttpSession session = request.getSession();
+			User user = (User) session.getAttribute("user");
+			int id = user.getId();
+			BeautyDAO beautyDAO = new BeautyDAOImpl();
+			User userData = beautyDAO.getUserById(id);
+			request.setAttribute("userData", userData);
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+
+	private void updateUser(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		try {
+			User u = new User();
+			u.setFirstName(request.getParameter("firstName"));
+			u.setLastName(request.getParameter("lastName"));
+			u.setEmail(request.getParameter("email"));
+			u.setId(Integer.parseInt(request.getParameter("id")));
+			
+			String password = request.getParameter("password");
+			System.out.println("Password is: " + password);
+			
+			if (password != null) {
+				u.setPassword(password);
+			}
+			
+			BeautyDAO beautyDAO = new BeautyDAOImpl();
+			beautyDAO.updateUser(u);
 
 		} catch (Exception e) {
 			System.out.println(e);
@@ -1453,6 +1503,7 @@ public class DashboardServlet extends HttpServlet {
 			System.out.println(e);
 		}
 	}	
+		
 	
 	private void updateCategoryWithImage(HttpServletRequest request,
 			HttpServletResponse response) {

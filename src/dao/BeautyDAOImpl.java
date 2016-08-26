@@ -1391,6 +1391,42 @@ public class BeautyDAOImpl implements BeautyDAO {
 				closeConnection(connection);
 			}
 			return user;
-		}		
+		}	
+		
+		public void updateUser(User user) {		
+			Connection connection = null;
+			try {
+				connection = getConnection();
+				System.out.println("USER PASSWORD IS: " + user.getPassword());
+				String password = user.getPassword();
+				if (password.length() != 0) {
+					PreparedStatement statement = connection.prepareStatement(
+							"update Users set firstName=?, lastName=?, email=?, password=? where id=?",
+							Statement.RETURN_GENERATED_KEYS);
+					statement.setString(1, user.getFirstName());
+					statement.setString(2, user.getLastName());
+					statement.setString(3, user.getEmail());
+					statement.setString(4, user.getPassword());
+					statement.setInt(5, user.getId());
+					statement.execute();
+				}
+				else {
+					System.out.println("Executing second position");
+					PreparedStatement statement = connection.prepareStatement(
+							"update Users set firstName=?, lastName=?, email=? where id=?",
+							Statement.RETURN_GENERATED_KEYS);
+					statement.setString(1, user.getFirstName());
+					statement.setString(2, user.getLastName());
+					statement.setString(3, user.getEmail());
+					statement.setInt(4, user.getId());
+					statement.execute();
+				}
+
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			} finally {
+				closeConnection(connection);
+			}
+		}
 	
 }

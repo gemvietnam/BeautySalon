@@ -19,10 +19,10 @@ import models.User;
  * Servlet implementation class LoginServlet
  */
 @WebServlet("/translate")
-public class TranslationServlet extends HttpServlet {
+public class TranslatorController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public TranslationServlet() {
+    public TranslatorController() {
         super();
     }
 
