@@ -13,7 +13,7 @@ if (session.getAttribute("user") != null) {
 %>
 
 <div class="title">
-	<h4>Avanti Beauty Salon</h4>
+	<h4>Prettier CMS</h4>
 	<h6>Content Management System</h6>
 </div>
 
