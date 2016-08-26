@@ -68,6 +68,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 				category.setPicture(resultSet.getString("picture"));
 				category.setAuthor(resultSet.getInt("author"));
 				category.setAuthorName(resultSet.getString("Users.firstName") + " " + resultSet.getString("Users.lastName"));
+				category.setLastUpdated(resultSet.getTimestamp("lastUpdated"));
 				result.add(category);
 			}
 		} catch (SQLException ex) {
@@ -139,12 +140,13 @@ public class BeautyDAOImpl implements BeautyDAO {
 		try {
 			connection = getConnection();
 			PreparedStatement statement = connection.prepareStatement(
-					"insert into Categories (name, description, picture, author) values (?, ?, ?, ?)",
+					"insert into Categories (name, description, picture, author, lastUpdated) values (?, ?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, category.getName());
 			statement.setString(2, category.getDescription());
 			statement.setString(3, category.getPicture());
 			statement.setInt(4, category.getAuthor());
+			statement.setTimestamp(5, category.getLastUpdated());
 			statement.execute();
 			ResultSet generatedKeys = statement.getGeneratedKeys();
 			if (generatedKeys.next()) {
@@ -162,12 +164,14 @@ public class BeautyDAOImpl implements BeautyDAO {
 		try {
 			connection = getConnection();
 			PreparedStatement statement = connection.prepareStatement(
-					"update Categories set name=?, description=?, picture=? where id=?",
+					"update Categories set name=?, description=?, picture=?, author=?, lastUpdated=? where id=?",
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, category.getName());
 			statement.setString(2, category.getDescription());
 			statement.setString(3, category.getPicture());
-			statement.setInt(4, category.getId());
+			statement.setInt(4, category.getAuthor());
+			statement.setTimestamp(5, category.getLastUpdated());
+			statement.setInt(6, category.getId());
 			statement.execute();
 			ResultSet generatedKeys = statement.getGeneratedKeys();
 			if (generatedKeys.next()) {
@@ -325,7 +329,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 	public List<Service> getServices() {
 		
 		List<Service> result = new ArrayList<Service>();
-		String sql = "select * from Services inner join Categories on Services.categoryId=Categories.id where Services.isActive=1";
+		String sql = "select * from Services inner join Categories on Services.categoryId=Categories.id inner join Users on Services.author=Users.id where Services.isActive=1";
 		Connection connection = null;
 		try {
 			connection = getConnection();
@@ -339,6 +343,9 @@ public class BeautyDAOImpl implements BeautyDAO {
 				service.setPrice(resultSet.getInt("price"));
 				service.setTime(resultSet.getTime("time"));
 				service.setCategoryName(resultSet.getString("Categories.name"));
+				service.setLastUpdated(resultSet.getTimestamp("lastUpdated"));
+				service.setAuthor(resultSet.getInt("Users.id"));
+				service.setAuthorName(resultSet.getString("Users.firstName") + " " + resultSet.getString("Users.lastName"));
 				result.add(service);
 			}
 		} catch (SQLException ex) {
@@ -446,13 +453,15 @@ public class BeautyDAOImpl implements BeautyDAO {
 			System.out.println("Jak wyglada nasz czas teraz: " + service.getTime());
 			
 			PreparedStatement statement = connection.prepareStatement(
-					"insert into Services (name, price, description, categoryId, time) values (?, ?, ?, ?, ?)",
+					"insert into Services (name, price, description, categoryId, time, author, lastUpdated) values (?, ?, ?, ?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, service.getName());
 			statement.setInt(2, service.getPrice());
 			statement.setString(3, service.getDescription());
 			statement.setInt(4, service.getCategoryId());
 			statement.setTime(5, service.getTime());
+			statement.setInt(6, service.getAuthor());
+			statement.setTimestamp(7, service.getLastUpdated());
 			statement.execute();
 			ResultSet generatedKeys = statement.getGeneratedKeys();
 			if (generatedKeys.next()) {
@@ -470,13 +479,15 @@ public class BeautyDAOImpl implements BeautyDAO {
 		try {
 			connection = getConnection();
 			PreparedStatement statement = connection.prepareStatement(
-					"update Services set name=?, price=?, time=?, description=? where id=?",
+					"update Services set name=?, price=?, time=?, description=?, author=?, lastUpdated=? where id=?",
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, service.getName());
 			statement.setInt(2, service.getPrice());
 			statement.setTime(3, service.getTime());
 			statement.setString(4, service.getDescription());
-			statement.setInt(5, service.getId());
+			statement.setInt(5, service.getAuthor());
+			statement.setTimestamp(6, service.getLastUpdated());
+			statement.setInt(7, service.getId());
 			statement.execute();
 			ResultSet generatedKeys = statement.getGeneratedKeys();
 			if (generatedKeys.next()) {
@@ -650,7 +661,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 	public List<Employee> getEmployees() {
 		
 		List<Employee> result = new ArrayList<Employee>();
-		String sql = "select * from Employees where isActive=1";
+		String sql = "select * from Employees inner join Users on Employees.author=Users.id where isActive=1";
 		Connection connection = null;
 		try {
 			connection = getConnection();
@@ -658,13 +669,16 @@ public class BeautyDAOImpl implements BeautyDAO {
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
 				Employee employee = new Employee();
-				employee.setId(resultSet.getInt("id"));
-				employee.setEmail(resultSet.getString("email"));
-				employee.setFirstName(resultSet.getString("firstName"));
-				employee.setLastName(resultSet.getString("lastName"));
-				employee.setTitle(resultSet.getString("title"));
-				employee.setDescription(resultSet.getString("description"));
-				employee.setProfilePicture(resultSet.getString("profilePicture"));
+				employee.setId(resultSet.getInt("Employees.id"));
+				employee.setEmail(resultSet.getString("Employees.email"));
+				employee.setFirstName(resultSet.getString("Employees.firstName"));
+				employee.setLastName(resultSet.getString("Employees.lastName"));
+				employee.setTitle(resultSet.getString("Employees.title"));
+				employee.setDescription(resultSet.getString("Employees.description"));
+				employee.setProfilePicture(resultSet.getString("Employees.profilePicture"));
+				employee.setAuthor(resultSet.getInt("Employees.author"));
+				employee.setAuthorName(resultSet.getString("Users.firstName") + " " + resultSet.getString("Users.lastName"));
+				employee.setLastUpdated(resultSet.getTimestamp("Employees.lastUpdated"));
 				result.add(employee);
 			}
 		} catch (SQLException ex) {
@@ -971,7 +985,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 		try {
 			connection = getConnection();
 			PreparedStatement statement = connection.prepareStatement(
-					"insert into Employees (email, firstName, lastName, title, description, profilePicture) values (?, ?, ?, ?, ?, ?)",
+					"insert into Employees (email, firstName, lastName, title, description, profilePicture, author, lastUpdated) values (?, ?, ?, ?, ?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, employee.getEmail());
 			statement.setString(2, employee.getFirstName());
@@ -979,6 +993,8 @@ public class BeautyDAOImpl implements BeautyDAO {
 			statement.setString(4, employee.getTitle());
 			statement.setString(5, employee.getDescription());
 			statement.setString(6, employee.getProfilePicture());
+			statement.setInt(7, employee.getAuthor());
+			statement.setTimestamp(8, employee.getLastUpdated());
 			statement.execute();
 			ResultSet generatedKeys = statement.getGeneratedKeys();
 			if (generatedKeys.next()) {
@@ -996,7 +1012,7 @@ public class BeautyDAOImpl implements BeautyDAO {
 		try {
 			connection = getConnection();
 			PreparedStatement statement = connection.prepareStatement(
-					"update Employees set email=?, firstName=?, lastName=?, title=?, description=?, profilePicture=? where id=?",
+					"update Employees set email=?, firstName=?, lastName=?, title=?, description=?, profilePicture=?, author=?, lastUpdated=? where id=?",
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, employee.getEmail());
 			statement.setString(2, employee.getFirstName());
@@ -1004,7 +1020,9 @@ public class BeautyDAOImpl implements BeautyDAO {
 			statement.setString(4, employee.getTitle());
 			statement.setString(5, employee.getDescription());
 			statement.setString(6, employee.getProfilePicture());
-			statement.setInt(7, employee.getId());
+			statement.setInt(7, employee.getAuthor());
+			statement.setTimestamp(8, employee.getLastUpdated());
+			statement.setInt(9, employee.getId());
 			statement.execute();
 			ResultSet generatedKeys = statement.getGeneratedKeys();
 			if (generatedKeys.next()) {

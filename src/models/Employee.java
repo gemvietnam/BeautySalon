@@ -1,5 +1,7 @@
 package models;
 
+import java.sql.Timestamp;
+
 public class Employee {
 	
 	private int id;
@@ -9,7 +11,29 @@ public class Employee {
 	private String title;
 	private String description;
 	private String profilePicture;
+	private int author;
+	private String authorName;
+	private Timestamp lastUpdated;
 	
+	
+	public int getAuthor() {
+		return author;
+	}
+	public void setAuthor(int author) {
+		this.author = author;
+	}
+	public String getAuthorName() {
+		return authorName;
+	}
+	public void setAuthorName(String authorName) {
+		this.authorName = authorName;
+	}
+	public Timestamp getLastUpdated() {
+		return lastUpdated;
+	}
+	public void setLastUpdated(Timestamp lastUpdated) {
+		this.lastUpdated = lastUpdated;
+	}
 	public int getId() {
 		return id;
 	}

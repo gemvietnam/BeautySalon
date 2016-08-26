@@ -23,7 +23,7 @@
 <div id="content">
 
 	<div id="content-bar">
-		<h1>Add treatment</h1>
+		<h1>Edit treatment</h1>
 	</div>
 
 	<div class="app-data">
@@ -57,7 +57,7 @@
 					<div class="form-group">
 						<label>Time</label>
 						<div class="input-group">
-					      <input type="time" name="time" class="form-control" value="<%= service.getTime() %>" required />
+					      <input type="time" name="time" class="form-control" value="<%= Helpers.TimeToHour(service.getTime()) %>" required />
 					      <div class="input-group-addon">hours</div>
 					    </div> 
 					</div>

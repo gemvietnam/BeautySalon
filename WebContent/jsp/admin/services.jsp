@@ -71,6 +71,8 @@
 					<td>Description</td>
 					<td class="price">Price</td>
 					<td>Duration</td>
+					<td class="lastUpdated">Last updated</td>
+					<td class="author-name">Author</td>
 					<td>Edit</td>
 					<td>Delete</td>
 				</tr>
@@ -83,6 +85,8 @@
 						<td><%= service.getDescription() %></td>
 						<td class="price"><%= service.getPrice() %> DKK</td>
 						<td><%= Helpers.TimeToHour((Time)service.getTime()) %> hours</td>
+						<td><%= Helpers.TimestampToString(service.getLastUpdated()) %></td>
+						<td><%= service.getAuthorName() %></td>
 						<td><a class="btn btn-primary" href="?page=editTreatment&id=<%= service.getId() %>" role="button">Edit</a></td>
 						<td><a class="btn btn-danger" href="?page=deleteService&id=<%= service.getId() %>" role="button">Delete</a></td>
 					</tr>

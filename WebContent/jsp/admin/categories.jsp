@@ -78,17 +78,19 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${categories}" var="category">
+				<%-- <c:forEach items="${categories}" var="category"> --%>
+				<% for (Category category : categories) { %>
 					<tr>
-						<td><c:out value="${category.name}"/></td>
-						<td><c:out value="${category.description}"/></td>
-						<td><div class="image-thumbnail" style="background-image: url('<%= Helpers.getBaseUrl(request) %>/uploads/categories/<c:out value="${category.picture}"/>')"></div></td>
-						<td class="author-name"><c:out value="${category.authorName}"/></td>
-						<td></td>
-						<td><a class="btn btn-primary" href="?page=editCategory&id=<c:out value="${category.id}"/>" role="button">Edit</a></td>
-						<td><a class="btn btn-danger" href="?page=delete&table=Categories&id=<c:out value="${category.id}"/>" role="button">Delete</a></td>
+						<td><%= category.getName() %></td>
+						<td><%= category.getDescription() %></td>
+						<td><div class="image-thumbnail" style="background-image: url('<%= Helpers.getBaseUrl(request) %>/uploads/categories/<%= category.getPicture() %>')"></div></td>
+						<td class="author-name"><%= category.getAuthorName() %></td>
+						<td class="lastUpdated"><%= Helpers.TimestampToString(category.getLastUpdated()) %></td>
+						<td><a class="btn btn-primary" href="?page=editCategory&id=<%= category.getId() %>" role="button">Edit</a></td>
+						<td><a class="btn btn-danger" href="?page=delete&table=Categories&id=<%= category.getId() %>" role="button">Delete</a></td>
 					</tr>
-				</c:forEach>
+				<% } %>
+				<%-- </c:forEach> --%>
 			</tbody>
 		</table>
 	

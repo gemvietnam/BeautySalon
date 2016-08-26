@@ -549,6 +549,11 @@ public class DashboardServlet extends HttpServlet {
 				e.setTitle(title);
 				e.setDescription(description);
 				e.setProfilePicture(fileName);
+				HttpSession session = request.getSession();
+				User user = (User) session.getAttribute("user");
+				e.setAuthor(user.getId());
+				Timestamp created = new Timestamp(System.currentTimeMillis());
+				e.setLastUpdated(created);
 				
 				BeautyDAO beautyDAO = new BeautyDAOImpl();
 				beautyDAO.addEmployee(e);
@@ -574,6 +579,154 @@ public class DashboardServlet extends HttpServlet {
   			}			
 	}	
 	
+
+	private void updateEmployeeWithImage(HttpServletRequest request,
+				HttpServletResponse response) {
+			
+			boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+			
+			if (!isMultipart) {
+				System.out.println("Nothing to upload");
+		    	return; 
+		    }
+		     
+			DiskFileItemFactory factory = new DiskFileItemFactory();
+		    factory.setSizeThreshold(maxMemSize);
+		    factory.setRepository(uploadDir);
+		    ServletFileUpload upload = new ServletFileUpload(factory);
+		    upload.setSizeMax(maxFileSize);
+		    
+		    String firstName = "";
+		    String lastName = "";
+		    String email = "";
+		    String title = "";
+		    String description = "";
+		    String fileName = "";
+		    String existingImagePath = null;
+		    int id = 0;
+		    List<String> ids = new ArrayList<String>();
+		    
+		      try
+		      {
+		    		List<FileItem>  items = upload.parseRequest(request);
+		    		for(FileItem item:items)
+		    		{ 
+		    			if (item.isFormField()) {
+		    				String name = item.getFieldName();
+		    			    String value = item.getString();
+		    			    switch(name) {
+		    			    case "firstName":
+		    			    	firstName = value;
+		    			    	break;
+		    			    case "lastName":
+		    			    	lastName = value;
+		    			    	break;
+		    			    case "email":
+		    			    	email = value;
+		    			    	break;
+		    			    case "title":
+		    			    	title = value;
+		    			    	break;
+		    			    case "description":
+		    			    	description = value;
+		    			    	break;
+		    			    case "service":
+		    			    	ids.add(value);
+		    			    	break;
+		    			    case "id":
+		    			    	System.out.println("The field is id, with value: " + value);
+		    			    	id = Integer.parseInt(value);
+		    			    	System.out.println("Now our id is: " + id);
+		    			    	break;
+		    			    case "existingImagePath":
+		    			    	System.out.println("Taking existing image path, " + value);
+		    			    	existingImagePath = value;
+		    			    	break;
+		    			    }
+		    				
+		    			}
+		    			
+		    			else {
+		    	        	BeautyDAO beautyDAO = new BeautyDAOImpl();
+		    	        	int lastImageId = beautyDAO.getLastImageId();
+	
+		    	            String fieldName = item.getFieldName();
+		    	            fileName = String.valueOf(lastImageId) + item.getName();
+		    	            String contentType = item.getContentType();
+		    	            boolean isInMemory = item.isInMemory();
+		    	            long sizeInBytes = item.getSize();
+		    	            System.out.println(fileName);
+		    	            
+		    	            uploadDir = new File( myWebDir + "/uploads/employees");
+		    	            
+		    	            file = new File(uploadDir,fileName);
+		    	            item.write(file);
+		    	            
+		    	            System.out.println("File created successfully");
+		    	         }
+		    		}
+		    		
+		    		Employee e = new Employee();
+					e.setFirstName(firstName);
+					e.setLastName(lastName);
+					e.setEmail(email);
+					e.setTitle(title);
+					e.setDescription(description);
+					e.setId(id);
+					HttpSession session = request.getSession();
+					User user = (User) session.getAttribute("user");
+					e.setAuthor(user.getId());
+					Timestamp created = new Timestamp(System.currentTimeMillis());
+					e.setLastUpdated(created);
+					
+					String profilePicture;
+					
+					System.out.println("exidting path is: '" + existingImagePath + "'");
+					if (!existingImagePath.equals("newFile")) {
+						profilePicture = existingImagePath;
+					}
+					else {
+						profilePicture = fileName;
+					}
+					
+					System.out.println("PROFILE PICTURE IS: " + profilePicture);
+					
+					e.setProfilePicture(profilePicture);
+					System.out.println("Set profile picture: " + e.getProfilePicture());
+	
+	//				if (existingImagePath != null) {
+	//					e.setProfilePicture(existingImagePath);
+	//				}
+					
+					System.out.println("Get profile picture: " + e.getProfilePicture());
+					
+					System.out.println("existingImagePath is: " + existingImagePath + " filename is: " + fileName);
+					
+					BeautyDAO beautyDAO = new BeautyDAOImpl();
+					System.out.println("Updating employee in db, " + e.getProfilePicture());
+					beautyDAO.updateEmployee(e);
+					
+					int employeeId = e.getId();
+					System.out.println("Removing connection to services, employeeId is: " + employeeId);
+					beautyDAO.deleteEmployeeServiceByEmployeeId(employeeId);
+					
+				    for (String item:ids) {
+				    	System.out.println("Trying to add: service id " + item + ", employee id " + employeeId);
+				    	int serviceId = Integer.parseInt(item);
+						beautyDAO.addEmployeeService(employeeId, serviceId);
+				    }
+				    
+		    		
+		      	}
+		      	catch(FileUploadException ex) 
+		    		{
+		   	      System.out.println("Upload error " + ex);
+		    		}
+		      	catch(Exception ex) 
+	  			{
+		      		System.out.println("Can not save " + ex);
+	  			}			
+		}
 
 	private void deleteImage(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -953,6 +1106,8 @@ public class DashboardServlet extends HttpServlet {
 			c.setDescription(request.getParameter("description"));
 			c.setPicture(request.getParameter("picture"));
 			c.setId(Integer.parseInt(request.getParameter("id")));
+			Timestamp created = new Timestamp(System.currentTimeMillis());
+			c.setLastUpdated(created);
 			
 			BeautyDAO beautyDAO = new BeautyDAOImpl();
 			beautyDAO.updateCategory(c);
@@ -1030,6 +1185,8 @@ public class DashboardServlet extends HttpServlet {
 				HttpSession session = request.getSession();
 				User user = (User) session.getAttribute("user");
 				c.setAuthor(user.getId());
+				Timestamp created = new Timestamp(System.currentTimeMillis());
+				c.setLastUpdated(created);
 				
 				BeautyDAO beautyDAO = new BeautyDAOImpl();
 				beautyDAO.addCategory(c);
@@ -1191,6 +1348,11 @@ public class DashboardServlet extends HttpServlet {
 			Time mytime = Time.valueOf(betterString);
 			System.out.println("Final czas: " + mytime);
 			s.setTime(mytime);
+			Timestamp created = new Timestamp(System.currentTimeMillis());
+			s.setLastUpdated(created);
+			HttpSession session = request.getSession();
+			User user = (User) session.getAttribute("user");
+			s.setAuthor(user.getId());
 			
 			BeautyDAO beautyDAO = new BeautyDAOImpl();
 			beautyDAO.updateService(s);
@@ -1218,6 +1380,11 @@ public class DashboardServlet extends HttpServlet {
 			String betterString = timeString + ":00";
 			Time mytime = Time.valueOf(betterString);
 			s.setTime(mytime);
+			Timestamp created = new Timestamp(System.currentTimeMillis());
+			s.setLastUpdated(created);
+			HttpSession session = request.getSession();
+			User user = (User) session.getAttribute("user");
+			s.setAuthor(user.getId());
 			
 			BeautyDAO beautyDAO = new BeautyDAOImpl();
 			beautyDAO.addService(s);
@@ -1286,150 +1453,6 @@ public class DashboardServlet extends HttpServlet {
 			System.out.println(e);
 		}
 	}	
-	
-	private void updateEmployeeWithImage(HttpServletRequest request,
-			HttpServletResponse response) {
-		
-		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-		
-		if (!isMultipart) {
-			System.out.println("Nothing to upload");
-	    	return; 
-	    }
-	     
-		DiskFileItemFactory factory = new DiskFileItemFactory();
-	    factory.setSizeThreshold(maxMemSize);
-	    factory.setRepository(uploadDir);
-	    ServletFileUpload upload = new ServletFileUpload(factory);
-	    upload.setSizeMax(maxFileSize);
-	    
-	    String firstName = "";
-	    String lastName = "";
-	    String email = "";
-	    String title = "";
-	    String description = "";
-	    String fileName = "";
-	    String existingImagePath = null;
-	    int id = 0;
-	    List<String> ids = new ArrayList<String>();
-	    
-	      try
-	      {
-	    		List<FileItem>  items = upload.parseRequest(request);
-	    		for(FileItem item:items)
-	    		{ 
-	    			if (item.isFormField()) {
-	    				String name = item.getFieldName();
-	    			    String value = item.getString();
-	    			    switch(name) {
-	    			    case "firstName":
-	    			    	firstName = value;
-	    			    	break;
-	    			    case "lastName":
-	    			    	lastName = value;
-	    			    	break;
-	    			    case "email":
-	    			    	email = value;
-	    			    	break;
-	    			    case "title":
-	    			    	title = value;
-	    			    	break;
-	    			    case "description":
-	    			    	description = value;
-	    			    	break;
-	    			    case "service":
-	    			    	ids.add(value);
-	    			    	break;
-	    			    case "id":
-	    			    	System.out.println("The field is id, with value: " + value);
-	    			    	id = Integer.parseInt(value);
-	    			    	System.out.println("Now our id is: " + id);
-	    			    	break;
-	    			    case "existingImagePath":
-	    			    	System.out.println("Taking existing image path, " + value);
-	    			    	existingImagePath = value;
-	    			    	break;
-	    			    }
-	    				
-	    			}
-	    			
-	    			else {
-	    	        	BeautyDAO beautyDAO = new BeautyDAOImpl();
-	    	        	int lastImageId = beautyDAO.getLastImageId();
-
-	    	            String fieldName = item.getFieldName();
-	    	            fileName = String.valueOf(lastImageId) + item.getName();
-	    	            String contentType = item.getContentType();
-	    	            boolean isInMemory = item.isInMemory();
-	    	            long sizeInBytes = item.getSize();
-	    	            System.out.println(fileName);
-	    	            
-	    	            uploadDir = new File( myWebDir + "/uploads/employees");
-	    	            
-	    	            file = new File(uploadDir,fileName);
-	    	            item.write(file);
-	    	            
-	    	            System.out.println("File created successfully");
-	    	         }
-	    		}
-	    		
-	    		Employee e = new Employee();
-				e.setFirstName(firstName);
-				e.setLastName(lastName);
-				e.setEmail(email);
-				e.setTitle(title);
-				e.setDescription(description);
-				e.setId(id);
-				
-				String profilePicture;
-				
-				System.out.println("exidting path is: '" + existingImagePath + "'");
-				if (!existingImagePath.equals("newFile")) {
-					profilePicture = existingImagePath;
-				}
-				else {
-					profilePicture = fileName;
-				}
-				
-				System.out.println("PROFILE PICTURE IS: " + profilePicture);
-				
-				e.setProfilePicture(profilePicture);
-				System.out.println("Set profile picture: " + e.getProfilePicture());
-
-//				if (existingImagePath != null) {
-//					e.setProfilePicture(existingImagePath);
-//				}
-				
-				System.out.println("Get profile picture: " + e.getProfilePicture());
-				
-				System.out.println("existingImagePath is: " + existingImagePath + " filename is: " + fileName);
-				
-				BeautyDAO beautyDAO = new BeautyDAOImpl();
-				System.out.println("Updating employee in db, " + e.getProfilePicture());
-				beautyDAO.updateEmployee(e);
-				
-				int employeeId = e.getId();
-				System.out.println("Removing connection to services, employeeId is: " + employeeId);
-				beautyDAO.deleteEmployeeServiceByEmployeeId(employeeId);
-				
-			    for (String item:ids) {
-			    	System.out.println("Trying to add: service id " + item + ", employee id " + employeeId);
-			    	int serviceId = Integer.parseInt(item);
-					beautyDAO.addEmployeeService(employeeId, serviceId);
-			    }
-			    
-	    		
-	      	}
-	      	catch(FileUploadException ex) 
-	    		{
-	   	      System.out.println("Upload error " + ex);
-	    		}
-	      	catch(Exception ex) 
-  			{
-	      		System.out.println("Can not save " + ex);
-  			}			
-	}		
-	
 	
 	private void updateCategoryWithImage(HttpServletRequest request,
 			HttpServletResponse response) {
@@ -1519,7 +1542,13 @@ public class DashboardServlet extends HttpServlet {
 				System.out.println("PROFILE PICTURE IS: " + profilePicture);
 				
 				c.setPicture(profilePicture);
+				Timestamp created = new Timestamp(System.currentTimeMillis());
+				c.setLastUpdated(created);
 
+				HttpSession session = request.getSession();
+				User user = (User) session.getAttribute("user");
+				c.setAuthor(user.getId());
+				
 				System.out.println("Set profile picture: " + c.getPicture());
 
 				System.out.println("existingImagePath is: " + existingImagePath + " filename is: " + fileName);

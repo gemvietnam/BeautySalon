@@ -71,22 +71,26 @@
 					<td class="lastName">Last Name</td>
 					<td>Title</td>
 					<td>Description</td>
+					<td>Author</td>
+					<td class="lastUpdated">Last updated</td>
 					<td>Edit</td>
 					<td>Delete</td>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${employees}" var="employee">
+				<% for (Employee employee : employeeList) { %>
 					<tr>
-						<td><div class="image-thumbnail" style="background-image: url('<%= Helpers.getBaseUrl(request) %>/uploads/employees/<c:out value="${employee.profilePicture}"/>')"></div></td>
-						<td><c:out value="${employee.firstName}"/></td>
-						<td><c:out value="${employee.lastName}"/></td>
-						<td><c:out value="${employee.title}"/></td>
-						<td><c:out value="${employee.description}"/></td>
-						<td><a class="btn btn-primary" href="?page=editEmployee&id=<c:out value="${employee.id}"/>" role="button">Edit</a></td>
-						<td><a class="btn btn-danger" href="?page=deleteEmployee&id=<c:out value="${employee.id}"/>" role="button">Delete</a></td>
+						<td><div class="image-thumbnail" style="background-image: url('<%= Helpers.getBaseUrl(request) %>/uploads/employees/<%= employee.getProfilePicture() %>')"></div></td>
+						<td><%= employee.getFirstName() %></td>
+						<td><%= employee.getLastName() %></td>
+						<td><%= employee.getTitle() %></td>
+						<td><%= employee.getDescription() %></td>
+						<td><%= employee.getAuthorName() %></td>
+						<td><%= employee.getLastUpdated() %></td>
+						<td><a class="btn btn-primary" href="?page=editEmployee&id=<%= employee.getId() %>" role="button">Edit</a></td>
+						<td><a class="btn btn-danger" href="?page=deleteEmployee&id=<%= employee.getId() %>" role="button">Delete</a></td>
 					</tr>
-				</c:forEach>
+				<% } %>
 			</tbody>
 		</table>
 	

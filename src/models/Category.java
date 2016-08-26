@@ -1,5 +1,7 @@
 package models;
 
+import java.sql.Timestamp;
+
 public class Category {
 	
 	private int id;
@@ -8,8 +10,17 @@ public class Category {
 	private String picture;
 	private int author;
 	private String authorName;
+	private Timestamp lastUpdated;
 
 	
+	public Timestamp getLastUpdated() {
+		return lastUpdated;
+	}
+
+	public void setLastUpdated(Timestamp lastUpdated) {
+		this.lastUpdated = lastUpdated;
+	}
+
 	public String getAuthorName() {
 		return authorName;
 	}
