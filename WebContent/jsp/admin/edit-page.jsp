@@ -42,10 +42,91 @@ tinymce.init({
 		<form id="form" method="post" action="admin?page=pages">
 			<div class="row">
 				<div id="pageOptions" class="col-md-9">
-					<%@ include file="page-templates/edit-standard.jspf" %>
-					<%@ include file="page-templates/edit-treatments.jspf" %>
-					<%@ include file="page-templates/edit-employees.jspf" %>
-					<%@ include file="page-templates/edit-gallery.jspf" %>
+					
+					<div id="standardTemplate" class="template-options">
+						<div class="form-group">
+							<label>Title</label>
+							<input type="text" name="title" value="<%= Helpers.DisplayIfNotNull(editedPage.getTitle()) %>" class="form-control" placeholder="Page title" minlength="2" required />
+						</div>
+						<div class="form-group">
+							<label>Content</label>
+							<textarea rows="20" cols="10" value="<%= Helpers.DisplayIfNotNull(editedPage.getContent()) %>" name="content" class="form-control"></textarea>
+						</div>
+					</div>
+								
+								
+					<div id="treatmentsTemplate" class="template-options">
+						<div class="panel panel-info">
+						  <div class="panel-heading">Treatments template</div>
+						  <div class="panel-body">
+						    <strong>Treatments template</strong> allows you to display all of the treatments categories added 
+							in the dashboard. Categories will be displayed automaticaly at this page.
+							To manage displayed data, go to <a href="?page=categories"><strong>Categories</strong></a>.
+						  </div>
+						</div>
+						<div class="form-group">
+							<label>Title</label>
+							<input type="text" name="title" value="<%= Helpers.DisplayIfNotNull(editedPage.getTitle()) %>" class="form-control" placeholder="Page title" minlength="2" required />
+						</div>
+						<div class="form-group">
+							<label>Heading</label>
+							<input type="text" name="heading" class="form-control" value="<%= Helpers.DisplayIfNotNull(editedPage.getHeading()) %>" placeholder="Heading" minlength="2" required />
+						</div>
+						<div class="form-group">
+							<label>Subheading</label>
+							<input type="text" name="subheading" class="form-control" value="<%= Helpers.DisplayIfNotNull(editedPage.getSubheading()) %>" placeholder="Subheading" minlength="2" required />
+						</div>
+					</div>
+					
+					
+					<div id="employeesTemplate" class="template-options">
+						<div class="panel panel-info">
+						  <div class="panel-heading">Employees template</div>
+						  <div class="panel-body">
+						    <strong>Employees template</strong> allows you to display all of the employees added 
+							in the dashboard. Employees will be displayed automaticaly at this page.
+							To manage displayed data, go to <a href="?page=employees"><strong>Employees</strong></a>.
+						  </div>
+						</div>
+						<div class="form-group">
+							<label>Title</label>
+							<input type="text" name="title" value="<%= Helpers.DisplayIfNotNull(editedPage.getTitle()) %>" class="form-control" placeholder="Page title" minlength="2" required />
+						</div>
+						<div class="form-group">
+							<label>Heading</label>
+							<input type="text" name="heading" class="form-control" value="<%= Helpers.DisplayIfNotNull(editedPage.getHeading()) %>" placeholder="Heading" minlength="2" required />
+						</div>
+						<div class="form-group">
+							<label>Subheading</label>
+							<input type="text" name="subheading" class="form-control" value="<%= Helpers.DisplayIfNotNull(editedPage.getSubheading()) %>" placeholder="Subheading" minlength="2" required />
+						</div>
+					</div>
+					
+					
+					<div id="galleryTemplate" class="template-options">
+						<div class="panel panel-info">
+						  <div class="panel-heading">Gallery template</div>
+						  <div class="panel-body">
+						    <strong>Gallery template</strong> allows you to display all of the images added 
+							in the dashboard. Images will be displayed automaticaly at this page.
+							To manage displayed data, go to <a href="?page=images"><strong>Images</strong></a>.
+						  </div>
+						</div>
+						<div class="form-group">
+							<label>Title</label>
+							<input type="text" name="title" value="<%= Helpers.DisplayIfNotNull(editedPage.getTitle()) %>" class="form-control" placeholder="Page title" minlength="2" required />
+						</div>
+						<div class="form-group">
+							<label>Heading</label>
+							<input type="text" name="heading" value="<%= Helpers.DisplayIfNotNull(editedPage.getHeading()) %>"  class="form-control" placeholder="Heading" minlength="2" required />
+						</div>
+						<div class="form-group">
+							<label>Subheading</label>
+							<input type="text" name="subheading" value="<%= Helpers.DisplayIfNotNull(editedPage.getSubheading()) %>"  class="form-control" placeholder="Subheading" minlength="2" required />
+						</div>
+					</div>
+					
+					
 				</div>
 				<div class="col-md-3">
 					<div class="form-group">
