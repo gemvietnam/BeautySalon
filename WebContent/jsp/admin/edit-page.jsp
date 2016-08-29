@@ -136,20 +136,18 @@ tinymce.init({
 						   String selectedEmployees = "";
 						   String selectedGallery = "";
 
-						   switch(editedPage.getTemplate()) {
-						   		case "standard":
-						   			selectedStandard = "selected";
-						   			break;
-						   		case "treatments":
-						   			selectedTreatments = "selected";
-						   			break;
-						   		case "employees":
-						   			selectedEmployees = "selected";
-						   			break;
-						   		case "gallery":
-						   			selectedGallery = "selected";
-						   			break;
-						   }
+							if (editedPage.getTemplate().equals("standard")) {
+								selectedStandard = "selected";
+							}
+							else if (editedPage.getTemplate().equals("treatments")) {
+								selectedTreatments = "selected";
+							}
+							else if (editedPage.getTemplate().equals("employees")) {
+								selectedEmployees = "selected";
+							}
+							else if (editedPage.getTemplate().equals("gallery")) {
+								selectedGallery = "selected";
+							}
 						%>
 						<select id="templateSelect" name="template" class="form-control">
 							<option value="standard" <%= selectedStandard %>>Standard</option>

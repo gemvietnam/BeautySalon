@@ -20,8 +20,7 @@
 <% String template = customPage.getTemplate(); %>
 
 
-<% switch(template) { 
-	case "standard": %>
+<% if (template.equals("standard")) { %>
 
 	<section id="treatments">
 		<div class="wrapper">
@@ -42,8 +41,7 @@
 	<%@include file="calltoaction.jsp" %>
 	
 
-<%  break; 
-	case "treatments": %>
+<% } else if (template.equals("treatments")) { %>
 
 <% List<Category> categories = (List<Category>) request.getAttribute("categories"); %>
 
@@ -82,8 +80,7 @@
 	<%@include file="calltoaction.jsp" %>
 
 
-<% break; 
-   case "employees": %>
+<% } else if (template.equals("employees")) { %>
 
 
 	<% List<Employee> employees = (List<Employee>) request.getAttribute("employees"); %>
@@ -126,8 +123,7 @@
 	<%@include file="calltoaction.jsp" %>
 
 
-<% break;
-   case "gallery": %>
+<% } else if (template.equals("gallery")) { %>
 	
 	<% List<Image> images = (List<Image>) request.getAttribute("images"); %>
 	<% String url = (String) request.getAttribute("javax.servlet.forward.request_uri"); %>
@@ -180,8 +176,7 @@
 	</script>
 
 
-<% break;
-   } %> 
+<% } %> 
 
 <%@include file="footer.jsp" %>
 

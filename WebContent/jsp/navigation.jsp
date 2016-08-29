@@ -38,7 +38,7 @@
         <li><a href="?page=gallery">Gallery</a></li>
         <li><a href="?page=contact">Contact</a></li> -->
         <% for (String[] pageData : menu) { %>
-        	<li><a href="?page=<%= pageData[0] %>"><%= pageData[1] %></a></li>
+        	<li><a href="<%= Helpers.getBaseUrl(request) %>/?page=<%= pageData[0] %>"><%= pageData[1] %></a></li>
         <% } %> 
 	  </ul>	
 

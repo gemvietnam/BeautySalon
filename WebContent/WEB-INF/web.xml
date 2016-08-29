@@ -5,7 +5,7 @@
   <context-param> 
 	<description>Storage location</description> 
 	<param-name>file-upload</param-name> 
-	<param-value>/BeautySalon/uploads/</param-value> 
+	<param-value>/uploads/</param-value> 
   </context-param>
 
   <session-config>

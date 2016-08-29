@@ -449,6 +449,8 @@ public class DashboardController extends HttpServlet {
 	    	            boolean isInMemory = item.isInMemory();
 	    	            long sizeInBytes = item.getSize();
 	    	            System.out.println(fileName);
+	    	            System.out.println("Size of the file is: "  + sizeInBytes);
+	    	            System.out.println("Maximum file size is: " + maxFileSize);
 	    	            
 	    	            // Write the file	    	            
 	    	            file = new File(uploadDir,fileName);

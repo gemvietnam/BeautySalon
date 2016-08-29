@@ -9,7 +9,7 @@
 				<div class="col-md-12 text-center">
 					<h1 class="text-center">Book an online visit</h1>
 					<h4>Have some luxury in your life</h4>
-					<a class="btn btn-primary btn-lg" href="website?page=treatments" role="button">Book a visit</a>
+					<a class="btn btn-primary btn-lg" href="?page=treatments" role="button">Book a visit</a>
 				</div>
 			</div>
 		</div>
